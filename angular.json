@@ -61,7 +61,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "jb-adm-ng:build"
+            "browserTarget": "jb-adm-ng:build",
+            "proxyConfig": "src/proxy.conf.json"
           },
           "configurations": {
             "production": {
