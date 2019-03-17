@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {AuthService} from './auth.service';
 
 @Component({
     selector: 'jb-adm-root',
@@ -6,5 +7,10 @@ import {Component} from '@angular/core';
     styleUrls: ['./app.component.less']
 })
 export class AppComponent {
-    title = 'jb-adm-ng';
+    constructor(private authService: AuthService) {
+        this.loggedIn = authService.loggedIn;
+        authService.subscribe(() => this.loggedIn = authService.loggedIn);
+    }
+
+    loggedIn = false;
 }

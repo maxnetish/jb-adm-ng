@@ -1,0 +1,75 @@
+<div class="border border-light rounded p-2 mt-2">
+    <form [formGroup]="searchForm" (ngSubmit)="onSearchSubmit(searchForm.value)">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="postsSearchFormText">Text</label>
+                    <input
+                        id="postsSearchFormText"
+                        type="text"
+                        formControlName="q"
+                        class="form-control"
+                    />
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="postsSearchFormFrom">Between</label>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="input-group">
+                                <input
+                                    id="postsSearchFormFrom"
+                                    class="form-control"
+                                    placeholder="yyyy-MM-dd"
+                                    name="postsSearchFormFrom"
+                                    formControlName="from"
+                                    ngbDatepicker
+                                    #dfrom="ngbDatepicker"
+                                />
+                                <div class="input-group-append">
+                                    <button
+                                        class="btn btn-outline-primary btn-outline-secondary fa-calendar-alt far"
+                                        (click)="dfrom.toggle()"
+                                        type="button"
+                                    ></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="input-group">
+                                <input
+                                    id="postsSearchFormTo"
+                                    class="form-control"
+                                    placeholder="yyyy-MM-dd"
+                                    name="postsSearchFormTo"
+                                    formControlName="to"
+                                    ngbDatepicker
+                                    #dto="ngbDatepicker"
+                                />
+                                <div class="input-group-append">
+                                    <button
+                                        class="btn btn-outline-primary btn-outline-secondary fa-calendar-alt far"
+                                        (click)="dto.toggle()"
+                                        type="button"
+                                    ></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <button
+                    type="submit"
+                    [disabled]="!searchForm.valid"
+                    class="btn btn-outline-primary"
+                >
+                    Search
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

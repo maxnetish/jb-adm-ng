@@ -1,5 +1,20 @@
-<nav class="jb-nav">
-    <a routerLink="/" routerLinkActive="active">Home link</a>
-    <a routerLink="/foo" routerLinkActive="active">Link to 404</a>
-</nav>
-<router-outlet></router-outlet>
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <nav class="jb-nav navbar navbar-expand-sm navbar-light bg-light">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/posts" routerLinkActive="active">Home</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" routerLink="/foo" routerLinkActive="active">Link to 404</a>
+                    </li>
+                    <li *ngIf="loggedIn">
+                        <a class="nav-link" routerLink="/login" routerLinkActive="active">Logout</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <router-outlet></router-outlet>
+</div>
