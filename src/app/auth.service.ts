@@ -1,56 +1,49 @@
-import {EventEmitter, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {User} from './resources/admin/user';
 import {AdminService} from './resources/admin/admin.service';
 import {PassportCredentials} from './resources/admin/passport-credentials';
 import {LoginResult} from './resources/admin/login-result';
+import {Observable, of} from 'rxjs';
+import {map, catchError} from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
 })
-export class AuthService extends EventEmitter<User> {
+export class AuthService {
 
     constructor(private adminService: AdminService) {
-        super(true);
-        this.fetchUser();
     }
 
-    private _user: User = null;
+    private _user: Observable<User> = this.adminService.user()
+        .pipe(
+            map(user => ({
+                userName: user['userName'],
+                role: user['role']
+            })),
+            catchError(err => of({}))
+        );
 
-    private fetchUser() {
-        this.adminService.user()
-            .subscribe(user => {
-                this._user = {
-                    userName: user['userName'],
-                    role: user['role']
-                };
-                this.emit(this.user);
-            }, err => {
-                this._user = {};
-                this.emit(this.user);
+    get user(): Observable<User> {
+        return this._user;
+    }
+
+    loggedIn(): Promise<boolean> {
+        return new Promise((resolve) => {
+            this.user.subscribe(user => {
+                resolve(!!user.userName);
             });
-    }
-
-    get user(): User {
-        if (this._user) {
-            return Object.assign({}, this._user);
-        }
-        return {};
-    }
-
-    get loggedIn(): boolean {
-        return !!(this.user && this.user.userName);
+        });
     }
 
     login(credentials: PassportCredentials): Promise<LoginResult> {
         return new Promise<LoginResult>((resolve, reject) => {
             this.adminService.login(credentials)
                 .subscribe(loginResult => {
-                    this._user = loginResult.user;
+                    this._user = of(loginResult.user);
                     resolve({
-                        user: Object.assign({}, this._user),
+                        user: Object.assign({}, loginResult.user),
                         message: loginResult.message
                     });
-                    this.emit(this.user);
                 }, err => {
                     reject(err);
                 });
@@ -61,12 +54,11 @@ export class AuthService extends EventEmitter<User> {
         return new Promise<LoginResult>((resolve, reject) => {
             this.adminService.logout()
                 .subscribe(loginResult => {
-                    this._user = {};
+                    this._user = of({});
                     resolve({
                         user: {},
                         message: loginResult.message
                     });
-                    this.emit(this.user);
                 }, err => {
                     reject(err);
                 });

@@ -15,8 +15,8 @@ export class SearchFormComponent implements OnInit {
     searchForm = new FormGroup(
         {
             q: new FormControl('', [Validators.maxLength(64)]),
-            'from': new FormControl(''),
-            to: new FormControl('')
+            'from': new FormControl(null),
+            to: new FormControl(null)
         }
     );
 

@@ -8,8 +8,10 @@ import {AuthService} from './auth.service';
 })
 export class AppComponent {
     constructor(private authService: AuthService) {
-        this.loggedIn = authService.loggedIn;
-        authService.subscribe(() => this.loggedIn = authService.loggedIn);
+        authService.loggedIn()
+            .then(loggedIn => {
+                this.loggedIn = loggedIn;
+            });
     }
 
     loggedIn = false;

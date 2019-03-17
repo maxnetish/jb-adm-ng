@@ -33,6 +33,9 @@ import {NgbDateLocaleParserFormatterService} from './utils/ngb-date-locale-parse
         NgxMaskModule.forRoot()
     ],
     providers: [
+        /**
+         * Provide custom adapter and formatter for date picker
+         */
         {
             provide: NgbDateAdapter,
             useClass: NgbDateStringAdapterService
