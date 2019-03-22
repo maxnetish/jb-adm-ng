@@ -1,23 +1,25 @@
 import {Injectable} from '@angular/core';
-import {environment} from '../../../environments/environment';
 import {PassportCredentials} from './passport-credentials';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {LoginResult} from './login-result';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {User} from './user';
+import {ResourcesUtilsService} from '../resources-utils.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AdminService {
 
-    constructor(private http: HttpClient) {
+    constructor(
+        private http: HttpClient,
+        private resourcesUtils: ResourcesUtilsService
+    ) {
     }
 
     login(credentials: PassportCredentials): Observable<LoginResult> {
-        const baseUrl = '/admin/login';
-        const actualUrl = environment.backendHostUrl ? environment.backendHostUrl + baseUrl : baseUrl;
+        const actualUrl = this.resourcesUtils.prependHostTo('/admin/login');
 
         let formData = new HttpParams();
         for (const key in credentials) {
@@ -39,8 +41,7 @@ export class AdminService {
     }
 
     user(): Observable<User> {
-        const baseUrl = '/current/user';
-        const actualUrl = environment.backendHostUrl ? environment.backendHostUrl + baseUrl : baseUrl;
+        const actualUrl = this.resourcesUtils.prependHostTo('/current/user');
 
         return this.http.get<User>(actualUrl, {
             observe: 'response',
@@ -54,8 +55,7 @@ export class AdminService {
     }
 
     logout(): Observable<LoginResult> {
-        const baseUrl = '/admin/logout';
-        const actualUrl = environment.backendHostUrl ? environment.backendHostUrl + baseUrl : baseUrl;
+        const actualUrl = this.resourcesUtils.prependHostTo('/admin/logout');
 
         return this.http.get<LoginResult>(actualUrl, {
             observe: 'response',

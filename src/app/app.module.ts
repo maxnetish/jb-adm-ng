@@ -14,6 +14,7 @@ import {SearchResultComponent} from './page-posts-list/search-result/search-resu
 import {PageLoginComponent} from './page-login/page-login.component';
 import {NgbDateStringAdapterService} from './utils/ngb-date-string-adapter.service';
 import {NgbDateLocaleParserFormatterService} from './utils/ngb-date-locale-parser-formatter.service';
+import { PagePostEditComponent } from './page-post-edit/page-post-edit.component';
 
 @NgModule({
     declarations: [
@@ -22,7 +23,8 @@ import {NgbDateLocaleParserFormatterService} from './utils/ngb-date-locale-parse
         PagePostsListComponent,
         SearchFormComponent,
         SearchResultComponent,
-        PageLoginComponent
+        PageLoginComponent,
+        PagePostEditComponent
     ],
     imports: [
         BrowserModule,
