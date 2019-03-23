@@ -1,6 +1,6 @@
 import {PostStatus} from './post-status.enum';
 
-export interface PostBrief {
+export class PostBrief {
     _id?: string;
     status: PostStatus;
     createDate: Date;

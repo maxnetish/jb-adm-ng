@@ -1,6 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import {ReactiveFormsModule} from '@angular/forms';
+import {ReactiveFormsModule, FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {NgbDateAdapter, NgbDateParserFormatter, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {NgxMaskModule} from 'ngx-mask';
@@ -15,6 +15,8 @@ import {PageLoginComponent} from './page-login/page-login.component';
 import {NgbDateStringAdapterService} from './utils/ngb-date-string-adapter.service';
 import {NgbDateLocaleParserFormatterService} from './utils/ngb-date-locale-parser-formatter.service';
 import { PagePostEditComponent } from './page-post-edit/page-post-edit.component';
+import { PostStatusBadgeComponent } from './widgets/post-status-badge/post-status-badge.component';
+import { PostStatusDisplayPipe } from './resources/post/post-status-display.pipe';
 
 @NgModule({
     declarations: [
@@ -24,12 +26,15 @@ import { PagePostEditComponent } from './page-post-edit/page-post-edit.component
         SearchFormComponent,
         SearchResultComponent,
         PageLoginComponent,
-        PagePostEditComponent
+        PagePostEditComponent,
+        PostStatusBadgeComponent,
+        PostStatusDisplayPipe
     ],
     imports: [
         BrowserModule,
         AppRoutingModule,
         ReactiveFormsModule,
+        FormsModule,
         HttpClientModule,
         NgbModule,
         NgxMaskModule.forRoot()

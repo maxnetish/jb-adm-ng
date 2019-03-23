@@ -21,18 +21,11 @@ export class PostService {
     ) {
     }
 
-    private;
-
     list(criteria: PostFindCriteria): Observable<PaginationResponse<PostBrief>> {
         return this.http.get<PaginationResponse<PostBrief>>(this.resourcesUtils.prependHostTo('/api/post/list'), {
-            // TODO handle of undefined and null params, we won't pass them
-            params: {
-                from: criteria.from || undefined,
-                to: criteria.to || undefined,
-                q: criteria.q || undefined,
-                page: criteria.page.toString(),
-                statuses: criteria.statuses
-            },
+            params: this.resourcesUtils.clearHttpParams(Object.assign(criteria, {
+                page: criteria.page.toString()
+            })),
             observe: 'response',
             reportProgress: false,
             responseType: 'json',
@@ -43,7 +36,7 @@ export class PostService {
 
     details(id: string): Observable<PostDetails> {
         return this.http.get<PostDetails>(this.resourcesUtils.prependHostTo('/api/post/get'), {
-            params: {id},
+            params: this.resourcesUtils.clearHttpParams({id}),
             observe: 'response',
             reportProgress: false,
             responseType: 'json',

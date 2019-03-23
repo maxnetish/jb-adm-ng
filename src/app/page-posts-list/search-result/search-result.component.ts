@@ -7,6 +7,16 @@ import {PostBrief} from '../../resources/post/post-brief';
 import {switchMap} from 'rxjs/operators';
 import {PostStatus} from '../../resources/post/post-status.enum';
 
+class PostBriefView extends PostBrief {
+    constructor(postBrief: PostBrief, {checked = false}: { checked?: boolean } = {}) {
+        super();
+        Object.assign(this, postBrief);
+        this.checked = checked;
+    }
+
+    checked: boolean;
+}
+
 @Component({
     selector: 'jb-adm-posts-search-result',
     templateUrl: './search-result.component.html',
@@ -17,7 +27,12 @@ export class SearchResultComponent implements OnInit {
     constructor(private route: ActivatedRoute, private postServiceInstance: PostService) {
     }
 
-    posts: [PostBrief?] = [];
+    posts: PostBriefView[] = [];
+
+    onRowClick(post: PostBriefView, event: UIEvent, checkRef) {
+        const same = event.target === checkRef;
+        console.info(`There are same: ${same}`, event.target, checkRef);
+    }
 
     ngOnInit() {
         const {paramMap} = this.route;
@@ -32,8 +47,7 @@ export class SearchResultComponent implements OnInit {
             return this.postServiceInstance.list(criteria);
         }))
             .subscribe((paginationResponse: PaginationResponse<PostBrief>) => {
-                this.posts = paginationResponse.items;
-                console.log(paginationResponse);
+                this.posts = paginationResponse.items.map(postBrief => new PostBriefView(postBrief));
             }, err => {
                 console.warn(err);
             });

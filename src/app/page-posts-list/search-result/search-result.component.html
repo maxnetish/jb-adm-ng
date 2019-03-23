@@ -1,3 +1,35 @@
-<p>
-  search-result works: {{posts[0] | json}}
-</p>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th></th>
+        <th>Title</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let post of posts" [ngClass]="{'bg-warning': post.checked}">
+        <td (click)="$event.target !== checkPostElementRef ? post.checked = !post.checked : null">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" [(ngModel)]="post.checked" #checkPostElementRef/>
+            </div>
+        </td>
+        <td (click)="post.checked = !post.checked">{{post.title}}</td>
+        <td (click)="post.checked = !post.checked">{{post.createDate | date : 'shortDate'}}</td>
+        <td (click)="post.checked = !post.checked">
+            <jb-adm-post-status-badge [status]="post.status"></jb-adm-post-status-badge>
+        </td>
+        <td>
+            <div ngbDropdown class="d-inline-block">
+                <button class="btn btn-outline-primary btn-sm" ngbDropdownToggle>Toggle dropdown</button>
+                <div ngbDropdownMenu>
+                    <button class="dropdown-item" ngbDropdownItem>Action - 1</button>
+                    <button class="dropdown-item" ngbDropdownItem>Another Action</button>
+                    <button class="dropdown-item" ngbDropdownItem>Something else is here</button>
+                </div>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
