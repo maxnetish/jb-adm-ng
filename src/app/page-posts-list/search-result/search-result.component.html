@@ -15,18 +15,43 @@
                 <input class="form-check-input" type="checkbox" [(ngModel)]="post.checked" #checkPostElementRef/>
             </div>
         </td>
-        <td (click)="post.checked = !post.checked">{{post.title}}</td>
+        <td (click)="$event.target !== postLinkRef ? post.checked = !post.checked : null">
+            <a [routerLink]="['/post', post._id]" #postLinkRef>{{post.title}}</a>
+        </td>
         <td (click)="post.checked = !post.checked">{{post.createDate | date : 'shortDate'}}</td>
         <td (click)="post.checked = !post.checked">
             <jb-adm-post-status-badge [status]="post.status"></jb-adm-post-status-badge>
         </td>
         <td>
-            <div ngbDropdown class="d-inline-block">
-                <button class="btn btn-outline-primary btn-sm" ngbDropdownToggle>Toggle dropdown</button>
-                <div ngbDropdownMenu>
-                    <button class="dropdown-item" ngbDropdownItem>Action - 1</button>
-                    <button class="dropdown-item" ngbDropdownItem>Another Action</button>
-                    <button class="dropdown-item" ngbDropdownItem>Something else is here</button>
+            <div class="btn-group btn-group-sm" *ngIf="actions.length">
+                <a class="btn btn-sm btn-outline-primary" [href]="actions[0].href(post)" target="_blank"
+                   *ngIf="actions[0].href">
+                    <i *ngIf="actions[0].iconClass" [ngClass]="actions[0].iconClass"></i>
+                    {{actions[0].label}}
+                </a>
+                <button type="button" class="btn btn-sm btn-outline-primary" (click)="actions[0].action(post)"
+                        *ngIf="actions[0].action">
+                    <i *ngIf="actions[0].iconClass" [ngClass]="actions[0].iconClass"></i>
+                    {{actions[0].label}}
+                </button>
+                <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+                    <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle-split" ngbDropdownToggle></button>
+                    <div class="dropdown-menu" ngbDropdownMenu>
+                        <ng-container *ngFor="let actionInfo of actions | slice : 1">
+                            <a class="dropdown-item btn btn-sm" *ngIf="actionInfo.href && actionInfo.allow(post)"
+                               [href]="actionInfo.href(post)"
+                               ngbDropdownItem>
+                                <i *ngIf="actionInfo.iconClass" [ngClass]="actionInfo.iconClass"></i>
+                                {{actionInfo.label}}
+                            </a>
+                            <button type="button" class="dropdown-item btn-sm"
+                                    *ngIf="actionInfo.action && actionInfo.allow(post)"
+                                    (click)="actionInfo.action(post)" ngbDropdownItem>
+                                <i *ngIf="actionInfo.iconClass" [ngClass]="actionInfo.iconClass"></i>
+                                {{actionInfo.label}}
+                            </button>
+                        </ng-container>
+                    </div>
                 </div>
             </div>
         </td>

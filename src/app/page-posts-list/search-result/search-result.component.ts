@@ -6,6 +6,7 @@ import {PaginationResponse} from '../../resources/pagination-response';
 import {PostBrief} from '../../resources/post/post-brief';
 import {switchMap} from 'rxjs/operators';
 import {PostStatus} from '../../resources/post/post-status.enum';
+import {environment as env} from '../../../environments/environment';
 
 class PostBriefView extends PostBrief {
     constructor(postBrief: PostBrief, {checked = false}: { checked?: boolean } = {}) {
@@ -15,6 +16,14 @@ class PostBriefView extends PostBrief {
     }
 
     checked: boolean;
+}
+
+interface PostAction {
+    label: string;
+    href?: (post: PostBriefView) => string;
+    action?: (post: PostBriefView) => void;
+    allow: (post: PostBriefView) => boolean;
+    iconClass?: string;
 }
 
 @Component({
@@ -29,10 +38,38 @@ export class SearchResultComponent implements OnInit {
 
     posts: PostBriefView[] = [];
 
-    onRowClick(post: PostBriefView, event: UIEvent, checkRef) {
-        const same = event.target === checkRef;
-        console.info(`There are same: ${same}`, event.target, checkRef);
-    }
+    actions: PostAction[] = [
+        {
+            label: 'Preview',
+            href: p => `${env.pubHostUrl}/post/${p._id}`,
+            allow: p => true,
+            iconClass: 'far fa-file-alt'
+        },
+        {
+            label: 'Make draft',
+            action: p => null,
+            allow: p => p.status === PostStatus.PUB,
+            iconClass: 'far fa-eye-slash'
+        },
+        {
+            label: 'Publish',
+            action: p => null,
+            allow: p => p.status === PostStatus.DRAFT,
+            iconClass: 'far fa-eye'
+        },
+        {
+            label: 'Import to file',
+            action: p => null,
+            allow: p => true,
+            iconClass: 'far fa-arrow-alt-circle-down'
+        },
+        {
+            label: 'Remove',
+            action: p => null,
+            allow: p => true,
+            iconClass: 'far fa-trash-alt'
+        }
+    ];
 
     ngOnInit() {
         const {paramMap} = this.route;
@@ -47,7 +84,7 @@ export class SearchResultComponent implements OnInit {
             return this.postServiceInstance.list(criteria);
         }))
             .subscribe((paginationResponse: PaginationResponse<PostBrief>) => {
-                this.posts = paginationResponse.items.map(postBrief => new PostBriefView(postBrief));
+                this.posts = paginationResponse.items.map(postBrief => new PostBriefView(postBrief, {checked: false}));
             }, err => {
                 console.warn(err);
             });
