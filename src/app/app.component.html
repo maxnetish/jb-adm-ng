@@ -4,16 +4,25 @@
             <nav class="jb-nav navbar navbar-expand-sm navbar-light bg-light">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" routerLink="/posts" routerLinkActive="active">Home</a>
+                        <a class="nav-link" routerLink="/posts" routerLinkActive="active">
+                            <i class="fas fa-home"></i>
+                            Home
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" routerLink="/post/new" routerLinkActive="active">New post</a>
+                        <a class="nav-link" routerLink="/post/new" routerLinkActive="active">
+                            <i class="fas fa-plus-square"></i>
+                            New post
+                        </a>
                     </li>
                     <li>
                         <a class="nav-link" routerLink="/foo" routerLinkActive="active">Link to 404</a>
                     </li>
                     <li *ngIf="loggedIn">
-                        <a class="nav-link" routerLink="/login" routerLinkActive="active">Logout</a>
+                        <a class="nav-link" routerLink="/login" routerLinkActive="active">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Logout
+                        </a>
                     </li>
                 </ul>
             </nav>

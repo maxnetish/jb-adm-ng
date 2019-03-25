@@ -14,8 +14,8 @@ export interface PostDetails {
     title: string;
     brief: string;
     content: string;
-    tags: [string];
+    tags: string[];
     titleImg: object;
-    attachments: [object];
+    attachments: object[];
     hru: string;
 }

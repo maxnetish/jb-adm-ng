@@ -17,6 +17,7 @@ import {NgbDateLocaleParserFormatterService} from './utils/ngb-date-locale-parse
 import { PagePostEditComponent } from './page-post-edit/page-post-edit.component';
 import { PostStatusBadgeComponent } from './widgets/post-status-badge/post-status-badge.component';
 import { PostStatusDisplayPipe } from './resources/post/post-status-display.pipe';
+import { PostAllowReadDisplayPipe } from './resources/post/post-allow-read-display.pipe';
 
 @NgModule({
     declarations: [
@@ -28,7 +29,8 @@ import { PostStatusDisplayPipe } from './resources/post/post-status-display.pipe
         PageLoginComponent,
         PagePostEditComponent,
         PostStatusBadgeComponent,
-        PostStatusDisplayPipe
+        PostStatusDisplayPipe,
+        PostAllowReadDisplayPipe
     ],
     imports: [
         BrowserModule,
