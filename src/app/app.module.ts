@@ -18,6 +18,9 @@ import { PagePostEditComponent } from './page-post-edit/page-post-edit.component
 import { PostStatusBadgeComponent } from './widgets/post-status-badge/post-status-badge.component';
 import { PostStatusDisplayPipe } from './resources/post/post-status-display.pipe';
 import { PostAllowReadDisplayPipe } from './resources/post/post-allow-read-display.pipe';
+import { DefaultDisplayTextPipe } from './utils/default-display-text.pipe';
+import { PostContentTypeDisplayPipe } from './resources/post/post-content-type-display.pipe';
+import { AceEditorComponent } from './widgets/ace-editor/ace-editor.component';
 
 @NgModule({
     declarations: [
@@ -30,7 +33,10 @@ import { PostAllowReadDisplayPipe } from './resources/post/post-allow-read-displ
         PagePostEditComponent,
         PostStatusBadgeComponent,
         PostStatusDisplayPipe,
-        PostAllowReadDisplayPipe
+        PostAllowReadDisplayPipe,
+        DefaultDisplayTextPipe,
+        PostContentTypeDisplayPipe,
+        AceEditorComponent
     ],
     imports: [
         BrowserModule,

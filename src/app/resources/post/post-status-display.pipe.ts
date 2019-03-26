@@ -6,7 +6,7 @@ import {PostStatus} from './post-status.enum';
 })
 export class PostStatusDisplayPipe implements PipeTransform {
 
-    private statusMap: { code: PostStatus, label: string }[] = [
+    private readonly statusMap: { code: PostStatus, label: string }[] = [
         {
             code: PostStatus.DRAFT,
             label: 'Draft'

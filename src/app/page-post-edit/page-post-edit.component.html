@@ -1,51 +1,85 @@
 <div class="border border-light rounded p-2 mt-2">
     <form [formGroup]="PostEditForm">
-        <div class="form-group row">
+        <div class="form-group form-group-compact row">
             <label class="col-sm-2 col-form-label">Status</label>
             <div class="col-sm-10">
-                <jb-adm-post-status-badge [status]="post.status" class="form-control-plaintext"></jb-adm-post-status-badge>
+                <jb-adm-post-status-badge [status]="post.status"
+                                          class="form-control-plaintext"></jb-adm-post-status-badge>
             </div>
         </div>
-        <div class="form-group row">
+        <div class="form-group form-group-compact row">
             <label class="col-sm-2 col-form-label">Who can read</label>
             <div class="col-sm-10 mt-2">
                 <div *ngFor="let allowReadOption of PostAllowReadOptions" class="form-check">
-                    <input class="form-check-input" type="radio" [id]="allowReadOption + 'Option'" [value]="allowReadOption" formControlName="allowRead">
+                    <input class="form-check-input" type="radio" [id]="allowReadOption + 'Option'"
+                           [value]="allowReadOption" formControlName="allowRead">
                     <label class="form-check-label" [for]="allowReadOption + 'Option'">
                         {{allowReadOption | postAllowReadDisplay}}
                     </label>
                 </div>
             </div>
         </div>
-        <div class="form-group row">
+        <div class="form-group form-group-compact row">
             <label class="col-sm-2 col-form-label">Create date</label>
             <div class="col-sm-10">
-                <span class="form-control-plaintext">{{post.createDate | date : 'shortDate'}}</span>
+                <span class="form-control-plaintext"
+                      [ngClass]="{'text-muted': !post.createDate}">
+                    {{post.createDate | date : 'shortDate' | defaultDisplayText : 'Not saved yet'}}
+                </span>
             </div>
         </div>
-        <div class="form-group row">
+        <div class="form-group form-group-compact row">
             <label class="col-sm-2 col-form-label">Last change</label>
             <div class="col-sm-10">
-                <span class="form-control-plaintext">{{post.updateDate | date : 'shortDate'}}</span>
+                <span class="form-control-plaintext"
+                      [ngClass]="{'text-muted': !post.updateDate}">
+                    {{post.updateDate | date : 'shortDate' | defaultDisplayText : 'Not saved yet'}}
+                </span>
             </div>
         </div>
-        <div class="form-group row">
+        <div class="form-group form-group-compact row">
             <label class="col-sm-2 col-form-label">Publish date</label>
             <div class="col-sm-10">
-                <span class="form-control-plaintext">{{post.pubDate | date : 'shortDate'}}</span>
+                <span class="form-control-plaintext"
+                      [ngClass]="{'text-muted': !post.pubDate}">
+                    {{post.pubDate | date : 'shortDate' | defaultDisplayText : 'Not published yet'}}
+                </span>
             </div>
         </div>
-        <div class="form-group row">
+        <div class="form-group form-group-compact row">
             <label class="col-sm-2 col-form-label" for="URLinput">URL</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="URLinput" [placeholder]="post._id || ''" formControlName="hru">
+                <input type="text" class="form-control" id="URLinput" [placeholder]="post._id || ''"
+                       formControlName="hru">
             </div>
         </div>
-        <div class="form-group row">
+        <div class="form-group form-group-compact row">
             <label class="col-sm-2 col-form-label" for="Titleinput">Title</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="Titleinput" placeholder="Enter title" formControlName="title">
+                <input type="text" class="form-control" id="Titleinput" placeholder="Enter title"
+                       formControlName="title">
+            </div>
+        </div>
+        <div class="form-group form-group-compact row">
+            <label class="col-sm-2 col-form-label">Post content type</label>
+            <div class="col-sm-10 mt-2">
+                <span *ngFor="let postContentTypeOption of PostContentTypeOptions" class="form-check-inline">
+                    <input class="form-check-input" type="radio" [id]="postContentTypeOption + 'Option'"
+                           [value]="postContentTypeOption" formControlName="contentType">
+                    <label class="form-check-label" [for]="postContentTypeOption + 'Option'">
+                        {{postContentTypeOption | postContentTypeDisplay}}
+                    </label>
+                </span>
+            </div>
+        </div>
+        <div class="form-group form-group-compact row">
+            <label class="col-sm-2 col-form-label">Preview</label>
+            <div class="col-sm-10">
+                <jb-adm-ace-editor class="ace-editor-brief-container" formControlName="brief"></jb-adm-ace-editor>
             </div>
         </div>
     </form>
+    <div>
+        Form: pristine:{{PostEditForm.pristine}} touched:{{PostEditForm.touched}} status:{{PostEditForm.status}}
+    </div>
 </div>
