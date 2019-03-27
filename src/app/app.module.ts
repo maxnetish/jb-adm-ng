@@ -4,6 +4,7 @@ import {ReactiveFormsModule, FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {NgbDateAdapter, NgbDateParserFormatter, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {NgxMaskModule} from 'ngx-mask';
+import {NgSelectModule} from '@ng-select/ng-select';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -21,6 +22,9 @@ import { PostAllowReadDisplayPipe } from './resources/post/post-allow-read-displ
 import { DefaultDisplayTextPipe } from './utils/default-display-text.pipe';
 import { PostContentTypeDisplayPipe } from './resources/post/post-content-type-display.pipe';
 import { AceEditorComponent } from './widgets/ace-editor/ace-editor.component';
+import { ContentPresentationModeDisplayPipe } from './page-post-edit/content-presentation-mode-display.pipe';
+import { PostContentPreviewPipe } from './page-post-edit/post-content-preview.pipe';
+import { AvatarImageAddComponent } from './widgets/avatar-image-add/avatar-image-add.component';
 
 @NgModule({
     declarations: [
@@ -36,7 +40,10 @@ import { AceEditorComponent } from './widgets/ace-editor/ace-editor.component';
         PostAllowReadDisplayPipe,
         DefaultDisplayTextPipe,
         PostContentTypeDisplayPipe,
-        AceEditorComponent
+        AceEditorComponent,
+        ContentPresentationModeDisplayPipe,
+        PostContentPreviewPipe,
+        AvatarImageAddComponent
     ],
     imports: [
         BrowserModule,
@@ -45,7 +52,8 @@ import { AceEditorComponent } from './widgets/ace-editor/ace-editor.component';
         FormsModule,
         HttpClientModule,
         NgbModule,
-        NgxMaskModule.forRoot()
+        NgxMaskModule.forRoot(),
+        NgSelectModule
     ],
     providers: [
         /**
@@ -60,6 +68,7 @@ import { AceEditorComponent } from './widgets/ace-editor/ace-editor.component';
             useClass: NgbDateLocaleParserFormatterService
         }
     ],
+    entryComponents: [AvatarImageAddComponent],
     bootstrap: [AppComponent]
 })
 export class AppModule {
