@@ -64,7 +64,7 @@ export class AceEditorComponent implements AfterViewInit, ControlValueAccessor, 
     private readonly aceEditorTheme = 'ace/theme/github';
     private readonly aceEditorFontSize = '1rem';
 
-    // aceEditorBriefContainerRef will before AfterViewInit hook
+    // aceEditorContainerRef will before AfterViewInit hook
     // see https://angular.io/api/core/ViewChild
     @ViewChild('aceEditorContainer') aceEditorContainerRef: ElementRef;
 

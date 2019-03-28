@@ -5,13 +5,17 @@
     </button>
 </div>
 <div class="modal-body">
-    <p>
-        avatar-image-add works!
-    </p>
-    <p>
-        {{data | json}}
-    </p>
+    <form [formGroup]="AvatarEditForm">
+        <jb-adm-jb-cropper [croppieOptions]="croppieOptions"
+                           formControlName="cropper"
+                           class="border rounded d-block mb-2 p-2"
+                           [ngClass]="{'border-danger': AvatarEditForm.controls.cropper.invalid, 'very-default-border': !AvatarEditForm.controls.cropper.invalid}"
+                           (changed)="onCroppieChanged($event, cropperRef.croppie)"
+                           #cropperRef></jb-adm-jb-cropper>
+        <input class="form-control" type="text" formControlName="description" placeholder="Short description"/>
+    </form>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Save click')" ngbAutofocus >Save</button>
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Save click')" ngbAutofocus>Save
+    </button>
 </div>

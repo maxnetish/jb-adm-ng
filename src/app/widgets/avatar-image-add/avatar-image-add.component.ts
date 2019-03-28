@@ -1,5 +1,9 @@
 import {Component, Injectable, Input} from '@angular/core';
 import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {CropData, CroppieOptions} from 'croppie';
+import * as Croppie from 'croppie';
+import {AbstractControl, FormBuilder, ValidatorFn} from '@angular/forms';
+
 
 @Component({
     selector: 'jb-adm-avatar-image-add',
@@ -8,9 +12,28 @@ import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 })
 export class AvatarImageAddComponent {
 
-    @Input() data: any;
+    @Input() croppieOptions: CroppieOptions;
 
-    constructor(private activeModal: NgbActiveModal) {
+    private readonly AvatarEditForm = this.fb.group({
+        cropper: [{cropData: null, fileName: null}, [this.cropperValidator()]],
+        description: [null]
+    });
+
+    private cropperValidator(): ValidatorFn {
+        return (control: AbstractControl): { [key: string]: any } | null => {
+            const choosedFileName = control.value && control.value.fileName;
+            return choosedFileName ? null : {'fileRequired': {value: control.value}};
+        };
+    }
+
+    onCroppieChanged(croppieData: CropData, croppieInstance: Croppie) {
+        console.info(croppieData, croppieInstance);
+    }
+
+    constructor(
+        private activeModal: NgbActiveModal,
+        private fb: FormBuilder
+    ) {
     }
 }
 
@@ -18,9 +41,9 @@ export class AvatarImageAddComponent {
     providedIn: 'root'
 })
 export class AvatarImageAddModal {
-    show(data?: any) {
+    show({croppieOptions = null}: { croppieOptions?: CroppieOptions } = {}) {
         const modalRef = this.modalService.open(AvatarImageAddComponent);
-        modalRef.componentInstance.data = data;
+        modalRef.componentInstance.croppieOptions = croppieOptions;
         return modalRef;
     }
 

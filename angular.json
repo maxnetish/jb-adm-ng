@@ -28,6 +28,7 @@
             ],
             "styles": [
               "node_modules/@ng-select/ng-select/themes/default.theme.css",
+              "node_modules/croppie/croppie.css",
               "src/styles.less"
             ],
             "scripts": []

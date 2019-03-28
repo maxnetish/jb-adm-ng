@@ -68,7 +68,10 @@ export class PagePostEditComponent implements OnInit {
 
     onAddNewTitleImageClick() {
         this.avatarImageAddModal.show({
-            foo: 'bar'
+            croppieOptions: {
+                viewport: {width: 100, height: 100, type: 'square'},
+                boundary: {width: 200, height: 200}
+            }
         }).result
             .then(result => {
                 console.info(result);

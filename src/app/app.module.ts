@@ -25,6 +25,7 @@ import { AceEditorComponent } from './widgets/ace-editor/ace-editor.component';
 import { ContentPresentationModeDisplayPipe } from './page-post-edit/content-presentation-mode-display.pipe';
 import { PostContentPreviewPipe } from './page-post-edit/post-content-preview.pipe';
 import { AvatarImageAddComponent } from './widgets/avatar-image-add/avatar-image-add.component';
+import { JbCropperComponent } from './widgets/jb-cropper/jb-cropper.component';
 
 @NgModule({
     declarations: [
@@ -43,7 +44,8 @@ import { AvatarImageAddComponent } from './widgets/avatar-image-add/avatar-image
         AceEditorComponent,
         ContentPresentationModeDisplayPipe,
         PostContentPreviewPipe,
-        AvatarImageAddComponent
+        AvatarImageAddComponent,
+        JbCropperComponent
     ],
     imports: [
         BrowserModule,
@@ -68,6 +70,10 @@ import { AvatarImageAddComponent } from './widgets/avatar-image-add/avatar-image
             useClass: NgbDateLocaleParserFormatterService
         }
     ],
+    /**
+     * entryComponents - components that will instantiates from code, not from markup
+     * Such as modals
+     */
     entryComponents: [AvatarImageAddComponent],
     bootstrap: [AppComponent]
 })
