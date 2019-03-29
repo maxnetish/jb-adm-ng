@@ -23,9 +23,7 @@ export class PostService {
 
     list(criteria: PostFindCriteria): Observable<PaginationResponse<PostBrief>> {
         return this.http.get<PaginationResponse<PostBrief>>(this.resourcesUtils.prependHostTo('/api/post/list'), {
-            params: this.resourcesUtils.clearHttpParams(Object.assign(criteria, {
-                page: criteria.page.toString()
-            })),
+            params: this.resourcesUtils.clearHttpParams(criteria),
             observe: 'response',
             reportProgress: false,
             responseType: 'json',

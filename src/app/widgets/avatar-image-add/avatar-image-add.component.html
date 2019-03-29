@@ -9,13 +9,14 @@
         <jb-adm-jb-cropper [croppieOptions]="croppieOptions"
                            formControlName="cropper"
                            class="border rounded d-block mb-2 p-2"
-                           [ngClass]="{'border-danger': AvatarEditForm.controls.cropper.invalid, 'very-default-border': !AvatarEditForm.controls.cropper.invalid}"
-                           (changed)="onCroppieChanged($event, cropperRef.croppie)"
+                           [ngClass]="{'border-danger': AvatarEditForm.controls.cropper.invalid}"
                            #cropperRef></jb-adm-jb-cropper>
         <input class="form-control" type="text" formControlName="description" placeholder="Short description"/>
     </form>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Save click')" ngbAutofocus>Save
+    <button type="button" class="btn btn-outline-primary" (click)="onSubmit(AvatarEditForm.value, cropperRef.croppie)" ngbAutofocus [disabled]="waiting || AvatarEditForm.invalid">
+        <i class="fa-spin fa-sync fas" [ngClass]="{'fa-spin fa-sync': waiting, 'fa-file-upload': !waiting}"></i>
+        Save
     </button>
 </div>

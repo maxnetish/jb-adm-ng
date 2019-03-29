@@ -5,6 +5,8 @@ interface HttpParamsDefinition {
     [param: string]: string | string[];
 }
 
+type TypesForHttpPrams = string | number | boolean | Date;
+
 @Injectable({
     providedIn: 'root'
 })
@@ -13,8 +15,46 @@ export class ResourcesUtilsService {
     constructor() {
     }
 
+    private _includeInHttpParams(keepEmptyStrings: boolean) {
+        return function (val: TypesForHttpPrams): boolean {
+            if (val === '') {
+                return keepEmptyStrings;
+            }
+            const t = typeof val;
+            if (t === 'number') {
+                return !isNaN(val as number);
+            }
+            if (t === 'boolean') {
+                return true;
+            }
+            if (val instanceof Date) {
+                return !!val;
+            }
+            return false;
+        };
+    }
+
+    private _toStringInHttpParams(val: TypesForHttpPrams): string {
+        switch (typeof val) {
+            case 'string':
+                return val as string;
+            case 'number':
+                return val.toString();
+            case 'boolean':
+                return val.toString();
+        }
+        if (val instanceof Date) {
+            return (val as Date).toISOString();
+        }
+        return (val as object).toString();
+    }
+
+    /**
+     * string | number | boolean | Date | Array<string | number | boolean | Date>
+     *  Params should be "string | number | boolean | Date | Array<string | number | boolean | Date>"
+     */
     clearHttpParams(
-        params: HttpParamsDefinition,
+        params: { [key: string]: any },
         {keepEmptyStrings = false}: { keepEmptyStrings?: boolean } = {}
     ): HttpParamsDefinition {
 
@@ -27,22 +67,14 @@ export class ResourcesUtilsService {
             const val = params[key];
 
             if (Array.isArray(val)) {
-                result[key] = (val as string[]).filter(elm => {
-                    if (elm === '') {
-                        return keepEmptyStrings;
-                    }
-                    return !!elm;
-                });
+                result[key] = (val as Array<string | number | boolean | Date>)
+                    .filter(this._includeInHttpParams(keepEmptyStrings))
+                    .map(this._toStringInHttpParams);
                 continue;
             }
 
-            if (val === '' && keepEmptyStrings) {
-                result[key] = val;
-                continue;
-            }
-
-            if (!!val) {
-                result[key] = val;
+            if (this._includeInHttpParams(keepEmptyStrings)(val)) {
+                result[key] = this._toStringInHttpParams(val);
             }
         }
 
