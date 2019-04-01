@@ -1,0 +1,59 @@
+<div class="row">
+    <div class="media col-md-5 control-to-set-visibility" *ngIf="titleImageSelectFormControl.value">
+        <img [src]="titleImageSelectFormControl.value.url | prependBackendHost"
+             class="align-self-start mr-2"/>
+        <div class="media-body">
+            <div class="d-flex">
+                <div class="pr-2">
+                    <div>{{titleImageSelectFormControl.value.metadata.originalName}}</div>
+                    <div class="text-secondary">{{titleImageSelectFormControl.value.metadata.description}}</div>
+                    <div
+                        class="text-secondary">{{titleImageSelectFormControl.value.uploadDate | date : 'shortDate'}}</div>
+                </div>
+                <div>
+                    <button type="button" (click)="onRemoveTitleImageFromModel($event)" class="btn btn-sm btn-outline-secondary visible-if-mouse-in-control" title="Remove title image from post">
+                        <i class="fas fa-minus-square"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5" *ngIf="!titleImageSelectFormControl.value">
+        <div class="alert alert-info p-2 m-0">
+            Image not selected. Select one from dropdown list.
+            <i class="fas fa-long-arrow-alt-right"></i>
+        </div>
+    </div>
+    <div class="col-md-7">
+        <ng-select [items]="titleImages"
+                   (open)="onTitleImagesSelectOpen($event)"
+                   (blur)="onTitleImagesSelectBlur($event)"
+                   (scroll)="onTitleImagesSelectScroll($event)"
+                   (scrollToEnd)="onTitleImagesSelectScrollToEnd()"
+                   [loading]="titleImagesLoading"
+                   [virtualScroll]="true"
+                   [searchFn]="titleImagesSelectSearchFn"
+                   placeholder="Select image for post title"
+                   [formControl]="titleImageSelectFormControl">
+            <ng-template ng-header-tmp>
+                <button type="button" class="btn btn-link btn-sm" (click)="onAddNewTitleImageClick()">
+                    <i class="far fa-plus-square mr-1"></i>
+                    Add new image
+                </button>
+            </ng-template>
+            <ng-template ng-label-tmp let-item="item">
+                <div>{{item.metadata.originalName}}</div>
+            </ng-template>
+            <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                <div class="media">
+                    <img [src]="item.url | prependBackendHost"
+                         class="align-self-start mr-2 title-image-in-list"/>
+                    <div class="media-body text-wrap">
+                        <div [ngOptionHighlight]="search">{{item.metadata.originalName}}</div>
+                        <small [ngOptionHighlight]="search">{{item.metadata.description}}</small>
+                    </div>
+                </div>
+            </ng-template>
+        </ng-select>
+    </div>
+</div>

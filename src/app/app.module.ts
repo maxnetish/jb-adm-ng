@@ -26,6 +26,9 @@ import { ContentPresentationModeDisplayPipe } from './page-post-edit/content-pre
 import { PostContentPreviewPipe } from './page-post-edit/post-content-preview.pipe';
 import { AvatarImageAddComponent } from './widgets/avatar-image-add/avatar-image-add.component';
 import { JbCropperComponent } from './widgets/jb-cropper/jb-cropper.component';
+import { TitleImageFormControlChooserComponent } from './widgets/title-image-form-control-chooser/title-image-form-control-chooser.component';
+import { TagsFormControlComponent } from './widgets/tags-form-control/tags-form-control.component';
+import { PrependBackendHostPipe } from './utils/prepend-backend-host.pipe';
 
 @NgModule({
     declarations: [
@@ -45,7 +48,10 @@ import { JbCropperComponent } from './widgets/jb-cropper/jb-cropper.component';
         ContentPresentationModeDisplayPipe,
         PostContentPreviewPipe,
         AvatarImageAddComponent,
-        JbCropperComponent
+        JbCropperComponent,
+        TitleImageFormControlChooserComponent,
+        TagsFormControlComponent,
+        PrependBackendHostPipe
     ],
     imports: [
         BrowserModule,

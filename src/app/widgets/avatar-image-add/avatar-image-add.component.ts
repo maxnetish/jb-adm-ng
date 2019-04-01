@@ -6,7 +6,7 @@ import {AbstractControl, FormBuilder, ValidatorFn} from '@angular/forms';
 import {FileStoreService} from '../../resources/file/file-store.service';
 import {JbFileAddModel} from '../../resources/file/jb-file-add-model';
 import {JbFileUploadResponse} from '../../resources/file/jb-file-upload-response';
-import {JbFileInfo} from '../../resources/file/jb-file-info';
+import {JbUploadedFileInfo} from '../../resources/file/jb-uploaded-file-info';
 
 
 @Component({
@@ -84,7 +84,7 @@ export class AvatarImageAddModal {
     /**
      * To show AvatarImageAddComponent as modal
      */
-    show({croppieOptions = null}: { croppieOptions?: CroppieOptions } = {}): Promise<JbFileInfo> {
+    show({croppieOptions = null}: { croppieOptions?: CroppieOptions } = {}): Promise<JbUploadedFileInfo> {
         const modalRef = this.modalService.open(AvatarImageAddComponent);
         // inject options into AvatarImageAddComponent
         modalRef.componentInstance.croppieOptions = croppieOptions;

@@ -63,25 +63,13 @@
         <div class="form-group form-group-compact row">
             <label class="col-sm-2 col-form-label">Title image</label>
             <div class="col-sm-10">
-                <ng-select [items]="titleImages" (open)="onSelectTitleImageOpen($event)" [loading]="titleImagesLoading"
-                           formControlName="titleImg" [virtualScroll]="true">
-                    <ng-template ng-header-tmp>
-                        <button type="button" class="btn btn-link btn-sm" (click)="onAddNewTitleImageClick()">
-                            <i class="far fa-plus-square mr-1"></i>
-                            Add new image
-                        </button>
-                    </ng-template>
-                    <ng-template ng-label-tmp let-item="item">
-                        <div>{{item.metadata.originalName}}</div>
-                    </ng-template>
-                    <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-                        <img [src]="'http://localhost:3000' + item.url"/>
-                        <div>{{item.metadata.originalName}}</div>
-                        <div *ngIf="item.metadata.description">
-                            <small>{{item.metadata.description}}</small>
-                        </div>
-                    </ng-template>
-                </ng-select>
+                <jb-adm-title-image-form-chooser formControlName="titleImg"></jb-adm-title-image-form-chooser>
+            </div>
+        </div>
+        <div class="form-group form-group-compact row">
+            <label class="col-sm-2 col-form-label">Tags</label>
+            <div class="col-sm-10">
+                <jb-adm-tags-form-control></jb-adm-tags-form-control>
             </div>
         </div>
         <div class="form-group form-group-compact row">

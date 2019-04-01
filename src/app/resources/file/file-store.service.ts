@@ -7,6 +7,7 @@ import {map} from 'rxjs/operators';
 import {JbFileUploadResponse} from './jb-file-upload-response';
 import {JbFileFindRequest} from './jb-file-find-request';
 import {PaginationResponse} from '../pagination-response';
+import {JbUploadedFileInfo} from './jb-uploaded-file-info';
 import {JbFileInfo} from './jb-file-info';
 
 @Injectable({
@@ -37,7 +38,6 @@ export class FileStoreService {
     }
 
     find(fileFindRequest: JbFileFindRequest): Observable<PaginationResponse<JbFileInfo>> {
-        // FIXME actually it is not JbFileInfo, JbFileInfo responds  after upload new file, here we have to use another model
         return this.http.get<PaginationResponse<JbFileInfo>>(this.resourcesUtils.prependHostTo('/api/file/find'), {
             params: this.resourcesUtils.clearHttpParams(fileFindRequest),
             observe: 'response',
@@ -45,7 +45,32 @@ export class FileStoreService {
             responseType: 'json',
             withCredentials: true
         })
-            .pipe(map(res => res.body));
+            .pipe(
+                map(res => res.body),
+                map((paginationResponse: PaginationResponse<JbFileInfo>) => {
+                    paginationResponse.items = paginationResponse.items.map(item => {
+                        item.uploadDate = item.uploadDate ? new Date(item.uploadDate) : item.uploadDate;
+                        return item;
+                    });
+                    return paginationResponse;
+                })
+            );
+    }
+
+    jbUploadedFileInfo2JbFileFindInfo(inp: JbUploadedFileInfo): JbFileInfo {
+        if (inp) {
+            return {
+                metadata: inp.metadata,
+                uploadDate: inp.uploadDate,
+                _id: inp.id,
+                contentType: inp.contentType,
+                filename: inp.filename,
+                id: inp.id,
+                length: inp.size,
+                url: inp.url
+            };
+        }
+        return null;
     }
 
     constructor(

@@ -5,8 +5,6 @@ import {PostAllowRead} from '../resources/post/post-allow-read.enum';
 import {PostContentType} from '../resources/post/post-content-type.enum';
 import {FormBuilder, Validators} from '@angular/forms';
 import {ContentPresentationMode} from './content-presentation-mode.enum';
-import {AvatarImageAddModal} from '../widgets/avatar-image-add/avatar-image-add.component';
-import {FileStoreService} from '../resources/file/file-store.service';
 
 @Component({
     selector: 'jb-adm-page-post-edit',
@@ -44,10 +42,6 @@ export class PagePostEditComponent implements OnInit {
 
     post: PostDetails;
 
-    private _titleImageSelectOpenedOnce = false;
-    titleImagesLoading = false;
-    titleImages = [];
-
     readonly PostEditForm = this.fb.group({
         allowRead: [null],
         hru: [null],
@@ -60,48 +54,9 @@ export class PagePostEditComponent implements OnInit {
         contentPresentationMode: [ContentPresentationMode.EDIT]
     });
 
-    onAddNewTitleImageClick() {
-        this.avatarImageAddModal.show({
-            croppieOptions: {
-                viewport: {width: 100, height: 100, type: 'square'},
-                boundary: {width: 200, height: 200}
-            }
-        }).then(result => {
-            console.info(result);
-        }, err => {
-            console.warn(err);
-        });
-    }
-
-    onSelectTitleImageOpen(e) {
-        if (this._titleImageSelectOpenedOnce) {
-            return;
-        }
-        this._titleImageSelectOpenedOnce = true;
-
-        this.titleImagesLoading = true;
-
-        this.fileStoreService.find({
-            context: 'avatarImage',
-            max: 1000
-        }).toPromise()
-            .then(findFileRespone => {
-                // this.titleImages.length = 0;
-                // Array.prototype.push.apply(this.titleImages, findFileRespone.items);
-                this.titleImages = findFileRespone.items;
-                this.titleImagesLoading = false;
-            })
-            .then(null, err => {
-                this.titleImagesLoading = false;
-                console.warn(err);
-            });
-    }
-
     constructor(
         private route: ActivatedRoute,
-        private fb: FormBuilder,
-        private avatarImageAddModal: AvatarImageAddModal,
-        private fileStoreService: FileStoreService
+        private fb: FormBuilder
     ) {
     }
 

@@ -1,4 +1,4 @@
 export interface PaginationResponse<T> {
-    items: [T];
+    items: Array<T>;
     hasMore: boolean;
 }

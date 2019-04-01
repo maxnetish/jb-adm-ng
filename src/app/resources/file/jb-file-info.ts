@@ -1,18 +1,15 @@
+/**
+ * Data returns from file finding
+ */
 export interface JbFileInfo {
-    bucketName?: string;
-    chunkSize?: number;
-    contentType?: string;
-    encoding?: string;
-    fieldname?: string;
-    filename?: string;
+    _id?: string;
     id?: string;
-    md5?: string;
-    metadata?: {
-        [key: string]: string
+    contentType: string;
+    filename: string;
+    length: number;
+    metadata: {
+        [prop: string]: string
     };
-    mimetype?: string;
-    originalname?: string;
-    size?: number;
-    uploadDate?: Date;
-    url?: string;
+    uploadDate: Date;
+    url: string;
 }
