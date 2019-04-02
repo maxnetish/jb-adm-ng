@@ -1,0 +1,32 @@
+<div class="modal-header">
+    <h4 class="modal-title">Upload file</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class=row>
+        <div class="col">
+            <button type="button" class="btn btn-primary" (click)="fileInputRef.click()">
+                <i class="fas fa-file-upload"></i>
+                Choose file
+            </button>
+        </div>
+    </div>
+    <div class="row" *ngIf="FileEditForm.value.file">
+        <div class="col">
+            {{FileEditForm.value | json}}
+        </div>
+    </div>
+    <form [formGroup]="FileEditForm">
+        <input type="file" style="display:none" formControlName="file" #fileInputRef/>
+        <input class="form-control" type="text" formControlName="description" placeholder="Short description"/>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-primary" (click)="onSubmit(FileEditForm.value)" ngbAutofocus
+            [disabled]="waiting || FileEditForm.invalid">
+        <i class="fas" [ngClass]="{'fa-spin fa-sync': waiting, 'fa-upload': !waiting}"></i>
+        Upload
+    </button>
+</div>

@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h4 class="modal-title">Hi there!</h4>
+    <h4 class="modal-title">Add image</h4>
     <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
     </button>
@@ -16,7 +16,7 @@
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-outline-primary" (click)="onSubmit(AvatarEditForm.value, cropperRef.croppie)" ngbAutofocus [disabled]="waiting || AvatarEditForm.invalid">
-        <i class="fa-spin fa-sync fas" [ngClass]="{'fa-spin fa-sync': waiting, 'fa-file-upload': !waiting}"></i>
+        <i class="fas" [ngClass]="{'fa-spin fa-sync': waiting, 'fa-file-upload': !waiting}"></i>
         Save
     </button>
 </div>

@@ -5,6 +5,7 @@ import {PostAllowRead} from '../resources/post/post-allow-read.enum';
 import {PostContentType} from '../resources/post/post-content-type.enum';
 import {FormBuilder, Validators} from '@angular/forms';
 import {ContentPresentationMode} from './content-presentation-mode.enum';
+import {UploadFileModal} from '../widgets/upload-file-dialog/upload-file-dialog.component';
 
 @Component({
     selector: 'jb-adm-page-post-edit',
@@ -50,13 +51,24 @@ export class PagePostEditComponent implements OnInit {
         brief: [null],
         content: [null, [Validators.required]],
         titleImg: [null],
-
+        tags: [[]],
         contentPresentationMode: [ContentPresentationMode.EDIT]
     });
 
+    onFileAttachmentsAddClick(e) {
+        this.uploadFileModal.show({postId: this.post._id})
+            .then(uploadedFileInfo => {
+
+            })
+            .then(null, err => {
+                console.warn(err);
+            });
+    }
+
     constructor(
         private route: ActivatedRoute,
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private uploadFileModal: UploadFileModal
     ) {
     }
 

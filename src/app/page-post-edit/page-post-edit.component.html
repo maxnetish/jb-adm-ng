@@ -69,7 +69,18 @@
         <div class="form-group form-group-compact row">
             <label class="col-sm-2 col-form-label">Tags</label>
             <div class="col-sm-10">
-                <jb-adm-tags-form-control></jb-adm-tags-form-control>
+                <jb-adm-tags-form-control formControlName="tags"></jb-adm-tags-form-control>
+            </div>
+        </div>
+        <div class="form-group form-group-compact row">
+            <label class="col-sm-2 col-form-label">Attached files</label>
+            <div class="col-sm-10">
+                <div>
+                    <button type="button" class="btn btn-primary" (click)="onFileAttachmentsAddClick($event)">
+                        <i class="fas fa-plus"></i>
+                        Add file
+                    </button>
+                </div>
             </div>
         </div>
         <div class="form-group form-group-compact row">

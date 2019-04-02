@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {PostFindCriteria} from './post-find-criteria';
-import {Router} from '@angular/router';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {PostBrief} from './post-brief';
 import {PaginationResponse} from '../pagination-response';
@@ -15,7 +14,6 @@ import {ResourcesUtilsService} from '../resources-utils.service';
 export class PostService {
 
     constructor(
-        private router: Router,
         private http: HttpClient,
         private resourcesUtils: ResourcesUtilsService
     ) {

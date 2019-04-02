@@ -1,5 +1,10 @@
-import {ChangeDetectionStrategy, Component, forwardRef, OnInit} from '@angular/core';
-import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR} from '@angular/forms';
+import { ChangeDetectionStrategy, Component, forwardRef, OnInit } from '@angular/core';
+import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { TagService } from 'src/app/resources/tag/tag.service';
+import { Observable } from 'rxjs';
+import { JbTagSearchResponse } from 'src/app/resources/tag/jb-tag-search-response';
+import { PostStatus } from 'src/app/resources/post/post-status.enum';
+import { JbTagInfo } from 'src/app/resources/tag/jb-tag-info';
 
 @Component({
     selector: 'jb-adm-tags-form-control',
@@ -17,27 +22,55 @@ import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR} from '@angular/for
     // changes will detects if @Input changed
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TagsFormControlComponent implements OnInit, ControlValueAccessor {
+export class TagsFormControlComponent implements ControlValueAccessor {
 
-    tags: Array<string> = [];
+    private _registeredOnBlurHandler: (val?: any) => void;
+    private _registeredOnChangeHandler: (val?: any) => void;
+    tagsObservable: Observable<JbTagSearchResponse>;
     tagsFormControl: FormControl = new FormControl([]);
 
-    constructor() {
+    tagsSelectAddTag(term: string): JbTagInfo {
+        return {
+            count: 0,
+            url: null,
+            tag: term
+        };
     }
 
-    ngOnInit() {
+    onTagsSelectBlur(e) {
+        if (this._registeredOnBlurHandler) {
+            this._registeredOnBlurHandler();
+        }
+    }
+
+    constructor(
+        private tagService: TagService
+    ) {
+        this.tagsObservable = this.tagService.list({
+            statuses: [PostStatus.PUB, PostStatus.DRAFT]
+        });
+        this.tagsFormControl.valueChanges
+            .subscribe(val => {
+                if (this._registeredOnChangeHandler) {
+                    this._registeredOnChangeHandler(val);
+                }
+            });
     }
 
     registerOnChange(fn: any): void {
+        this._registeredOnChangeHandler = fn;
     }
 
     registerOnTouched(fn: any): void {
+        this._registeredOnBlurHandler = fn;
     }
 
     setDisabledState(isDisabled: boolean): void {
+        // FIXME set disabled select
     }
 
     writeValue(obj: any): void {
+        this.tagsFormControl.setValue(obj);
     }
 
 }

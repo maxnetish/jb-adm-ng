@@ -29,6 +29,7 @@ import { JbCropperComponent } from './widgets/jb-cropper/jb-cropper.component';
 import { TitleImageFormControlChooserComponent } from './widgets/title-image-form-control-chooser/title-image-form-control-chooser.component';
 import { TagsFormControlComponent } from './widgets/tags-form-control/tags-form-control.component';
 import { PrependBackendHostPipe } from './utils/prepend-backend-host.pipe';
+import {UploadFileComponent} from './widgets/upload-file-dialog/upload-file-dialog.component';
 
 @NgModule({
     declarations: [
@@ -51,7 +52,8 @@ import { PrependBackendHostPipe } from './utils/prepend-backend-host.pipe';
         JbCropperComponent,
         TitleImageFormControlChooserComponent,
         TagsFormControlComponent,
-        PrependBackendHostPipe
+        PrependBackendHostPipe,
+        UploadFileComponent
     ],
     imports: [
         BrowserModule,
@@ -80,7 +82,7 @@ import { PrependBackendHostPipe } from './utils/prepend-backend-host.pipe';
      * entryComponents - components that will instantiates from code, not from markup
      * Such as modals
      */
-    entryComponents: [AvatarImageAddComponent],
+    entryComponents: [AvatarImageAddComponent, UploadFileComponent],
     bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -1,5 +1,6 @@
-<ng-select
-    [items]="tags"
-
-    [formControl]="tagsFormControl"
-></ng-select>
+<ng-select [items]="tagsObservable | async" bindLabel="tag" bindValue="tag" multiple="true" [addTag]="tagsSelectAddTag"
+    [formControl]="tagsFormControl" [clearable]="false" (blur)="onTagsSelectBlur($event)" placeholder="Select or enter tags">
+    <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+        <div [ngOptionHighlight]="search">{{item.tag}} ({{item.count}})</div>
+    </ng-template>
+</ng-select>
