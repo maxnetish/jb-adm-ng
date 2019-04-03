@@ -1,6 +1,7 @@
 import {PostStatus} from './post-status.enum';
 import {PostAllowRead} from './post-allow-read.enum';
 import {PostContentType} from './post-content-type.enum';
+import {JbFileInfo} from '../file/jb-file-info';
 
 export interface PostDetails {
     _id?: string;
@@ -16,6 +17,6 @@ export interface PostDetails {
     content: string;
     tags: string[];
     titleImg: object;
-    attachments: object[];
+    attachments: JbFileInfo[];
     hru: string;
 }

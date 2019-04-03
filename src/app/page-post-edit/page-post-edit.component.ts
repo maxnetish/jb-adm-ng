@@ -6,6 +6,9 @@ import {PostContentType} from '../resources/post/post-content-type.enum';
 import {FormBuilder, Validators} from '@angular/forms';
 import {ContentPresentationMode} from './content-presentation-mode.enum';
 import {UploadFileModal} from '../widgets/upload-file-dialog/upload-file-dialog.component';
+import {FileStoreService} from '../resources/file/file-store.service';
+import {CommonDialogModal, CommonDialogResult, CommonDialogType} from '../widgets/jb-common-dialog/jb-common-dialog.component';
+import {ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'jb-adm-page-post-edit',
@@ -58,17 +61,41 @@ export class PagePostEditComponent implements OnInit {
     onFileAttachmentsAddClick(e) {
         this.uploadFileModal.show({postId: this.post._id})
             .then(uploadedFileInfo => {
-
+                if (!uploadedFileInfo) {
+                    return;
+                }
+                const fileInfo = this.fileStoreService.jbUploadedFileInfo2JbFileFindInfo(uploadedFileInfo);
+                this.post.attachments.push(fileInfo);
             })
             .then(null, err => {
                 console.warn(err);
             });
     }
 
+    onRemoveAttachmentButtonClick(attachmentIndex: number) {
+        this.commonDialog.show({
+                title: 'Remove file',
+                commonDialogType: CommonDialogType.CONFIRM,
+                message: `Remove attachment? File <b>${this.post.attachments[attachmentIndex].metadata.originalName}</b>
+                         will be removed forever with post saving.`
+            })
+            .then(result => {
+                if (result === CommonDialogResult.YES) {
+                    this.post.attachments.splice(attachmentIndex, 1);
+                }
+            })
+            .then(null, err => {
+                console.warn(err);
+            });
+
+    }
+
     constructor(
         private route: ActivatedRoute,
         private fb: FormBuilder,
-        private uploadFileModal: UploadFileModal
+        private uploadFileModal: UploadFileModal,
+        private fileStoreService: FileStoreService,
+        private commonDialog: CommonDialogModal
     ) {
     }
 

@@ -4,7 +4,7 @@
         "directive-selector": [
             true,
             "attribute",
-            "jb-adm",
+            "jbAdm",
             "camelCase"
         ],
         "component-selector": [

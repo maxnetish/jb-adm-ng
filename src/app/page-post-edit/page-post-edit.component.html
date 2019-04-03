@@ -3,16 +3,20 @@
         <div class="form-group form-group-compact row">
             <label class="col-sm-2 col-form-label">Status</label>
             <div class="col-sm-10">
-                <jb-adm-post-status-badge [status]="post.status"
-                                          class="form-control-plaintext"></jb-adm-post-status-badge>
+                <jb-adm-post-status-badge
+                    [status]="post.status"
+                    class="form-control-plaintext"
+                ></jb-adm-post-status-badge>
             </div>
         </div>
         <div class="form-group form-group-compact row">
             <label class="col-sm-2 col-form-label">Who can read</label>
             <div class="col-sm-10 mt-2">
                 <div *ngFor="let allowReadOption of PostAllowReadOptions" class="form-check">
-                    <input class="form-check-input" type="radio" [id]="allowReadOption + 'Option'"
-                           [value]="allowReadOption" formControlName="allowRead">
+                    <input
+                        class="form-check-input" type="radio" [id]="allowReadOption + 'Option'"
+                        [value]="allowReadOption" formControlName="allowRead"
+                    >
                     <label class="form-check-label" [for]="allowReadOption + 'Option'">
                         {{allowReadOption | postAllowReadDisplay}}
                     </label>
@@ -22,8 +26,10 @@
         <div class="form-group form-group-compact row">
             <label class="col-sm-2 col-form-label">Create date</label>
             <div class="col-sm-10">
-                <span class="form-control-plaintext"
-                      [ngClass]="{'text-muted': !post.createDate}">
+                <span
+                    class="form-control-plaintext"
+                    [ngClass]="{'text-muted': !post.createDate}"
+                >
                     {{post.createDate | date : 'shortDate' | defaultDisplayText : 'Not saved yet'}}
                 </span>
             </div>
@@ -31,8 +37,10 @@
         <div class="form-group form-group-compact row">
             <label class="col-sm-2 col-form-label">Last change</label>
             <div class="col-sm-10">
-                <span class="form-control-plaintext"
-                      [ngClass]="{'text-muted': !post.updateDate}">
+                <span
+                    class="form-control-plaintext"
+                    [ngClass]="{'text-muted': !post.updateDate}"
+                >
                     {{post.updateDate | date : 'shortDate' | defaultDisplayText : 'Not saved yet'}}
                 </span>
             </div>
@@ -40,8 +48,10 @@
         <div class="form-group form-group-compact row">
             <label class="col-sm-2 col-form-label">Publish date</label>
             <div class="col-sm-10">
-                <span class="form-control-plaintext"
-                      [ngClass]="{'text-muted': !post.pubDate}">
+                <span
+                    class="form-control-plaintext"
+                    [ngClass]="{'text-muted': !post.pubDate}"
+                >
                     {{post.pubDate | date : 'shortDate' | defaultDisplayText : 'Not published yet'}}
                 </span>
             </div>
@@ -49,15 +59,19 @@
         <div class="form-group form-group-compact row">
             <label class="col-sm-2 col-form-label" for="URLinput">URL</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="URLinput" [placeholder]="post._id || ''"
-                       formControlName="hru">
+                <input
+                    type="text" class="form-control" id="URLinput" [placeholder]="post._id || ''"
+                    formControlName="hru"
+                >
             </div>
         </div>
         <div class="form-group form-group-compact row">
             <label class="col-sm-2 col-form-label" for="Titleinput">Title</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="Titleinput" placeholder="Enter title"
-                       formControlName="title">
+                <input
+                    type="text" class="form-control" id="Titleinput" placeholder="Enter title"
+                    formControlName="title"
+                >
             </div>
         </div>
         <div class="form-group form-group-compact row">
@@ -74,12 +88,47 @@
         </div>
         <div class="form-group form-group-compact row">
             <label class="col-sm-2 col-form-label">Attached files</label>
-            <div class="col-sm-10">
-                <div>
-                    <button type="button" class="btn btn-primary" (click)="onFileAttachmentsAddClick($event)">
+            <div class="col-sm-10" *ngIf="!post._id">
+                <div class="text-secondary form-control-plaintext">
+                    Save post before attach file to it.
+                </div>
+            </div>
+            <div class="col-sm-10" *ngIf="post._id">
+                <div class="mb-2 mt-2">
+                    <button type="button" class="btn btn-sm btn-primary" (click)="onFileAttachmentsAddClick($event)">
                         <i class="fas fa-plus"></i>
-                        Add file
+                        Add attachment
                     </button>
+                </div>
+                <div
+                    *ngFor="let fileInfo of post.attachments; index as ind"
+                    class="border border-info rounded mb-2 p-2"
+                >
+                    <div class="d-flex">
+                        <div class="text-info mr-2">
+                            <i [ngClass]="fileInfo.contentType | contentTypeToIcon"></i>
+                        </div>
+                        <div class="flex-fill">
+                            <div>
+                                <a [href]="fileInfo.url | prependBackendHost">
+                                    {{fileInfo.metadata.originalName}}
+                                </a>
+                            </div>
+                            <div class="text-secondary small">{{fileInfo.metadata.description}}</div>
+                            <div class="text-secondary small">{{fileInfo.contentType}}</div>
+                            <div class="text-secondary small">{{fileInfo.length}} bytes</div>
+                        </div>
+                        <div>
+                            <button
+                                type="button"
+                                (click)="onRemoveAttachmentButtonClick(ind)"
+                                class="btn btn-sm btn-outline-danger"
+                                title="Remove attachment forever"
+                            >
+                                <i class="fas fa-minus-square"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -87,8 +136,10 @@
             <label class="col-sm-2 col-form-label">Post content type</label>
             <div class="col-sm-10 mt-2">
                 <span *ngFor="let postContentTypeOption of PostContentTypeOptions" class="form-check-inline">
-                    <input class="form-check-input" type="radio" [id]="postContentTypeOption + 'Option'"
-                           [value]="postContentTypeOption" formControlName="contentType">
+                    <input
+                        class="form-check-input" type="radio" [id]="postContentTypeOption + 'Option'"
+                        [value]="postContentTypeOption" formControlName="contentType"
+                    >
                     <label class="form-check-label" [for]="postContentTypeOption + 'Option'">
                         {{postContentTypeOption | postContentTypeDisplay}}
                     </label>
@@ -98,15 +149,19 @@
         <div class="form-group form-group-compact row">
             <label class="col-sm-2 col-form-label">Preview</label>
             <div class="col-sm-10">
-                <jb-adm-ace-editor class="ace-editor-brief-container form-control pt-1 pb-1 pl-0 pr-0"
-                                   formControlName="brief" [mode]="PostEditForm.value.contentType"></jb-adm-ace-editor>
+                <jb-adm-ace-editor
+                    class="ace-editor-brief-container form-control pt-1 pb-1 pl-0 pr-0"
+                    formControlName="brief" [mode]="PostEditForm.value.contentType"
+                ></jb-adm-ace-editor>
             </div>
         </div>
         <div class="form-group form-group-compact row">
             <label class="col-sm-2 col-form-label">Content</label>
             <div class="col-sm-10 mt-2">
-                <div class="btn-group btn-group-sm mb-2 btn-group-toggle" ngbRadioGroup
-                     formControlName="contentPresentationMode" role="radiogroup">
+                <div
+                    class="btn-group btn-group-sm mb-2 btn-group-toggle" ngbRadioGroup
+                    formControlName="contentPresentationMode" role="radiogroup"
+                >
                     <ng-container *ngFor="let contentPresentationModeOption of ContentPresentationModeOptions">
                         <label ngbButtonLabel class="btn-success">
                             <input ngbButton type="radio" [value]="contentPresentationModeOption.code"/>
@@ -117,13 +172,17 @@
                 </div>
                 <ng-container [ngSwitch]="PostEditForm.value.contentPresentationMode">
                     <ng-container *ngSwitchCase="ContentPresentationModeValues.EDIT">
-                        <jb-adm-ace-editor class="ace-editor-content-container form-control pt-1 pb-1 pl-0 pr-0"
-                                           formControlName="content"
-                                           [mode]="PostEditForm.value.contentType"></jb-adm-ace-editor>
+                        <jb-adm-ace-editor
+                            class="ace-editor-content-container form-control pt-1 pb-1 pl-0 pr-0"
+                            formControlName="content"
+                            [mode]="PostEditForm.value.contentType"
+                        ></jb-adm-ace-editor>
                     </ng-container>
                     <ng-container *ngSwitchCase="ContentPresentationModeValues.PREVIEW">
-                        <div class="content-preview border border-secondary"
-                             [innerHTML]="PostEditForm.value.content | postContentPreview : PostEditForm.value.contentType.value"></div>
+                        <div
+                            class="content-preview border border-secondary"
+                            [innerHTML]="PostEditForm.value.content | postContentPreview : PostEditForm.value.contentType.value"
+                        ></div>
                     </ng-container>
                 </ng-container>
             </div>

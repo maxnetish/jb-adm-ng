@@ -27,6 +27,9 @@ export class ResourcesUtilsService {
             if (t === 'boolean') {
                 return true;
             }
+            if (t === 'string') {
+                return true;
+            }
             if (val instanceof Date) {
                 return !!val;
             }

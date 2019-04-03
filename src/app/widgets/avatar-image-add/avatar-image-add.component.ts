@@ -1,10 +1,10 @@
 import {Component, Injectable, Input} from '@angular/core';
-import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {ModalDismissReasons, NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {CropData, CroppieOptions} from 'croppie';
 import * as Croppie from 'croppie';
 import {AbstractControl, FormBuilder, ValidatorFn} from '@angular/forms';
 import {FileStoreService} from '../../resources/file/file-store.service';
-import {JbFileAddModel} from '../../resources/file/jb-file-add-model';
+import {JbUploadBlobModel} from '../../resources/file/jb-upload-blob-model';
 import {JbFileUploadResponse} from '../../resources/file/jb-file-upload-response';
 import {JbUploadedFileInfo} from '../../resources/file/jb-uploaded-file-info';
 
@@ -40,14 +40,14 @@ export class AvatarImageAddComponent {
         const fsContext = 'avatarImage';
         this.waiting = true;
         return croppie.result({
-            type: 'blob',
-            quality: 1,
-            format: 'png',
-            circle: false,
-            size: 'viewport'
-        })
+                type: 'blob',
+                quality: 1,
+                format: 'png',
+                circle: false,
+                size: 'viewport'
+            })
             .then(blob => {
-                const uploadModel: JbFileAddModel = {
+                const uploadModel: JbUploadBlobModel = {
                     originalFilename: formValue.cropper.fileName,
                     context: fsContext,
                     metadata: {
@@ -57,7 +57,7 @@ export class AvatarImageAddComponent {
                     },
                     blob
                 };
-                return this.fileStoreService.uploadFromBlob(uploadModel).toPromise<JbFileUploadResponse>();
+                return this.fileStoreService.upload(uploadModel).toPromise<JbFileUploadResponse>();
             })
             .then(result => {
                 this.waiting = false;
@@ -88,7 +88,13 @@ export class AvatarImageAddModal {
         const modalRef = this.modalService.open(AvatarImageAddComponent);
         // inject options into AvatarImageAddComponent
         modalRef.componentInstance.croppieOptions = croppieOptions;
-        return modalRef.result;
+        return modalRef.result
+            .then(null, err => {
+                if ([ModalDismissReasons.BACKDROP_CLICK, ModalDismissReasons.ESC].indexOf(err) > -1) {
+                    return false;
+                }
+                throw err;
+            });
     }
 
     constructor(private modalService: NgbModal) {

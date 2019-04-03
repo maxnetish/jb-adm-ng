@@ -30,6 +30,9 @@ import { TitleImageFormControlChooserComponent } from './widgets/title-image-for
 import { TagsFormControlComponent } from './widgets/tags-form-control/tags-form-control.component';
 import { PrependBackendHostPipe } from './utils/prepend-backend-host.pipe';
 import {UploadFileComponent} from './widgets/upload-file-dialog/upload-file-dialog.component';
+import { JbFileInputDirective } from './widgets/jb-file-input.directive';
+import { ContentTypeToIconPipe } from './utils/content-type-to-icon.pipe';
+import { JbCommonDialogComponent } from './widgets/jb-common-dialog/jb-common-dialog.component';
 
 @NgModule({
     declarations: [
@@ -53,7 +56,10 @@ import {UploadFileComponent} from './widgets/upload-file-dialog/upload-file-dial
         TitleImageFormControlChooserComponent,
         TagsFormControlComponent,
         PrependBackendHostPipe,
-        UploadFileComponent
+        UploadFileComponent,
+        JbFileInputDirective,
+        ContentTypeToIconPipe,
+        JbCommonDialogComponent
     ],
     imports: [
         BrowserModule,
@@ -82,7 +88,7 @@ import {UploadFileComponent} from './widgets/upload-file-dialog/upload-file-dial
      * entryComponents - components that will instantiates from code, not from markup
      * Such as modals
      */
-    entryComponents: [AvatarImageAddComponent, UploadFileComponent],
+    entryComponents: [AvatarImageAddComponent, UploadFileComponent, JbCommonDialogComponent],
     bootstrap: [AppComponent]
 })
 export class AppModule {

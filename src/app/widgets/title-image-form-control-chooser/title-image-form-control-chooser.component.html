@@ -19,7 +19,7 @@
         </div>
     </div>
     <div class="col-md-5" *ngIf="!titleImageSelectFormControl.value">
-        <div class="alert alert-info p-2 m-0">
+        <div class="form-control-plaintext text-secondary">
             Image not selected. Select one from dropdown list.
             <i class="fas fa-long-arrow-alt-right"></i>
         </div>
@@ -31,7 +31,7 @@
                    (scroll)="onTitleImagesSelectScroll($event)"
                    (scrollToEnd)="onTitleImagesSelectScrollToEnd()"
                    [loading]="titleImagesLoading"
-                   [virtualScroll]="true"
+                   [virtualScroll]="false"
                    [searchFn]="titleImagesSelectSearchFn"
                    placeholder="Select image for post title"
                    [formControl]="titleImageSelectFormControl">

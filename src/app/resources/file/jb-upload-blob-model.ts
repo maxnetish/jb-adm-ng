@@ -1,4 +1,4 @@
-export interface JbFileAddModel {
+export interface JbUploadBlobModel {
     context: string;
     originalFilename: string;
     blob: Blob;
