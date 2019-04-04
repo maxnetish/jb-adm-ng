@@ -1,6 +1,6 @@
 import {Component, Injectable, Input, OnInit} from '@angular/core';
-import {ModalDismissReasons, NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {AvatarImageAddComponent} from '../avatar-image-add/avatar-image-add.component';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
+import {JbNgxModalPromisifierService} from '../jb-ngx-modal-promisifier.service';
 
 export enum CommonDialogType {
     ERROR,
@@ -23,6 +23,12 @@ export enum CommonDialogResult {
 export class JbCommonDialogComponent {
 
     @Input()
+    dismiss: (reason: any) => void;
+
+    @Input()
+    close: (result: CommonDialogResult) => void;
+
+    @Input()
     commonDialogType: CommonDialogType = CommonDialogType.ERROR;
 
     @Input()
@@ -35,7 +41,8 @@ export class JbCommonDialogComponent {
     commonDialogResults = CommonDialogResult;
 
     constructor(
-        private activeModal: NgbActiveModal
+        // private activeModal: NgbActiveModal
+        private modalRef: BsModalRef
     ) {
     }
 }
@@ -47,22 +54,43 @@ export class CommonDialogModal {
 
     show({commonDialogType, message, title}: { commonDialogType: CommonDialogType, message: string, title: string })
         : Promise<CommonDialogResult> {
-        const modalRef = this.modalService.open(JbCommonDialogComponent);
-        // inject options into AvatarImageAddComponent
-        modalRef.componentInstance.commonDialogType = commonDialogType;
-        modalRef.componentInstance.message = message;
-        modalRef.componentInstance.title = title;
-        return modalRef.result
-            .then(null, err => {
-                if ([ModalDismissReasons.BACKDROP_CLICK, ModalDismissReasons.ESC].indexOf(err) > -1) {
-                    return CommonDialogResult.CANCEL;
-                }
-                throw err;
-            });
+
+        return this.modalPromisifier.promisify<CommonDialogResult>
+        (this.modalService.show.bind(this.modalService))
+        (JbCommonDialogComponent, {
+            initialState: {
+                commonDialogType,
+                message,
+                title
+            }
+        });
+
+        // const modalRef = this.modalService.show(JbCommonDialogComponent, {
+        //     initialState: {
+        //         commonDialogType,
+        //         message,
+        //         title
+        //     }
+        // });
+
+        // const modalRef = this.modalService.open(JbCommonDialogComponent);
+        // // inject options into AvatarImageAddComponent
+        // modalRef.componentInstance.commonDialogType = commonDialogType;
+        // modalRef.componentInstance.message = message;
+        // modalRef.componentInstance.title = title;
+        // return modalRef.result
+        //     .then(null, err => {
+        //         if ([ModalDismissReasons.BACKDROP_CLICK, ModalDismissReasons.ESC].indexOf(err) > -1) {
+        //             return CommonDialogResult.CANCEL;
+        //         }
+        //         throw err;
+        //     });
+        // return Promise.resolve(null);
     }
 
     constructor(
-        private modalService: NgbModal
+        private modalService: BsModalService,
+        private modalPromisifier: JbNgxModalPromisifierService
     ) {
     }
 }

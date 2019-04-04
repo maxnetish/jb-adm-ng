@@ -15,30 +15,31 @@ export class SearchFormComponent implements OnInit {
     searchForm = new FormGroup(
         {
             q: new FormControl('', [Validators.maxLength(64)]),
-            'from': new FormControl(null),
-            to: new FormControl(null)
+            between: new FormControl(null),
         }
     );
 
-    onSearchSubmit(formValue) {
-        const matrixParams = {};
-        for (const key in formValue) {
-            if (formValue.hasOwnProperty(key) && formValue[key] && formValue[key].length !== 0) {
-                matrixParams[key] = formValue[key];
-            }
-        }
-        this.router.navigate(['/posts', matrixParams]);
+    onSearchSubmit({q, between}: { q?: string, between?: Date[] } = {}) {
+        const queryParams: { [param: string]: string | Array<string> } = {
+            q: q || undefined,
+            between: (between && between.length) ? between.map(d => d.toISOString()) : undefined
+        };
+
+        this.router.navigate(['/posts'], {
+            queryParamsHandling: 'merge',
+            queryParams
+        });
     }
 
     ngOnInit() {
         const self = this;
-        const {paramMap} = this.route;
-        paramMap.subscribe(paramsAsMap => {
-            paramsAsMap.keys.forEach(key => {
-                if (self.searchForm.controls[key]) {
-                    self.searchForm.controls[key].setValue(paramsAsMap.get(key));
-                }
-            });
+        const {queryParamMap: paramObservable} = this.route;
+        paramObservable.subscribe(paramMap => {
+            const valuesFromUrl = {
+                q: paramMap.has('q') ? paramMap.get('q') : null,
+                between: paramMap.has('between') ? paramMap.getAll('between').map(ds => new Date(ds)) : null
+            };
+            self.searchForm.setValue(valuesFromUrl);
         });
     }
 

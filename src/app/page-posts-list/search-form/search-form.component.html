@@ -15,46 +15,22 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label for="postsSearchFormFrom">Between</label>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="input-group">
-                                <input
-                                    id="postsSearchFormFrom"
-                                    class="form-control"
-                                    placeholder="From"
-                                    name="postsSearchFormFrom"
-                                    formControlName="from"
-                                    ngbDatepicker
-                                    #dfrom="ngbDatepicker"
-                                />
-                                <div class="input-group-append">
-                                    <button
-                                        class="btn btn-outline-primary btn-outline-secondary fa-calendar-alt far"
-                                        (click)="dfrom.toggle()"
-                                        type="button"
-                                    ></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="input-group">
-                                <input
-                                    id="postsSearchFormTo"
-                                    class="form-control"
-                                    placeholder="To"
-                                    name="postsSearchFormTo"
-                                    formControlName="to"
-                                    ngbDatepicker
-                                    #dto="ngbDatepicker"
-                                />
-                                <div class="input-group-append">
-                                    <button
-                                        class="btn btn-outline-primary btn-outline-secondary fa-calendar-alt far"
-                                        (click)="dto.toggle()"
-                                        type="button"
-                                    ></button>
-                                </div>
-                            </div>
+                    <div class="input-group">
+                        <input
+                            type="text"
+                            id="postsSearchFormFrom"
+                            class="form-control"
+                            bsDaterangepicker
+                            formControlName="between"
+                            #datepickerFromRef="bsDaterangepicker"
+                        />
+                        <div class="input-group-append">
+                            <button
+                                type="button"
+                                class="btn btn-outline-secondary fa-calendar-alt far"
+                                (click)="datepickerFromRef.toggle()"
+                                [attr.aria-expanded]="datepickerFromRef.isOpen"
+                            ></button>
                         </div>
                     </div>
                 </div>

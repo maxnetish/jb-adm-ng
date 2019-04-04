@@ -72,20 +72,22 @@ export class SearchResultComponent implements OnInit {
     ];
 
     ngOnInit() {
-        const {paramMap} = this.route;
-        paramMap.pipe(switchMap(paramsAsMap => {
-            const criteria: PostFindCriteria = {
-                q: paramsAsMap.get('q'),
-                from: paramsAsMap.get('from'),
-                to: paramsAsMap.get('to'),
-                statuses: [PostStatus.PUB, PostStatus.DRAFT],
-                page: 1
-            };
-            return this.postServiceInstance.list(criteria);
-        }))
+        const {queryParamMap: queryObservable} = this.route;
+        queryObservable.pipe(switchMap(paramsAsMap => {
+                const between = paramsAsMap.has('between') ? paramsAsMap.getAll('between') : null;
+                const criteria: PostFindCriteria = {
+                    q: paramsAsMap.get('q'),
+                    from: between && between[0],
+                    to: between && between[1],
+                    statuses: [PostStatus.PUB, PostStatus.DRAFT],
+                    page: 1
+                };
+                return this.postServiceInstance.list(criteria);
+            }))
             .subscribe((paginationResponse: PaginationResponse<PostBrief>) => {
                 this.posts = paginationResponse.items.map(postBrief => new PostBriefView(postBrief, {checked: false}));
             }, err => {
+                // FIXME use commonDialog
                 console.warn(err);
             });
     }

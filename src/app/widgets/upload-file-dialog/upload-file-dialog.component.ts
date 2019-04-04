@@ -1,6 +1,6 @@
 import {Component, OnInit, Input, Injectable} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {ModalDismissReasons, NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+// import {ModalDismissReasons, NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {JbFileUploadResponse} from '../../resources/file/jb-file-upload-response';
 import {JbUploadedFileInfo} from '../../resources/file/jb-uploaded-file-info';
 import {JbUploadFileModel} from '../../resources/file/jb-upload-file-model';
@@ -42,7 +42,7 @@ export class UploadFileComponent {
             .toPromise()
             .then(fileUploadResponse => {
                 this.waiting = false;
-                this.activeModal.close(fileUploadResponse.files[this.context][0]);
+                // this.activeModal.close(fileUploadResponse.files[this.context][0]);
             })
             .then(null, err => {
                 this.waiting = false;
@@ -52,7 +52,7 @@ export class UploadFileComponent {
 
     constructor(
         private fb: FormBuilder,
-        private activeModal: NgbActiveModal,
+        // private activeModal: NgbActiveModal,
         private fileStoreService: FileStoreService
     ) {
     }
@@ -66,21 +66,22 @@ export class UploadFileModal {
 
     show({postId = null, context = 'attachment', title = 'Add attachment'}: { postId?: string, context?: string, title?: string } = {})
         : Promise<JbUploadedFileInfo> {
-        const modalRef = this.modalService.open(UploadFileComponent);
-        modalRef.componentInstance.postId = postId;
-        modalRef.componentInstance.context = context;
-        modalRef.componentInstance.title = title;
-        return modalRef.result
-            .then(null, err => {
-                if ([ModalDismissReasons.BACKDROP_CLICK, ModalDismissReasons.ESC].indexOf(err) > -1) {
-                    return false;
-                }
-                throw err;
-            });
+        // const modalRef = this.modalService.open(UploadFileComponent);
+        // modalRef.componentInstance.postId = postId;
+        // modalRef.componentInstance.context = context;
+        // modalRef.componentInstance.title = title;
+        // return modalRef.result
+        //     .then(null, err => {
+        //         if ([ModalDismissReasons.BACKDROP_CLICK, ModalDismissReasons.ESC].indexOf(err) > -1) {
+        //             return false;
+        //         }
+        //         throw err;
+        //     });
+        return Promise.resolve(null);
     }
 
     constructor(
-        private modalService: NgbModal
+        // private modalService: NgbModal
     ) {
     }
 }

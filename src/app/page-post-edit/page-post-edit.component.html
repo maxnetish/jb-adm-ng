@@ -93,7 +93,8 @@
                     Save post before attach file to it.
                 </div>
             </div>
-            <div class="col-sm-10" *ngIf="post._id">
+            <!--*ngIf="post._id"-->
+            <div class="col-sm-10">
                 <div class="mb-2 mt-2">
                     <button type="button" class="btn btn-sm btn-primary" (click)="onFileAttachmentsAddClick($event)">
                         <i class="fas fa-plus"></i>
@@ -159,12 +160,11 @@
             <label class="col-sm-2 col-form-label">Content</label>
             <div class="col-sm-10 mt-2">
                 <div
-                    class="btn-group btn-group-sm mb-2 btn-group-toggle" ngbRadioGroup
+                    class="btn-group btn-group-sm mb-2 btn-group-toggle" btnRadioGroup
                     formControlName="contentPresentationMode" role="radiogroup"
                 >
                     <ng-container *ngFor="let contentPresentationModeOption of ContentPresentationModeOptions">
-                        <label ngbButtonLabel class="btn-success">
-                            <input ngbButton type="radio" [value]="contentPresentationModeOption.code"/>
+                        <label [btnRadio]="contentPresentationModeOption.code" class="btn btn-success">
                             <i [ngClass]="contentPresentationModeOption.icon"></i>
                             {{contentPresentationModeOption.code | contentPresentationModeDisplay}}
                         </label>

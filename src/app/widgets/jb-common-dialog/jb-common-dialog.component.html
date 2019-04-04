@@ -1,6 +1,6 @@
 <div class="modal-header">
     <h4 class="modal-title">{{title}}</h4>
-    <button type="button" class="close" aria-label="Close" (click)="activeModal.close(commonDialogResults.CANCEL)">
+    <button type="button" class="close" aria-label="Close" (click)="dismiss(commonDialogResults.CANCEL)">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
@@ -19,8 +19,7 @@
         *ngIf="commonDialogType===commonDialogTypes.ERROR || commonDialogType===commonDialogTypes.INFO"
         type="button"
         class="btn btn-outline-primary"
-        (click)="activeModal.close(commonDialogResults.OK)"
-        ngbAutofocus
+        (click)="close(commonDialogResults.OK)"
     >
         <i class="fas fa-check"></i>
         OK
@@ -29,7 +28,7 @@
         *ngIf="commonDialogType===commonDialogTypes.CONFIRM"
         type="button"
         class="btn btn-outline-danger"
-        (click)="activeModal.close(commonDialogResults.YES)"
+        (click)="close(commonDialogResults.YES)"
     >
         <i class="fas fa-check"></i>
         Yes
@@ -38,8 +37,7 @@
         *ngIf="commonDialogType===commonDialogTypes.CONFIRM"
         type="button"
         class="btn btn-outline-secondary"
-        (click)="activeModal.close(commonDialogResults.NO)"
-        ngbAutofocus
+        (click)="close(commonDialogResults.NO)"
     >
         No
     </button>
