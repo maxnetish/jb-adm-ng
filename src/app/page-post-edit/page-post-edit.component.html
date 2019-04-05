@@ -158,18 +158,18 @@
         <div class="form-group form-group-compact row">
             <label class="col-sm-2 col-form-label">Content</label>
             <div class="col-sm-10 mt-2">
-                <div
-                    class="btn-group btn-group-sm mb-2 btn-group-toggle" ngbRadioGroup
-                    formControlName="contentPresentationMode" role="radiogroup"
-                >
-                    <ng-container *ngFor="let contentPresentationModeOption of ContentPresentationModeOptions">
-                        <label ngbButtonLabel class="btn-success">
-                            <input ngbButton type="radio" [value]="contentPresentationModeOption.code"/>
-                            <i [ngClass]="contentPresentationModeOption.icon"></i>
-                            {{contentPresentationModeOption.code | contentPresentationModeDisplay}}
-                        </label>
-                    </ng-container>
-                </div>
+                <!--<div-->
+                    <!--class="btn-group btn-group-sm mb-2 btn-group-toggle" ngbRadioGroup-->
+                    <!--formControlName="contentPresentationMode" role="radiogroup"-->
+                <!--&gt;-->
+                    <!--<ng-container *ngFor="let contentPresentationModeOption of ContentPresentationModeOptions">-->
+                        <!--<label ngbButtonLabel class="btn-success">-->
+                            <!--<input ngbButton type="radio" [value]="contentPresentationModeOption.code"/>-->
+                            <!--<i [ngClass]="contentPresentationModeOption.icon"></i>-->
+                            <!--{{contentPresentationModeOption.code | contentPresentationModeDisplay}}-->
+                        <!--</label>-->
+                    <!--</ng-container>-->
+                <!--</div>-->
                 <ng-container [ngSwitch]="PostEditForm.value.contentPresentationMode">
                     <ng-container *ngSwitchCase="ContentPresentationModeValues.EDIT">
                         <jb-adm-ace-editor

@@ -55,6 +55,10 @@ export class PageLoginComponent implements OnInit {
         }
     }
 
+    onSubmitButtonClick(e) {
+        console.log(e);
+    }
+
     ngOnInit() {
         this.authService.user
             .subscribe(user => {

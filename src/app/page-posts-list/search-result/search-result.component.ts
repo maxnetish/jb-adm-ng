@@ -72,8 +72,8 @@ export class SearchResultComponent implements OnInit {
     ];
 
     ngOnInit() {
-        const {paramMap} = this.route;
-        paramMap.pipe(switchMap(paramsAsMap => {
+        const {queryParamMap} = this.route;
+        queryParamMap.pipe(switchMap(paramsAsMap => {
             const criteria: PostFindCriteria = {
                 q: paramsAsMap.get('q'),
                 from: paramsAsMap.get('from'),

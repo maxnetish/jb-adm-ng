@@ -27,6 +27,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
               "node_modules/@ng-select/ng-select/themes/default.theme.css",
               "node_modules/croppie/croppie.css",
               "src/styles.less"

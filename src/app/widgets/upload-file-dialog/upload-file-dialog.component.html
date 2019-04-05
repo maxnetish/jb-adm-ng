@@ -43,7 +43,7 @@
 </div>
 <div class="modal-footer">
     <button
-        type="button" class="btn btn-outline-primary" (click)="onSubmit(FileEditForm.value)" ngbAutofocus
+        type="button" class="btn btn-outline-primary" (click)="onSubmit(FileEditForm.value)"
         [disabled]="waiting || FileEditForm.invalid"
     >
         <i class="fas" [ngClass]="{'fa-spin fa-sync': waiting, 'fa-upload': !waiting}"></i>

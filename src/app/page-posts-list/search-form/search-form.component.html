@@ -1,76 +1,93 @@
-<div class="border border-primary rounded p-2 mt-2">
+<div class="search-form">
     <form [formGroup]="searchForm" (ngSubmit)="onSearchSubmit(searchForm.value)">
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <label for="postsSearchFormText">Text</label>
+        <div class="form-row">
+            <div class="form-control">
+                <mat-form-field class="jb-full-width">
                     <input
-                        id="postsSearchFormText"
+                        matInput
                         type="text"
                         formControlName="q"
                         class="form-control"
+                        placeholder="Text"
                     />
-                </div>
+                    <button
+                        type="button"
+                        mat-button
+                        *ngIf="searchForm.value.q"
+                        matSuffix
+                        mat-icon-button
+                        aria-label="Clear"
+                        (click)="searchForm.patchValue({q: null})"
+                    >
+                        <i class="fas fa-times"></i>
+                    </button>
+                </mat-form-field>
             </div>
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <label for="postsSearchFormFrom">Between</label>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="input-group">
-                                <input
-                                    id="postsSearchFormFrom"
-                                    class="form-control"
-                                    placeholder="From"
-                                    name="postsSearchFormFrom"
-                                    formControlName="from"
-                                    ngbDatepicker
-                                    #dfrom="ngbDatepicker"
-                                />
-                                <div class="input-group-append">
-                                    <button
-                                        class="btn btn-outline-primary btn-outline-secondary fa-calendar-alt far"
-                                        (click)="dfrom.toggle()"
-                                        type="button"
-                                    ></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="input-group">
-                                <input
-                                    id="postsSearchFormTo"
-                                    class="form-control"
-                                    placeholder="To"
-                                    name="postsSearchFormTo"
-                                    formControlName="to"
-                                    ngbDatepicker
-                                    #dto="ngbDatepicker"
-                                />
-                                <div class="input-group-append">
-                                    <button
-                                        class="btn btn-outline-primary btn-outline-secondary fa-calendar-alt far"
-                                        (click)="dto.toggle()"
-                                        type="button"
-                                    ></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="form-control">
+                <mat-form-field class="jb-full-width">
+                    <input matInput type="text" [matDatepicker]="pickerFrom" placeholder="From" formControlName="from"/>
+                    <button
+                        type="button"
+                        mat-button
+                        *ngIf="searchForm.value.from"
+                        matSuffix
+                        mat-icon-button
+                        aria-label="Clear"
+                        (click)="searchForm.patchValue({from: null})"
+                    >
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <button
+                        type="button"
+                        mat-button
+                        matSuffix
+                        mat-icon-button
+                        aria-label="Choose"
+                        (click)="pickerFrom.open()"
+                    >
+                        <i class="far fa-calendar-alt"></i>
+                    </button>
+                    <mat-datepicker #pickerFrom></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="form-control">
+                <mat-form-field class="jb-full-width">
+                    <input matInput type="text" [matDatepicker]="pickerTo" placeholder="To" formControlName="to"/>
+                    <button
+                        type="button"
+                        mat-button
+                        *ngIf="searchForm.value.to"
+                        matSuffix
+                        mat-icon-button
+                        aria-label="Clear"
+                        (click)="searchForm.patchValue({to: null})"
+                    >
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <button
+                        type="button"
+                        mat-button
+                        matSuffix
+                        mat-icon-button
+                        aria-label="Choose"
+                        (click)="pickerTo.open()"
+                    >
+                        <i class="far fa-calendar-alt"></i>
+                    </button>
+                    <mat-datepicker #pickerTo></mat-datepicker>
+                </mat-form-field>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <button
-                    type="submit"
-                    [disabled]="!searchForm.valid"
-                    class="btn btn-outline-primary"
-                >
-                    <i class="fas fa-search"></i>
-                    Search
-                </button>
-            </div>
+        <div>
+            <button
+                type="submit"
+                mat-raised-button
+                color="primary"
+                [disabled]="!searchForm.valid"
+            >
+                <i class="fas fa-search"></i>
+                Search
+            </button>
         </div>
     </form>
 </div>

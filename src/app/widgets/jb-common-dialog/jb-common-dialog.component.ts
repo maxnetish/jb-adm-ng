@@ -1,5 +1,5 @@
 import {Component, Injectable, Input, OnInit} from '@angular/core';
-import {ModalDismissReasons, NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+// import {ModalDismissReasons, NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AvatarImageAddComponent} from '../avatar-image-add/avatar-image-add.component';
 
 export enum CommonDialogType {
@@ -35,7 +35,7 @@ export class JbCommonDialogComponent {
     commonDialogResults = CommonDialogResult;
 
     constructor(
-        private activeModal: NgbActiveModal
+        // private activeModal: NgbActiveModal
     ) {
     }
 }
@@ -47,22 +47,23 @@ export class CommonDialogModal {
 
     show({commonDialogType, message, title}: { commonDialogType: CommonDialogType, message: string, title: string })
         : Promise<CommonDialogResult> {
-        const modalRef = this.modalService.open(JbCommonDialogComponent);
-        // inject options into AvatarImageAddComponent
-        modalRef.componentInstance.commonDialogType = commonDialogType;
-        modalRef.componentInstance.message = message;
-        modalRef.componentInstance.title = title;
-        return modalRef.result
-            .then(null, err => {
-                if ([ModalDismissReasons.BACKDROP_CLICK, ModalDismissReasons.ESC].indexOf(err) > -1) {
-                    return CommonDialogResult.CANCEL;
-                }
-                throw err;
-            });
+        // const modalRef = this.modalService.open(JbCommonDialogComponent);
+        // // inject options into AvatarImageAddComponent
+        // modalRef.componentInstance.commonDialogType = commonDialogType;
+        // modalRef.componentInstance.message = message;
+        // modalRef.componentInstance.title = title;
+        // return modalRef.result
+        //     .then(null, err => {
+        //         if ([ModalDismissReasons.BACKDROP_CLICK, ModalDismissReasons.ESC].indexOf(err) > -1) {
+        //             return CommonDialogResult.CANCEL;
+        //         }
+        //         throw err;
+        //     });
+        return Promise.resolve(null);
     }
 
     constructor(
-        private modalService: NgbModal
+        // private modalService: NgbModal
     ) {
     }
 }

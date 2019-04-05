@@ -21,24 +21,27 @@ export class SearchFormComponent implements OnInit {
     );
 
     onSearchSubmit(formValue) {
-        const matrixParams = {};
-        for (const key in formValue) {
-            if (formValue.hasOwnProperty(key) && formValue[key] && formValue[key].length !== 0) {
-                matrixParams[key] = formValue[key];
-            }
-        }
-        this.router.navigate(['/posts', matrixParams]);
+        const queryParams = {
+            q: formValue.q || undefined,
+            from: formValue.from ? formValue.from.toISOString() : undefined,
+            to: formValue.to ? formValue.to.toISOString() : undefined
+        };
+        this.router.navigate(['/posts'], {
+            queryParams,
+            queryParamsHandling: 'merge'
+        });
     }
 
     ngOnInit() {
         const self = this;
-        const {paramMap} = this.route;
-        paramMap.subscribe(paramsAsMap => {
-            paramsAsMap.keys.forEach(key => {
-                if (self.searchForm.controls[key]) {
-                    self.searchForm.controls[key].setValue(paramsAsMap.get(key));
-                }
-            });
+        const {queryParamMap} = this.route;
+        queryParamMap.subscribe(paramsAsMap => {
+            const newParams = {
+                q: paramsAsMap.has('q') ? paramsAsMap.get('q') : null,
+                from: paramsAsMap.has('from') ? new Date(paramsAsMap.get('from')) : null,
+                ti: paramsAsMap.has('to') ? new Date(paramsAsMap.get('to')) : null
+            };
+            self.searchForm.patchValue(newParams);
         });
     }
 

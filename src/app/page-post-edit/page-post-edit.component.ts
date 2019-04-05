@@ -8,7 +8,7 @@ import {ContentPresentationMode} from './content-presentation-mode.enum';
 import {UploadFileModal} from '../widgets/upload-file-dialog/upload-file-dialog.component';
 import {FileStoreService} from '../resources/file/file-store.service';
 import {CommonDialogModal, CommonDialogResult, CommonDialogType} from '../widgets/jb-common-dialog/jb-common-dialog.component';
-import {ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+// import {ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'jb-adm-page-post-edit',

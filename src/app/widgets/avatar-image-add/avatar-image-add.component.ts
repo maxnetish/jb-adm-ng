@@ -1,5 +1,5 @@
 import {Component, Injectable, Input} from '@angular/core';
-import {ModalDismissReasons, NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+// import {ModalDismissReasons, NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {CropData, CroppieOptions} from 'croppie';
 import * as Croppie from 'croppie';
 import {AbstractControl, FormBuilder, ValidatorFn} from '@angular/forms';
@@ -61,7 +61,7 @@ export class AvatarImageAddComponent {
             })
             .then(result => {
                 this.waiting = false;
-                this.activeModal.close(result.files[fsContext][0]);
+                // this.activeModal.close(result.files[fsContext][0]);
             })
             .then(null, err => {
                 this.waiting = false;
@@ -70,7 +70,7 @@ export class AvatarImageAddComponent {
     }
 
     constructor(
-        private activeModal: NgbActiveModal,
+        // private activeModal: NgbActiveModal,
         private fb: FormBuilder,
         private fileStoreService: FileStoreService
     ) {
@@ -85,18 +85,21 @@ export class AvatarImageAddModal {
      * To show AvatarImageAddComponent as modal
      */
     show({croppieOptions = null}: { croppieOptions?: CroppieOptions } = {}): Promise<JbUploadedFileInfo> {
-        const modalRef = this.modalService.open(AvatarImageAddComponent);
-        // inject options into AvatarImageAddComponent
-        modalRef.componentInstance.croppieOptions = croppieOptions;
-        return modalRef.result
-            .then(null, err => {
-                if ([ModalDismissReasons.BACKDROP_CLICK, ModalDismissReasons.ESC].indexOf(err) > -1) {
-                    return false;
-                }
-                throw err;
-            });
+        // const modalRef = this.modalService.open(AvatarImageAddComponent);
+        // // inject options into AvatarImageAddComponent
+        // modalRef.componentInstance.croppieOptions = croppieOptions;
+        // return modalRef.result
+        //     .then(null, err => {
+        //         if ([ModalDismissReasons.BACKDROP_CLICK, ModalDismissReasons.ESC].indexOf(err) > -1) {
+        //             return false;
+        //         }
+        //         throw err;
+        //     });
+        return Promise.resolve(null);
     }
 
-    constructor(private modalService: NgbModal) {
+    constructor(
+        // private modalService: NgbModal
+    ) {
     }
 }

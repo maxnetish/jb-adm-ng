@@ -15,7 +15,7 @@
     </form>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-outline-primary" (click)="onSubmit(AvatarEditForm.value, cropperRef.croppie)" ngbAutofocus [disabled]="waiting || AvatarEditForm.invalid">
+    <button type="button" class="btn btn-outline-primary" (click)="onSubmit(AvatarEditForm.value, cropperRef.croppie)" [disabled]="waiting || AvatarEditForm.invalid">
         <i class="fas" [ngClass]="{'fa-spin fa-sync': waiting, 'fa-file-upload': !waiting}"></i>
         Save
     </button>
