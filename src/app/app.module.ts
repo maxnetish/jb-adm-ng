@@ -10,6 +10,8 @@ import {MatCardModule} from '@angular/material/card';
 import {MatInputModule} from '@angular/material/input';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatSelectModule} from '@angular/material/select';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -36,6 +38,7 @@ import {UploadFileComponent} from './widgets/upload-file-dialog/upload-file-dial
 import {JbFileInputDirective} from './widgets/jb-file-input.directive';
 import {ContentTypeToIconPipe} from './utils/content-type-to-icon.pipe';
 import {JbCommonDialogComponent} from './widgets/jb-common-dialog/jb-common-dialog.component';
+import { JbMaterialStaticFormFieldComponent } from './widgets/jb-material-static-form-field/jb-material-static-form-field.component';
 
 @NgModule({
     declarations: [
@@ -63,6 +66,7 @@ import {JbCommonDialogComponent} from './widgets/jb-common-dialog/jb-common-dial
         JbFileInputDirective,
         ContentTypeToIconPipe,
         JbCommonDialogComponent,
+        JbMaterialStaticFormFieldComponent,
     ],
     imports: [
         BrowserModule,
@@ -80,6 +84,8 @@ import {JbCommonDialogComponent} from './widgets/jb-common-dialog/jb-common-dial
         MatInputModule,
         MatDatepickerModule,
         MatNativeDateModule,
+        MatRadioModule,
+        MatSelectModule,
     ],
     providers: [
         /**

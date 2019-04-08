@@ -10,8 +10,8 @@ export class PostStatusBadgeComponent implements OnInit {
     @Input() status: PostStatus;
 
     classMap: { [param: string]: string } = {
-        [PostStatus.PUB]: 'badge badge-danger',
-        [PostStatus.DRAFT]: 'badge badge-primary'
+        [PostStatus.PUB]: 'status status-pub',
+        [PostStatus.DRAFT]: 'status status-draft'
     };
 
     constructor() {
