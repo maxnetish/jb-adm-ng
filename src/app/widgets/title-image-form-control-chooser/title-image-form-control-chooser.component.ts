@@ -2,7 +2,6 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    forwardRef,
     HostBinding,
     OnDestroy,
     OnInit,
@@ -12,7 +11,7 @@ import {
 import {JbFileInfo} from '../../resources/file/jb-file-info';
 import {AvatarImageAddModal} from '../avatar-image-add/avatar-image-add.component';
 import {FileStoreService} from '../../resources/file/file-store.service';
-import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, NgControl} from '@angular/forms';
+import {ControlValueAccessor, FormControl, NgControl} from '@angular/forms';
 import {MatFormFieldControl} from '@angular/material';
 import {Observable, Subject} from 'rxjs';
 

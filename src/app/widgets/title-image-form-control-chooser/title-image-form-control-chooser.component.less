@@ -1,5 +1,48 @@
+
+.chooser-ct {
+    display: flex;
+    align-items: baseline;
+
+    &.image-selected {
+        align-items: end;
+    }
+}
+
+.selected-image-card, .no-selected-image {
+    width: 50%;
+}
+
+.no-selected-image {
+    text-align: center;
+}
+
+.selected-image-card {
+    display: flex;
+}
+
+.select-image-elm {
+    width: 50%;
+}
+
+.selected-image-card__meta {
+    margin: 0 0.5rem;
+}
+
+.selected-image-card__image {
+    width: 100px;
+    height: 100px;
+}
+
+.select-item {
+    padding: 0.15rem 0;
+    // overrides ng-select style
+    white-space: normal;
+}
+
 .title-image-in-list {
     width: 50px;
+    height: 50px;
+    margin: 0 0.5rem 0 0;
 }
 
 .visible-if-mouse-in-control {

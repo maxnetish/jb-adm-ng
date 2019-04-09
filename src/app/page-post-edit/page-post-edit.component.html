@@ -93,117 +93,124 @@
                 <mat-label>Title image</mat-label>
                 <jb-adm-title-image-form-chooser formControlName="titleImg"></jb-adm-title-image-form-chooser>
             </mat-form-field>
-            <!--<label class="col-sm-2 col-form-label">Title image</label>-->
-            <!--<div class="col-sm-10">-->
-                <!--<jb-adm-title-image-form-chooser formControlName="titleImg"></jb-adm-title-image-form-chooser>-->
-            <!--</div>-->
         </div>
-        <div class="form-group form-group-compact row">
-            <label class="col-sm-2 col-form-label">Tags</label>
-            <div class="col-sm-10">
-                <jb-adm-tags-form-control formControlName="tags"></jb-adm-tags-form-control>
-            </div>
+        <div class="form-row">
+            <jb-adm-tags-form-control formControlName="tags"></jb-adm-tags-form-control>
         </div>
-        <div class="form-group form-group-compact row">
-            <label class="col-sm-2 col-form-label">Attached files</label>
-            <div class="col-sm-10" *ngIf="!post._id">
-                <div class="text-secondary form-control-plaintext">
-                    Save post before attach file to it.
-                </div>
-            </div>
-            <div class="col-sm-10" *ngIf="post._id">
-                <div class="mb-2 mt-2">
-                    <button type="button" class="btn btn-sm btn-primary" (click)="onFileAttachmentsAddClick($event)">
-                        <i class="fas fa-plus"></i>
-                        Add attachment
-                    </button>
-                </div>
-                <div
-                    *ngFor="let fileInfo of post.attachments; index as ind"
-                    class="border border-info rounded mb-2 p-2"
-                >
-                    <div class="d-flex">
-                        <div class="text-info mr-2">
-                            <i [ngClass]="fileInfo.contentType | contentTypeToIcon"></i>
-                        </div>
-                        <div class="flex-fill">
-                            <div>
-                                <a [href]="fileInfo.url | prependBackendHost">
-                                    {{fileInfo.metadata.originalName}}
-                                </a>
-                            </div>
-                            <div class="text-secondary small">{{fileInfo.metadata.description}}</div>
-                            <div class="text-secondary small">{{fileInfo.contentType}}</div>
-                            <div class="text-secondary small">{{fileInfo.length}} bytes</div>
-                        </div>
-                        <div>
-                            <button
-                                type="button"
-                                (click)="onRemoveAttachmentButtonClick(ind)"
-                                class="btn btn-sm btn-outline-danger"
-                                title="Remove attachment forever"
-                            >
-                                <i class="fas fa-minus-square"></i>
-                            </button>
+        <div class="form-row">
+            <mat-form-field class="form-control">
+                <mat-label>Attached files</mat-label>
+                <jb-adm-material-static-form-field>
+                    <div class="mat-body text-muted" *ngIf="!post._id">
+                        <div class="form-value-static">
+                            Save post before attach file to it.
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="form-group form-group-compact row">
-            <label class="col-sm-2 col-form-label">Post content type</label>
-            <div class="col-sm-10 mt-2">
-                <span *ngFor="let postContentTypeOption of PostContentTypeOptions" class="form-check-inline">
-                    <input
-                        class="form-check-input" type="radio" [id]="postContentTypeOption + 'Option'"
-                        [value]="postContentTypeOption" formControlName="contentType"
-                    >
-                    <label class="form-check-label" [for]="postContentTypeOption + 'Option'">
-                        {{postContentTypeOption | postContentTypeDisplay}}
-                    </label>
-                </span>
-            </div>
-        </div>
-        <div class="form-group form-group-compact row">
-            <label class="col-sm-2 col-form-label">Preview</label>
-            <div class="col-sm-10">
-                <jb-adm-ace-editor
-                    class="ace-editor-brief-container form-control pt-1 pb-1 pl-0 pr-0"
-                    formControlName="brief" [mode]="PostEditForm.value.contentType"
-                ></jb-adm-ace-editor>
-            </div>
-        </div>
-        <div class="form-group form-group-compact row">
-            <label class="col-sm-2 col-form-label">Content</label>
-            <div class="col-sm-10 mt-2">
-                <!--<div-->
-                <!--class="btn-group btn-group-sm mb-2 btn-group-toggle" ngbRadioGroup-->
-                <!--formControlName="contentPresentationMode" role="radiogroup"-->
-                <!--&gt;-->
-                <!--<ng-container *ngFor="let contentPresentationModeOption of ContentPresentationModeOptions">-->
-                <!--<label ngbButtonLabel class="btn-success">-->
-                <!--<input ngbButton type="radio" [value]="contentPresentationModeOption.code"/>-->
-                <!--<i [ngClass]="contentPresentationModeOption.icon"></i>-->
-                <!--{{contentPresentationModeOption.code | contentPresentationModeDisplay}}-->
-                <!--</label>-->
-                <!--</ng-container>-->
-                <!--</div>-->
-                <ng-container [ngSwitch]="PostEditForm.value.contentPresentationMode">
-                    <ng-container *ngSwitchCase="ContentPresentationModeValues.EDIT">
-                        <jb-adm-ace-editor
-                            class="ace-editor-content-container form-control pt-1 pb-1 pl-0 pr-0"
-                            formControlName="content"
-                            [mode]="PostEditForm.value.contentType"
-                        ></jb-adm-ace-editor>
-                    </ng-container>
-                    <ng-container *ngSwitchCase="ContentPresentationModeValues.PREVIEW">
+                    <div class="" *ngIf="post._id">
+                        <!--<div class="">-->
+                        <div class="">
+                            <button
+                                type="button"
+                                mat-stroked-button
+                                color="primary"
+                                class=""
+                                (click)="onFileAttachmentsAddClick($event)"
+                            >
+                                <i class="fas fa-plus"></i>
+                                Add attachment
+                            </button>
+                        </div>
                         <div
-                            class="content-preview border border-secondary"
-                            [innerHTML]="PostEditForm.value.content | postContentPreview : PostEditForm.value.contentType.value"
-                        ></div>
+                            *ngFor="let fileInfo of post.attachments; index as ind"
+                            class="border border-info rounded mb-2 p-2"
+                        >
+                            <div class="d-flex">
+                                <div class="">
+                                    <i [ngClass]="fileInfo.contentType | contentTypeToIcon"></i>
+                                </div>
+                                <div class="flex-fill">
+                                    <div>
+                                        <a [href]="fileInfo.url | prependBackendHost">
+                                            {{fileInfo.metadata.originalName}}
+                                        </a>
+                                    </div>
+                                    <div class="text-secondary small">{{fileInfo.metadata.description}}</div>
+                                    <div class="text-secondary small">{{fileInfo.contentType}}</div>
+                                    <div class="text-secondary small">{{fileInfo.length}} bytes</div>
+                                </div>
+                                <div>
+                                    <button
+                                        type="button"
+                                        (click)="onRemoveAttachmentButtonClick(ind)"
+                                        class="btn btn-sm btn-outline-danger"
+                                        title="Remove attachment forever"
+                                    >
+                                        <i class="fas fa-minus-square"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </jb-adm-material-static-form-field>
+            </mat-form-field>
+        </div>
+        <div class="form-row">
+            <mat-form-field class="form-control">
+                <mat-label>Post content type</mat-label>
+                <jb-adm-material-static-form-field [disabled]="false">
+                    <mat-radio-group class="jb-mat-radio-group mat-body" formControlName="contentType">
+                        <mat-radio-button
+                            *ngFor="let postContentTypeOption of PostContentTypeOptions" class="jb-mat-radio-control"
+                            [value]="postContentTypeOption"
+                        >
+                            {{postContentTypeOption | postContentTypeDisplay}}
+                        </mat-radio-button>
+                    </mat-radio-group>
+                </jb-adm-material-static-form-field>
+            </mat-form-field>
+        </div>
+        <div class="form-row">
+            <mat-form-field class="form-control mat-form-field__hide-underline">
+                <mat-label>Post brief</mat-label>
+                <jb-adm-material-static-form-field>
+                    <jb-adm-ace-editor
+                        class="ace-editor-brief-container form-control pt-1 pb-1 pl-0 pr-0"
+                        formControlName="brief" [mode]="PostEditForm.value.contentType"
+                    ></jb-adm-ace-editor>
+                </jb-adm-material-static-form-field>
+            </mat-form-field>
+        </div>
+        <div class="form-row">
+            <mat-form-field class="form-control mat-form-field__hide-underline">
+                <mat-label>Post content</mat-label>
+                <jb-adm-material-static-form-field>
+                    <mat-button-toggle-group formControlName="contentPresentationMode" class="jb-mb-05">
+                        <mat-button-toggle
+                            *ngFor="let contentPresentationModeOption of ContentPresentationModeOptions"
+                            [value]="contentPresentationModeOption.code"
+                            class="mat-caption"
+                        >
+                            <i [ngClass]="contentPresentationModeOption.icon"></i>
+                            {{contentPresentationModeOption.code | contentPresentationModeDisplay}}
+                        </mat-button-toggle>
+                    </mat-button-toggle-group>
+                    <ng-container [ngSwitch]="PostEditForm.value.contentPresentationMode">
+                        <ng-container *ngSwitchCase="ContentPresentationModeValues.EDIT">
+                            <jb-adm-ace-editor
+                                class="ace-editor-content-container form-control pt-1 pb-1 pl-0 pr-0"
+                                formControlName="content"
+                                [mode]="PostEditForm.value.contentType"
+                            ></jb-adm-ace-editor>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="ContentPresentationModeValues.PREVIEW">
+                            <div
+                                class="content-preview border border-secondary"
+                                [innerHTML]="PostEditForm.value.content | postContentPreview : PostEditForm.value.contentType.value"
+                            ></div>
+                        </ng-container>
                     </ng-container>
-                </ng-container>
-            </div>
+                </jb-adm-material-static-form-field>
+            </mat-form-field>
         </div>
     </form>
     <div>

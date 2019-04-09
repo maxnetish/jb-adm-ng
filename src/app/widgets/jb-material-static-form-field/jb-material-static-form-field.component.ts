@@ -1,4 +1,4 @@
-import {Component, HostBinding, OnDestroy, OnInit} from '@angular/core';
+import {Component, HostBinding, Input, OnDestroy, OnInit} from '@angular/core';
 import {MatFormFieldControl} from '@angular/material';
 import {NgControl} from '@angular/forms';
 import {Observable, Subject} from 'rxjs';
@@ -23,7 +23,9 @@ export class JbMaterialStaticFormFieldComponent implements MatFormFieldControl<a
 
     readonly autofilled: boolean = false;
     readonly controlType: string = 'jb-field-static';
-    readonly disabled: boolean = true;
+
+    @Input()
+    disabled = true;
 
     get empty() {
         return !!this.value;

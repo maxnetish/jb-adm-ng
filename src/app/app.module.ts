@@ -12,6 +12,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatSelectModule} from '@angular/material/select';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -86,6 +87,7 @@ import { JbMaterialStaticFormFieldComponent } from './widgets/jb-material-static
         MatNativeDateModule,
         MatRadioModule,
         MatSelectModule,
+        MatButtonToggleModule,
     ],
     providers: [
         /**
