@@ -1,14 +1,16 @@
-import {Component, OnInit, Input, Injectable} from '@angular/core';
+import {Component, OnInit, Input, Injectable, ViewContainerRef, Inject} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-// import {ModalDismissReasons, NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {JbFileUploadResponse} from '../../resources/file/jb-file-upload-response';
 import {JbUploadedFileInfo} from '../../resources/file/jb-uploaded-file-info';
 import {JbUploadFileModel} from '../../resources/file/jb-upload-file-model';
 import {FileStoreService} from '../../resources/file/file-store.service';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
+import {UploadFileDialogParameters} from './upload-file-dialog-parameters';
+import {UploadFileComponentParameters} from './upload-file-component-parameters';
 
 @Component({
     selector: 'jb-adm-upload-file-component',
-    templateUrl: './upload-file-dialog.component.html'
+    templateUrl: './upload-file-dialog.component.html',
+    styleUrls: ['./upload-file-dialog.component.less']
 })
 export class UploadFileComponent {
 
@@ -42,7 +44,7 @@ export class UploadFileComponent {
             .toPromise()
             .then(fileUploadResponse => {
                 this.waiting = false;
-                // this.activeModal.close(fileUploadResponse.files[this.context][0]);
+                this.modalRef.close(fileUploadResponse.files[this.context][0]);
             })
             .then(null, err => {
                 this.waiting = false;
@@ -52,9 +54,13 @@ export class UploadFileComponent {
 
     constructor(
         private fb: FormBuilder,
-        // private activeModal: NgbActiveModal,
-        private fileStoreService: FileStoreService
+        private fileStoreService: FileStoreService,
+        private modalRef: MatDialogRef<UploadFileComponent>,
+        @Inject(MAT_DIALOG_DATA) private passedData: UploadFileComponentParameters
     ) {
+        this.postId = this.passedData.postId;
+        this.context = this.passedData.context;
+        this.title = this.passedData.title;
     }
 }
 
@@ -64,24 +70,33 @@ export class UploadFileComponent {
 })
 export class UploadFileModal {
 
-    show({postId = null, context = 'attachment', title = 'Add attachment'}: { postId?: string, context?: string, title?: string } = {})
+    show(
+        {
+            postId = null,
+            context = 'attachment',
+            title = 'Add attachment',
+            viewContainerRef = null
+        }: UploadFileDialogParameters = {}
+    )
         : Promise<JbUploadedFileInfo> {
-        // const modalRef = this.modalService.open(UploadFileComponent);
-        // modalRef.componentInstance.postId = postId;
-        // modalRef.componentInstance.context = context;
-        // modalRef.componentInstance.title = title;
-        // return modalRef.result
-        //     .then(null, err => {
-        //         if ([ModalDismissReasons.BACKDROP_CLICK, ModalDismissReasons.ESC].indexOf(err) > -1) {
-        //             return false;
-        //         }
-        //         throw err;
-        //     });
-        return Promise.resolve(null);
+
+        const modalConfig: MatDialogConfig<UploadFileComponentParameters> = {
+            viewContainerRef,
+            data: {
+                postId,
+                context,
+                title
+            }
+        };
+        const modalRef = this.matDialog.open<UploadFileComponent, UploadFileComponentParameters, JbUploadedFileInfo>(
+            UploadFileComponent,
+            modalConfig
+        );
+        return modalRef.afterClosed().toPromise();
     }
 
     constructor(
-        // private modalService: NgbModal
+        private matDialog: MatDialog
     ) {
     }
 }

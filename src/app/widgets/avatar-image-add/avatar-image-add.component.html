@@ -1,21 +1,41 @@
-<div class="modal-header">
-    <h4 class="modal-title">Add image</h4>
-    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
-<div class="modal-body">
+<h1 mat-dialog-title>Add image</h1>
+<div mat-dialog-content>
     <form [formGroup]="AvatarEditForm">
-        <jb-adm-jb-cropper [croppieOptions]="croppieOptions"
-                           formControlName="cropper"
-                           class="border rounded d-block mb-2 p-2"
-                           [ngClass]="{'border-danger': AvatarEditForm.controls.cropper.invalid}"
-                           #cropperRef></jb-adm-jb-cropper>
-        <input class="form-control" type="text" formControlName="description" placeholder="Short description"/>
+        <jb-adm-jb-cropper
+            [croppieOptions]="croppieOptions"
+            formControlName="cropper"
+            class="border rounded d-block mb-2 p-2"
+            [ngClass]="{'border-danger': AvatarEditForm.controls.cropper.invalid}"
+            #cropperRef
+        ></jb-adm-jb-cropper>
+        <mat-form-field class="form-field">
+            <input class="" type="text" matInput formControlName="description" placeholder="Short description"/>
+            <button
+                type="button"
+                mat-button
+                *ngIf="AvatarEditForm.value.description"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="AvatarEditForm.patchValue({description: null})"
+            >
+                <i class="fas fa-times"></i>
+            </button>
+        </mat-form-field>
     </form>
 </div>
-<div class="modal-footer">
-    <button type="button" class="btn btn-outline-primary" (click)="onSubmit(AvatarEditForm.value, cropperRef.croppie)" [disabled]="waiting || AvatarEditForm.invalid">
+<div mat-dialog-actions>
+    <button type="button" mat-button (click)="modalRef.close()">
+        <i class="fas fa-times"></i>
+        Cancel
+    </button>
+    <button
+        type="button"
+        mat-raised-button
+        color="primary"
+        (click)="onSubmit(AvatarEditForm.value, cropperRef.croppie)"
+        [disabled]="waiting || AvatarEditForm.invalid"
+    >
         <i class="fas" [ngClass]="{'fa-spin fa-sync': waiting, 'fa-file-upload': !waiting}"></i>
         Save
     </button>

@@ -46,6 +46,7 @@
             [searchFn]="titleImagesSelectSearchFn"
             placeholder="Select image for post title"
             [formControl]="titleImageSelectFormControl"
+            #selectRef
         >
             <ng-template ng-header-tmp>
                 <button
@@ -53,7 +54,7 @@
                     mat-stroked-button
                     color="primary"
                     class=""
-                    (click)="onAddNewTitleImageClick()"
+                    (click)="onAddNewTitleImageClick({selectRef: selectRef})"
                 >
                     <i class="far fa-plus-square mr-1"></i>
                     Add new image

@@ -9,10 +9,11 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import {MatInputModule} from '@angular/material/input';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatNativeDateModule} from '@angular/material';
+import {MAT_DIALOG_DEFAULT_OPTIONS} from '@angular/material/dialog';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatSelectModule} from '@angular/material/select';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatDialogModule} from '@angular/material/dialog';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -40,6 +41,8 @@ import {JbFileInputDirective} from './widgets/jb-file-input.directive';
 import {ContentTypeToIconPipe} from './utils/content-type-to-icon.pipe';
 import {JbCommonDialogComponent} from './widgets/jb-common-dialog/jb-common-dialog.component';
 import { JbMaterialStaticFormFieldComponent } from './widgets/jb-material-static-form-field/jb-material-static-form-field.component';
+import {MatNativeDateModule} from '@angular/material';
+import { PageExampleComponent } from './page-example/page-example.component';
 
 @NgModule({
     declarations: [
@@ -68,6 +71,7 @@ import { JbMaterialStaticFormFieldComponent } from './widgets/jb-material-static
         ContentTypeToIconPipe,
         JbCommonDialogComponent,
         JbMaterialStaticFormFieldComponent,
+        PageExampleComponent,
     ],
     imports: [
         BrowserModule,
@@ -88,8 +92,21 @@ import { JbMaterialStaticFormFieldComponent } from './widgets/jb-material-static
         MatRadioModule,
         MatSelectModule,
         MatButtonToggleModule,
+        MatDialogModule,
     ],
     providers: [
+        {
+            provide: MAT_DIALOG_DEFAULT_OPTIONS,
+            useValue: {
+                autoFocus: true,
+                closeOnNavigation: true,
+                disableClose: false,
+                hasBackdrop: true,
+                restoreFocus: false,
+                role: 'dialog',
+                width: '400px',
+            }
+        }
         /**
          * Provide custom adapter and formatter for date picker
          */

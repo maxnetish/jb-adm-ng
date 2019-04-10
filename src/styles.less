@@ -42,8 +42,19 @@ body {
     }
 }
 
+// to supress 'image breaks' indicator when image not loaded in croppie
+.image-not-choosen {
+    .cr-image {
+        visibility: hidden;
+    }
+}
+
 .jb-flex {
     display: flex;
+}
+
+.jb-flex__item-fill {
+    flex-grow: 1;
 }
 
 .jb-m-0-05 {
@@ -52,4 +63,8 @@ body {
 
 .jb-mb-05 {
     margin-bottom: 0.5rem;
+}
+
+.jb-light-accent-color {
+    color: lightseagreen;
 }

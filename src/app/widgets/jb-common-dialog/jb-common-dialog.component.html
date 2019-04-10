@@ -1,25 +1,23 @@
-<div class="modal-header">
-    <h4 class="modal-title">{{title}}</h4>
-    <button type="button" class="close" aria-label="Close" (click)="activeModal.close(commonDialogResults.CANCEL)">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
-<div class="modal-body">
-    <div class="d-flex">
-        <div [ngSwitch]="commonDialogType" class="mr-2 text-danger" style="font-size: 2rem;">
+<h1 mat-dialog-title>{{title}}</h1>
+
+<div mat-dialog-content>
+    <div class="jb-flex">
+        <div [ngSwitch]="commonDialogType" class="jb-light-accent-color" style="font-size: 2rem;">
             <i *ngSwitchCase="commonDialogTypes.INFO" class="fas fa-info-circle"></i>
             <i *ngSwitchCase="commonDialogTypes.CONFIRM" class="fas fa-check-circle"></i>
             <i *ngSwitchCase="commonDialogTypes.ERROR" class="fas fa-exclamation-circle"></i>
         </div>
-        <div class="flex-fill" [innerHTML]="message"></div>
+        <div class="jb-flex__item-fill jb-m-0-05 mat-body" [innerHTML]="message"></div>
     </div>
 </div>
-<div class="modal-footer">
+
+<div mat-dialog-actions>
     <button
         *ngIf="commonDialogType===commonDialogTypes.ERROR || commonDialogType===commonDialogTypes.INFO"
         type="button"
-        class="btn btn-outline-primary"
-        (click)="activeModal.close(commonDialogResults.OK)"
+        mat-raised-button
+        color="primary"
+        (click)="modalRef.close(commonDialogResults.OK)"
     >
         <i class="fas fa-check"></i>
         OK
@@ -27,8 +25,9 @@
     <button
         *ngIf="commonDialogType===commonDialogTypes.CONFIRM"
         type="button"
-        class="btn btn-outline-danger"
-        (click)="activeModal.close(commonDialogResults.YES)"
+        mat-raised-button
+        color="primary"
+        (click)="modalRef.close(commonDialogResults.YES)"
     >
         <i class="fas fa-check"></i>
         Yes
@@ -36,8 +35,8 @@
     <button
         *ngIf="commonDialogType===commonDialogTypes.CONFIRM"
         type="button"
-        class="btn btn-outline-secondary"
-        (click)="activeModal.close(commonDialogResults.NO)"
+        mat-button
+        (click)="modalRef.close(commonDialogResults.NO)"
     >
         No
     </button>

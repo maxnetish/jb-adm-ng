@@ -1,5 +1,4 @@
-import {Component, Injectable, Input} from '@angular/core';
-// import {ModalDismissReasons, NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {Component, Inject, Injectable, Input, ViewContainerRef} from '@angular/core';
 import {CropData, CroppieOptions} from 'croppie';
 import * as Croppie from 'croppie';
 import {AbstractControl, FormBuilder, ValidatorFn} from '@angular/forms';
@@ -7,6 +6,7 @@ import {FileStoreService} from '../../resources/file/file-store.service';
 import {JbUploadBlobModel} from '../../resources/file/jb-upload-blob-model';
 import {JbFileUploadResponse} from '../../resources/file/jb-file-upload-response';
 import {JbUploadedFileInfo} from '../../resources/file/jb-uploaded-file-info';
+import {DialogPosition, MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
 
 
 @Component({
@@ -30,10 +30,6 @@ export class AvatarImageAddComponent {
             const choosedFileName = control.value && control.value.fileName;
             return choosedFileName ? null : {'fileRequired': {value: control.value}};
         };
-    }
-
-    onCroppieChanged(croppieData: CropData, croppieInstance: Croppie) {
-        console.info(croppieData, croppieInstance);
     }
 
     onSubmit(formValue, croppie: Croppie) {
@@ -61,7 +57,7 @@ export class AvatarImageAddComponent {
             })
             .then(result => {
                 this.waiting = false;
-                // this.activeModal.close(result.files[fsContext][0]);
+                this.modalRef.close(result.files[fsContext][0]);
             })
             .then(null, err => {
                 this.waiting = false;
@@ -70,10 +66,12 @@ export class AvatarImageAddComponent {
     }
 
     constructor(
-        // private activeModal: NgbActiveModal,
+        private modalRef: MatDialogRef<AvatarImageAddComponent>,
         private fb: FormBuilder,
-        private fileStoreService: FileStoreService
+        private fileStoreService: FileStoreService,
+        @Inject(MAT_DIALOG_DATA) private passedData: { croppieOptions?: CroppieOptions }
     ) {
+        this.croppieOptions = this.passedData.croppieOptions;
     }
 }
 
@@ -84,22 +82,26 @@ export class AvatarImageAddModal {
     /**
      * To show AvatarImageAddComponent as modal
      */
-    show({croppieOptions = null}: { croppieOptions?: CroppieOptions } = {}): Promise<JbUploadedFileInfo> {
-        // const modalRef = this.modalService.open(AvatarImageAddComponent);
-        // // inject options into AvatarImageAddComponent
-        // modalRef.componentInstance.croppieOptions = croppieOptions;
-        // return modalRef.result
-        //     .then(null, err => {
-        //         if ([ModalDismissReasons.BACKDROP_CLICK, ModalDismissReasons.ESC].indexOf(err) > -1) {
-        //             return false;
-        //         }
-        //         throw err;
-        //     });
-        return Promise.resolve(null);
+    show(
+        {croppieOptions = null, viewContainerRef = null}: { croppieOptions?: CroppieOptions, viewContainerRef?: ViewContainerRef } = {}
+    ): Promise<JbUploadedFileInfo> {
+
+        const modalConfig: MatDialogConfig = {
+            data: {
+                croppieOptions
+            },
+            viewContainerRef,
+            width: '330px',
+        };
+
+        const modalRef = this.matDialog.open<AvatarImageAddComponent, { cropppieOptions?: CroppieOptions }, JbUploadedFileInfo>(
+            AvatarImageAddComponent, modalConfig
+        );
+        return modalRef.afterClosed().toPromise();
     }
 
     constructor(
-        // private modalService: NgbModal
+        private matDialog: MatDialog
     ) {
     }
 }

@@ -7,7 +7,9 @@ import {FormBuilder, Validators} from '@angular/forms';
 import {ContentPresentationMode} from './content-presentation-mode.enum';
 import {UploadFileModal} from '../widgets/upload-file-dialog/upload-file-dialog.component';
 import {FileStoreService} from '../resources/file/file-store.service';
-import {CommonDialogModal, CommonDialogResult, CommonDialogType} from '../widgets/jb-common-dialog/jb-common-dialog.component';
+import {CommonDialogModal} from '../widgets/jb-common-dialog/jb-common-dialog.component';
+import {CommonDialogType} from '../widgets/jb-common-dialog/common-dialog-type.enum';
+import {CommonDialogResult} from '../widgets/jb-common-dialog/common-dialog-result.enum';
 // import {ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({

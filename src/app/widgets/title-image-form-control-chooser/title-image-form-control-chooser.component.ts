@@ -1,12 +1,12 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component,
+    Component, ComponentRef,
     HostBinding,
     OnDestroy,
     OnInit,
     Optional,
-    Self
+    Self, ViewContainerRef
 } from '@angular/core';
 import {JbFileInfo} from '../../resources/file/jb-file-info';
 import {AvatarImageAddModal} from '../avatar-image-add/avatar-image-add.component';
@@ -76,13 +76,21 @@ export class TitleImageFormControlChooserComponent implements OnInit, ControlVal
         this.writeValue(val);
     }
 
-    onAddNewTitleImageClick() {
+    onAddNewTitleImageClick({selectRef = null} = {}) {
+        if (selectRef) {
+            selectRef.close();
+        }
         this.avatarImageAddModal.show({
             croppieOptions: {
                 viewport: {width: 100, height: 100, type: 'square'},
                 boundary: {width: 200, height: 200}
-            }
+            },
+            viewContainerRef: this.viewContainerRef
         }).then(result => {
+            if (!result) {
+                // if esc or backdrop click
+                return;
+            }
             const jbFileInfo = this.fileStoreService.jbUploadedFileInfo2JbFileFindInfo(result);
             this.titleImages.unshift(jbFileInfo);
             this.titleImages = this.titleImages.slice();
@@ -186,7 +194,8 @@ export class TitleImageFormControlChooserComponent implements OnInit, ControlVal
         private avatarImageAddModal: AvatarImageAddModal,
         private fileStoreService: FileStoreService,
         private cdr: ChangeDetectorRef,
-        @Optional() @Self() public ngControl: NgControl
+        @Optional() @Self() public ngControl: NgControl,
+        private viewContainerRef: ViewContainerRef
     ) {
         // Replace the provider from above with this.
         if (this.ngControl != null) {

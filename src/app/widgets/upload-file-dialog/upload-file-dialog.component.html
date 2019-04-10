@@ -1,49 +1,49 @@
-<div class="modal-header">
-    <h4 class="modal-title">{{title}}</h4>
-    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
-<div class="modal-body">
-    <div class="row mb-2" *ngIf="!(FileEditForm.value.files && FileEditForm.value.files.length)">
-        <div class="col">
-            <button type="button" class="btn btn-primary" (click)="fileInputRef.click()">
-                <i class="fas fa-file-upload"></i>
-                Choose file
-            </button>
-        </div>
+<h1 mat-dialog-title>{{title}}</h1>
+
+<div mat-dialog-content>
+    <div *ngIf="!(FileEditForm.value.files && FileEditForm.value.files.length)">
+        <button type="button" mat-stroked-button color="primary" (click)="fileInputRef.click()">
+            <i class="fas fa-file-upload"></i>
+            Choose file
+        </button>
     </div>
-    <div class="row mb-2" *ngIf="FileEditForm.value.files && FileEditForm.value.files.length">
-        <div class="col">
-            <div class="d-flex">
-                <div class="text-info mr-2">
-                    <i [ngClass]="FileEditForm.value.files[0].type | contentTypeToIcon"></i>
-                </div>
-                <div class="pr-2 flex-fill">
-                    <div>{{FileEditForm.value.files[0].name}}</div>
-                    <div class="text-secondary small">{{FileEditForm.value.files[0].size}} bytes</div>
-                </div>
-                <div>
-                    <button
-                        type="button"
-                        (click)="FileEditForm.patchValue({files: null})"
-                        class="btn btn-sm btn-outline-secondary"
-                        title="Cancel and choose another file"
-                    >
-                        <i class="fas fa-minus-square"></i>
-                    </button>
-                </div>
+    <div *ngIf="FileEditForm.value.files && FileEditForm.value.files.length">
+        <div class="jb-flex">
+            <div class="">
+                <i class="jb-light-accent-color" [ngClass]="FileEditForm.value.files[0].type | contentTypeToIcon"></i>
+            </div>
+            <div class="jb-flex__item-fill jb-m-0-05 mat-body">
+                <div>{{FileEditForm.value.files[0].name}}</div>
+                <div class="text-muted">{{FileEditForm.value.files[0].size}} bytes</div>
+            </div>
+            <div>
+                <button
+                    type="button"
+                    mat-mini-fab
+                    color="warn"
+                    (click)="FileEditForm.patchValue({files: null})"
+                    title="Cancel and choose another file"
+                >
+                    <i class="fas fa-minus-square"></i>
+                </button>
             </div>
         </div>
     </div>
     <form [formGroup]="FileEditForm">
         <input type="file" jbAdmFileInput style="display:none" formControlName="files" #fileInputRef/>
-        <input class="form-control" type="text" formControlName="description" placeholder="Short description"/>
+        <mat-form-field class="form-field">
+            <input type="text" matInput formControlName="description" placeholder="Short description"/>
+        </mat-form-field>
     </form>
 </div>
-<div class="modal-footer">
+
+<div mat-dialog-actions>
+    <button type="button" mat-button (click)="modalRef.close()">
+        <i class="fas fa-times"></i>
+        Cancel
+    </button>
     <button
-        type="button" class="btn btn-outline-primary" (click)="onSubmit(FileEditForm.value)"
+        type="button" mat-raised-button color="primary" (click)="onSubmit(FileEditForm.value)"
         [disabled]="waiting || FileEditForm.invalid"
     >
         <i class="fas" [ngClass]="{'fa-spin fa-sync': waiting, 'fa-upload': !waiting}"></i>

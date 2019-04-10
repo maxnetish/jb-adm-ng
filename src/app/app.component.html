@@ -4,15 +4,20 @@
             <i class="fas fa-home"></i>
             Home
         </a>
-        <a mat-button class="nav-item" routerLink="/post/new" routerLinkActive="active" [disabled]="active">
+        <a mat-button class="nav-item" [routerLink]="[{outlets: {primary: ['post', 'new'], 'outlet-for-toolbox': ['p']}}]" routerLinkActive="active" [disabled]="active">
             <i class="fas fa-plus-square"></i>
             New post
+        </a>
+        <a mat-button class="nav-item" [routerLink]="[{outlets: {primary: ['post', 'new'], 'outlet-for-toolbox': null}}]" routerLinkActive="active" [disabled]="active">
+            <i class="fas fa-plus-square"></i>
+            New post (without aux path)
         </a>
         <a mat-button class="nav-item" routerLink="/foo" routerLinkActive="active" [disabled]="active">Link to 404</a>
         <a *ngIf="loggedIn" mat-button class="nav-item" routerLink="/login" routerLinkActive="active" [disabled]="active">
             <i class="fas fa-sign-out-alt"></i>
             Logout
         </a>
+        <router-outlet name="outlet-for-toolbox"></router-outlet>
     </nav>
 </header>
 <main>

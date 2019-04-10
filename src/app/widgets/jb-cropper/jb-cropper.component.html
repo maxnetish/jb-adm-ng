@@ -1,10 +1,16 @@
-<div #croppieContainer></div>
-<div class="mb-1">
+<div #croppieContainer [ngClass]="{'image-not-choosen': !choosedFile}"></div>
+<div class="mat-body">
     <span *ngIf="choosedFile">{{choosedFile.name}}</span>
     <span *ngIf="!choosedFile" class="text-secondary">Image is not selected, choose image first</span>
 </div>
 <div>
-    <button type="button" class="btn btn-sm btn-primary" (click)="fileInput.click()" [disabled]="disabledChooseButton">
+    <button
+        type="button"
+        mat-stroked-button
+        color="primary"
+        (click)="fileInput.click()"
+        [disabled]="disabledChooseButton"
+    >
         <i class="fas fa-camera"></i>
         Choose file
     </button>

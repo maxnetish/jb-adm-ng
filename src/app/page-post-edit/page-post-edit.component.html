@@ -98,7 +98,7 @@
             <jb-adm-tags-form-control formControlName="tags"></jb-adm-tags-form-control>
         </div>
         <div class="form-row">
-            <mat-form-field class="form-control">
+            <mat-form-field class="form-control mat-form-field__hide-underline">
                 <mat-label>Attached files</mat-label>
                 <jb-adm-material-static-form-field>
                     <div class="mat-body text-muted" *ngIf="!post._id">
@@ -107,7 +107,7 @@
                         </div>
                     </div>
                     <div class="" *ngIf="post._id">
-                        <!--<div class="">-->
+                    <!--<div>-->
                         <div class="">
                             <button
                                 type="button"
@@ -122,27 +122,29 @@
                         </div>
                         <div
                             *ngFor="let fileInfo of post.attachments; index as ind"
-                            class="border border-info rounded mb-2 p-2"
+                            class="attachment-info mat-elevation-z3 control-to-set-visibility"
                         >
-                            <div class="d-flex">
+                            <div class="jb-flex">
                                 <div class="">
-                                    <i [ngClass]="fileInfo.contentType | contentTypeToIcon"></i>
+                                    <i class="jb-light-accent-color" [ngClass]="fileInfo.contentType | contentTypeToIcon"></i>
                                 </div>
-                                <div class="flex-fill">
-                                    <div>
+                                <div class="jb-flex__item-fill jb-m-0-05">
+                                    <div class="mat-body">
                                         <a [href]="fileInfo.url | prependBackendHost">
                                             {{fileInfo.metadata.originalName}}
                                         </a>
                                     </div>
-                                    <div class="text-secondary small">{{fileInfo.metadata.description}}</div>
-                                    <div class="text-secondary small">{{fileInfo.contentType}}</div>
-                                    <div class="text-secondary small">{{fileInfo.length}} bytes</div>
+                                    <div class="mat-body text-muted">{{fileInfo.metadata.description}}</div>
+                                    <div class="mat-body text-muted">{{fileInfo.contentType}}</div>
+                                    <div class="mat-body text-muted">{{fileInfo.length}} bytes</div>
                                 </div>
                                 <div>
                                     <button
                                         type="button"
+                                        mat-mini-fab
+                                        color="warn"
                                         (click)="onRemoveAttachmentButtonClick(ind)"
-                                        class="btn btn-sm btn-outline-danger"
+                                        class="visible-if-mouse-in-control"
                                         title="Remove attachment forever"
                                     >
                                         <i class="fas fa-minus-square"></i>

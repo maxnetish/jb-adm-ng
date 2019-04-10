@@ -2,7 +2,6 @@ import {AfterViewInit, Component, ElementRef, EventEmitter, forwardRef, Input, O
 import * as Croppie from 'croppie';
 import {CropData, CroppieOptions} from 'croppie';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {bind} from '@angular/core/src/render3';
 
 @Component({
     selector: 'jb-adm-jb-cropper',
