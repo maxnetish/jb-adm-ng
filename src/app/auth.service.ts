@@ -14,54 +14,47 @@ export class AuthService {
     constructor(private adminService: AdminService) {
     }
 
-    private _user: Observable<User> = this.adminService.user()
-        .pipe(
-            map(user => ({
-                userName: user['userName'],
-                role: user['role']
-            })),
-            catchError(err => of({}))
-        );
+    private _user: User = null;
 
-    get user(): Observable<User> {
-        return this._user;
+    get user(): Promise<User> {
+        if (this._user) {
+            return Promise.resolve(this._user);
+        }
+        return this.adminService.user()
+            .toPromise()
+            .then(user => {
+                this._user = Object.assign({}, user);
+                return user;
+            })
+            .then(null, err => {
+                this._user = {};
+                return this._user;
+            });
     }
 
-    loggedIn(): Promise<boolean> {
-        return new Promise((resolve) => {
-            this.user.subscribe(user => {
-                resolve(!!user.userName);
-            });
-        });
+    async loggedIn(): Promise<boolean> {
+        const resolvedUser = await this.user;
+        return !!resolvedUser.userName;
     }
 
     login(credentials: PassportCredentials): Promise<LoginResult> {
-        return new Promise<LoginResult>((resolve, reject) => {
-            this.adminService.login(credentials)
-                .subscribe(loginResult => {
-                    this._user = of(loginResult.user);
-                    resolve({
-                        user: Object.assign({}, loginResult.user),
-                        message: loginResult.message
-                    });
-                }, err => {
-                    reject(err);
-                });
-        });
+        return this.adminService.login(credentials)
+            .toPromise()
+            .then(loginResult => {
+                this._user = Object.assign({}, loginResult.user);
+                return loginResult;
+            });
     }
 
     logout(): Promise<LoginResult> {
-        return new Promise<LoginResult>((resolve, reject) => {
-            this.adminService.logout()
-                .subscribe(loginResult => {
-                    this._user = of({});
-                    resolve({
-                        user: {},
-                        message: loginResult.message
-                    });
-                }, err => {
-                    reject(err);
-                });
-        });
+        return this.adminService.logout()
+            .toPromise()
+            .then(loginResult => {
+                this._user = {};
+                return {
+                    user: {},
+                    message: loginResult.message
+                };
+            });
     }
 }

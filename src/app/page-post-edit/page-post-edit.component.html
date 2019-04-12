@@ -1,10 +1,11 @@
 <ng-template #toInjectToMenu>
     <button
-        type="button"
+        type="submit"
+        form="post-edit-form-id"
         mat-stroked-button
         color="primary"
         class="nav-item"
-        [disabled]="PostEditForm.pristine || PostEditForm.invalid"
+        [disabled]="savingNow || PostEditForm.pristine || PostEditForm.invalid"
     >
         <i class="fas fa-cloud-upload-alt"></i>
         Save
@@ -12,7 +13,7 @@
 </ng-template>
 
 <div class="post-edit-form">
-    <form [formGroup]="PostEditForm">
+    <form [formGroup]="PostEditForm" id="post-edit-form-id" (submit)="onFormSubmit($event, PostEditForm)">
         <div class="form-row-inline">
             <mat-form-field class="form-control-inline">
                 <mat-label>Status</mat-label>
@@ -200,8 +201,8 @@
         </div>
         <div class="form-row">
             <mat-form-field class="form-control mat-form-field__hide-underline">
-                <mat-label>Post content</mat-label>
-                <jb-adm-material-static-form-field>
+                <mat-label [ngClass]="{'invalid-label': PostEditForm.controls.content.invalid}">Post content<sup>*</sup></mat-label>
+                <jb-adm-material-static-form-field [required]="true" [value]="PostEditForm.value.content">
                     <mat-button-toggle-group formControlName="contentPresentationMode" class="jb-mb-05">
                         <mat-button-toggle
                             *ngFor="let contentPresentationModeOption of ContentPresentationModeOptions"
@@ -215,6 +216,7 @@
                     <ng-container [ngSwitch]="PostEditForm.value.contentPresentationMode">
                         <ng-container *ngSwitchCase="ContentPresentationModeValues.EDIT">
                             <jb-adm-ace-editor
+                                [ngClass]="{'invalid-border': PostEditForm.controls.content.invalid}"
                                 class="ace-editor-content-container form-control pt-1 pb-1 pl-0 pr-0"
                                 formControlName="content"
                                 [mode]="PostEditForm.value.contentType"
@@ -222,7 +224,8 @@
                         </ng-container>
                         <ng-container *ngSwitchCase="ContentPresentationModeValues.PREVIEW">
                             <div
-                                class="content-preview border border-secondary"
+                                [ngClass]="{'invalid-border': PostEditForm.controls.content.invalid}"
+                                class="content-preview"
                                 [innerHTML]="PostEditForm.value.content | postContentPreview : PostEditForm.value.contentType.value"
                             ></div>
                         </ng-container>
@@ -232,6 +235,6 @@
         </div>
     </form>
     <div>
-        Form: pristine:{{PostEditForm.pristine}} touched:{{PostEditForm.touched}} status:{{PostEditForm.status}}
+        <ng-container *ngTemplateOutlet="toInjectToMenu"></ng-container>
     </div>
 </div>

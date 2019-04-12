@@ -2,6 +2,7 @@ import {Component, HostBinding, Input, OnDestroy, OnInit} from '@angular/core';
 import {MatFormFieldControl} from '@angular/material';
 import {NgControl} from '@angular/forms';
 import {Observable, Subject} from 'rxjs';
+import {__values} from 'tslib';
 
 @Component({
     selector: 'jb-adm-material-static-form-field',
@@ -17,6 +18,8 @@ import {Observable, Subject} from 'rxjs';
 export class JbMaterialStaticFormFieldComponent implements MatFormFieldControl<any>, OnDestroy {
 
     static nextId = 0;
+
+    private _value: any;
 
     constructor() {
     }
@@ -36,10 +39,17 @@ export class JbMaterialStaticFormFieldComponent implements MatFormFieldControl<a
     @HostBinding() readonly id: string = `jb-field-static-${JbMaterialStaticFormFieldComponent.nextId++}`;
     readonly ngControl: NgControl | null = null;
     readonly placeholder: string;
-    readonly required: boolean;
+    @Input() required: boolean;
     readonly shouldLabelFloat: boolean = true;
     readonly stateChanges = new Subject<void>();
-    value: any | null;
+    @Input()
+    get value(): any | null {
+        return this._value;
+    }
+    set value(val) {
+        this._value = val;
+        this.stateChanges.next();
+    }
 
     onContainerClick(event: MouseEvent): void {
     }

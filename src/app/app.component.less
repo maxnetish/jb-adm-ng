@@ -5,7 +5,10 @@
 }
 
 .app-header-nav {
+    display: flex;
+    flex-wrap: wrap;
     padding: 0.5rem;
+
     .nav-item {
         margin-right: 0.2rem;
 
@@ -16,5 +19,12 @@
         &.active {
             pointer-events: none;
         }
+    }
+
+    .app-header-nav__toolbox {
+        // align right tools
+        display: flex;
+        flex: 1 0 auto;
+        justify-content: flex-end;
     }
 }

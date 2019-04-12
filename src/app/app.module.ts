@@ -14,6 +14,12 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatSelectModule} from '@angular/material/select';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatTableModule} from '@angular/material/table';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {CdkColumnDef, CdkTableModule} from '@angular/cdk/table';
+import {CdkTreeModule} from '@angular/cdk/tree';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -93,8 +99,15 @@ import { JbToolboxOutletComponent } from './widgets/jb-toolbox-outlet/jb-toolbox
         MatSelectModule,
         MatButtonToggleModule,
         MatDialogModule,
+        MatSnackBarModule,
+        MatTableModule,
+        MatGridListModule,
+        MatCheckboxModule,
+        CdkTableModule,
+        CdkTreeModule,
     ],
     providers: [
+        CdkColumnDef,
         {
             provide: MAT_DIALOG_DEFAULT_OPTIONS,
             useValue: {

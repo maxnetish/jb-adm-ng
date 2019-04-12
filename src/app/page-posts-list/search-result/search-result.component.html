@@ -1,60 +1,124 @@
-<table class="table table-striped">
-    <thead>
-    <tr>
-        <th></th>
-        <th>Title</th>
-        <th>Date</th>
-        <th>Status</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let post of posts" [ngClass]="{'bg-warning': post.checked}">
-        <td (click)="$event.target !== checkPostElementRef ? post.checked = !post.checked : null">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" [(ngModel)]="post.checked" #checkPostElementRef/>
-            </div>
-        </td>
-        <td (click)="$event.target !== postLinkRef ? post.checked = !post.checked : null">
-            <a [routerLink]="['/post', post._id]" #postLinkRef>{{post.title}}</a>
-        </td>
-        <td (click)="post.checked = !post.checked">{{post.createDate | date : 'shortDate'}}</td>
-        <td (click)="post.checked = !post.checked">
-            <jb-adm-post-status-badge [status]="post.status"></jb-adm-post-status-badge>
-        </td>
-        <td>
-            <div class="btn-group btn-group-sm" *ngIf="actions.length">
-                <a class="btn btn-sm btn-outline-primary" [href]="actions[0].href(post)" target="_blank"
-                   *ngIf="actions[0].href">
-                    <i *ngIf="actions[0].iconClass" [ngClass]="actions[0].iconClass"></i>
-                    {{actions[0].label}}
-                </a>
-                <button type="button" class="btn btn-sm btn-outline-primary" (click)="actions[0].action(post)"
-                        *ngIf="actions[0].action">
-                    <i *ngIf="actions[0].iconClass" [ngClass]="actions[0].iconClass"></i>
-                    {{actions[0].label}}
-                </button>
-                <!--<div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">-->
+<div class="search-result-table-ct">
+
+    <table mat-table [dataSource]="posts" class="mat-elevation-z3">
+
+        <!-- Checkbox col -->
+        <ng-container matColumnDef="checked">
+            <th mat-header-cell *matHeaderCellDef>
+                <mat-checkbox
+                    (change)="$event ? onMasterCheckboxChange($event) : null"
+                    [checked]="masterCheckboxChecked"
+                    [indeterminate]="masterCheckboxIndeterminate"
+                ></mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row">
+                <mat-checkbox
+                    (click)="$event.stopPropagation()"
+                    (change)="$event ? onRowCheckboxChange($event, row) : null"
+                    [checked]="row.checked"
+                >
+                </mat-checkbox>
+            </td>
+        </ng-container>
+
+        <!-- Title col -->
+        <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef>
+                Title
+            </th>
+            <td mat-cell *matCellDef="let element">
+                <a [routerLink]="['/post', element._id]">{{element.title}}</a>
+            </td>
+        </ng-container>
+
+        <!-- createDate col -->
+        <ng-container matColumnDef="createDate">
+            <th mat-header-cell *matHeaderCellDef>
+                Date
+            </th>
+            <td class="jb-data-cell" mat-cell *matCellDef="let element">
+                {{element.createDate | date : 'shortDate'}}
+            </td>
+        </ng-container>
+
+        <!-- Status col -->
+        <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>
+                Status
+            </th>
+            <td class="jb-data-cell" mat-cell *matCellDef="let element">
+                <jb-adm-post-status-badge [status]="element.status"></jb-adm-post-status-badge>
+            </td>
+        </ng-container>
+
+        <!-- row def -->
+        <tr mat-header-row *matHeaderRowDef="['checked', 'title', 'createDate', 'status']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['checked', 'title', 'createDate', 'status']"></tr>
+
+    </table>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th></th>
+            <th>Title</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let post of posts" [ngClass]="{'bg-warning': post.checked}">
+            <td (click)="$event.target !== checkPostElementRef ? post.checked = !post.checked : null">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" [(ngModel)]="post.checked" #checkPostElementRef/>
+                </div>
+            </td>
+            <td (click)="$event.target !== postLinkRef ? post.checked = !post.checked : null">
+                <a [routerLink]="['/post', post._id]" #postLinkRef>{{post.title}}</a>
+            </td>
+            <td (click)="post.checked = !post.checked">{{post.createDate | date : 'shortDate'}}</td>
+            <td (click)="post.checked = !post.checked">
+                <jb-adm-post-status-badge [status]="post.status"></jb-adm-post-status-badge>
+            </td>
+            <td>
+                <div class="btn-group btn-group-sm" *ngIf="actions.length">
+                    <a
+                        class="btn btn-sm btn-outline-primary" [href]="actions[0].href(post)" target="_blank"
+                        *ngIf="actions[0].href"
+                    >
+                        <i *ngIf="actions[0].iconClass" [ngClass]="actions[0].iconClass"></i>
+                        {{actions[0].label}}
+                    </a>
+                    <button
+                        type="button" class="btn btn-sm btn-outline-primary" (click)="actions[0].action(post)"
+                        *ngIf="actions[0].action"
+                    >
+                        <i *ngIf="actions[0].iconClass" [ngClass]="actions[0].iconClass"></i>
+                        {{actions[0].label}}
+                    </button>
+                    <!--<div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">-->
                     <!--<button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle-split" ngbDropdownToggle></button>-->
                     <!--<div class="dropdown-menu" ngbDropdownMenu>-->
-                        <!--<ng-container *ngFor="let actionInfo of actions | slice : 1">-->
-                            <!--<a class="dropdown-item btn btn-sm" *ngIf="actionInfo.href && actionInfo.allow(post)"-->
-                               <!--[href]="actionInfo.href(post)"-->
-                               <!--ngbDropdownItem>-->
-                                <!--<i *ngIf="actionInfo.iconClass" [ngClass]="actionInfo.iconClass"></i>-->
-                                <!--{{actionInfo.label}}-->
-                            <!--</a>-->
-                            <!--<button type="button" class="dropdown-item btn-sm"-->
-                                    <!--*ngIf="actionInfo.action && actionInfo.allow(post)"-->
-                                    <!--(click)="actionInfo.action(post)" ngbDropdownItem>-->
-                                <!--<i *ngIf="actionInfo.iconClass" [ngClass]="actionInfo.iconClass"></i>-->
-                                <!--{{actionInfo.label}}-->
-                            <!--</button>-->
-                        <!--</ng-container>-->
+                    <!--<ng-container *ngFor="let actionInfo of actions | slice : 1">-->
+                    <!--<a class="dropdown-item btn btn-sm" *ngIf="actionInfo.href && actionInfo.allow(post)"-->
+                    <!--[href]="actionInfo.href(post)"-->
+                    <!--ngbDropdownItem>-->
+                    <!--<i *ngIf="actionInfo.iconClass" [ngClass]="actionInfo.iconClass"></i>-->
+                    <!--{{actionInfo.label}}-->
+                    <!--</a>-->
+                    <!--<button type="button" class="dropdown-item btn-sm"-->
+                    <!--*ngIf="actionInfo.action && actionInfo.allow(post)"-->
+                    <!--(click)="actionInfo.action(post)" ngbDropdownItem>-->
+                    <!--<i *ngIf="actionInfo.iconClass" [ngClass]="actionInfo.iconClass"></i>-->
+                    <!--{{actionInfo.label}}-->
+                    <!--</button>-->
+                    <!--</ng-container>-->
                     <!--</div>-->
-                <!--</div>-->
-            </div>
-        </td>
-    </tr>
-    </tbody>
-</table>
+                    <!--</div>-->
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

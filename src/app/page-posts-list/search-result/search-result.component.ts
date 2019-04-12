@@ -7,6 +7,7 @@ import {PostBrief} from '../../resources/post/post-brief';
 import {switchMap} from 'rxjs/operators';
 import {PostStatus} from '../../resources/post/post-status.enum';
 import {environment as env} from '../../../environments/environment';
+import {MatCheckboxChange} from '@angular/material';
 
 class PostBriefView extends PostBrief {
     constructor(postBrief: PostBrief, {checked = false}: { checked?: boolean } = {}) {
@@ -33,8 +34,8 @@ interface PostAction {
 })
 export class SearchResultComponent implements OnInit {
 
-    constructor(private route: ActivatedRoute, private postServiceInstance: PostService) {
-    }
+    masterCheckboxChecked = false;
+    masterCheckboxIndeterminate = false;
 
     posts: PostBriefView[] = [];
 
@@ -71,18 +72,49 @@ export class SearchResultComponent implements OnInit {
         }
     ];
 
+    onMasterCheckboxChange(e: MatCheckboxChange) {
+        const checked = e.checked;
+        this.masterCheckboxChecked = checked;
+        this.masterCheckboxIndeterminate = false;
+        this.posts.forEach(p => p.checked = checked);
+    }
+
+    onRowCheckboxChange(e: MatCheckboxChange, targetPost: PostBriefView) {
+        targetPost.checked = e.checked;
+
+        const allChecked = this.posts.every(post => post.checked);
+        const allUnchecked = this.posts.every(post => !post.checked);
+
+        if (allChecked) {
+            this.masterCheckboxChecked = true;
+            this.masterCheckboxIndeterminate = false;
+        } else if (allUnchecked) {
+            this.masterCheckboxChecked = false;
+            this.masterCheckboxIndeterminate = false;
+        } else {
+            this.masterCheckboxChecked = false;
+            this.masterCheckboxIndeterminate = true;
+        }
+    }
+
+    constructor(
+        private route: ActivatedRoute,
+        private postServiceInstance: PostService
+    ) {
+    }
+
     ngOnInit() {
         const {queryParamMap} = this.route;
         queryParamMap.pipe(switchMap(paramsAsMap => {
-            const criteria: PostFindCriteria = {
-                q: paramsAsMap.get('q'),
-                from: paramsAsMap.get('from'),
-                to: paramsAsMap.get('to'),
-                statuses: [PostStatus.PUB, PostStatus.DRAFT],
-                page: 1
-            };
-            return this.postServiceInstance.list(criteria);
-        }))
+                const criteria: PostFindCriteria = {
+                    q: paramsAsMap.get('q'),
+                    from: paramsAsMap.get('from'),
+                    to: paramsAsMap.get('to'),
+                    statuses: [PostStatus.PUB, PostStatus.DRAFT],
+                    page: 1
+                };
+                return this.postServiceInstance.list(criteria);
+            }))
             .subscribe((paginationResponse: PaginationResponse<PostBrief>) => {
                 this.posts = paginationResponse.items.map(postBrief => new PostBriefView(postBrief, {checked: false}));
             }, err => {

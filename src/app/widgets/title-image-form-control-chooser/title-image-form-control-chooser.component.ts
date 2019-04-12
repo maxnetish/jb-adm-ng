@@ -41,6 +41,7 @@ export class TitleImageFormControlChooserComponent implements OnInit, ControlVal
     static nextId = 0;
 
     private _touchedListener: (val?: any) => void;
+    private _changeListener: (val?: any) => void;
     private _titleImagesItemsPerPage = 5;
     private _titleImageSelectOpenedOnce = false;
     private _titleImagesHasMore = true;
@@ -209,6 +210,9 @@ export class TitleImageFormControlChooserComponent implements OnInit, ControlVal
         this.titleImageSelectFormControl.valueChanges
             .subscribe((val: any) => {
                 this.stateChanges.next();
+                if (this._changeListener) {
+                    this._changeListener(val);
+                }
             }, err => {
                 this.stateChanges.error(err);
             }, () => {
@@ -217,7 +221,7 @@ export class TitleImageFormControlChooserComponent implements OnInit, ControlVal
     }
 
     registerOnChange(fn: any): void {
-        this.titleImageSelectFormControl.registerOnChange(fn);
+        this._changeListener = fn;
     }
 
     registerOnTouched(fn: any): void {

@@ -60,10 +60,10 @@ export class PageLoginComponent implements OnInit {
     }
 
     ngOnInit() {
+
         this.authService.user
-            .subscribe(user => {
-                this.user = user;
-            });
+            .then(resolvedUser => this.user = resolvedUser);
+
     }
 
 }
