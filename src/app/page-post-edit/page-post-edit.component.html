@@ -1,3 +1,16 @@
+<ng-template #toInjectToMenu>
+    <button
+        type="button"
+        mat-stroked-button
+        color="primary"
+        class="nav-item"
+        [disabled]="PostEditForm.pristine || PostEditForm.invalid"
+    >
+        <i class="fas fa-cloud-upload-alt"></i>
+        Save
+    </button>
+</ng-template>
+
 <div class="post-edit-form">
     <form [formGroup]="PostEditForm">
         <div class="form-row-inline">
@@ -107,7 +120,7 @@
                         </div>
                     </div>
                     <div class="" *ngIf="post._id">
-                    <!--<div>-->
+                        <!--<div>-->
                         <div class="">
                             <button
                                 type="button"
@@ -126,7 +139,10 @@
                         >
                             <div class="jb-flex">
                                 <div class="">
-                                    <i class="jb-light-accent-color" [ngClass]="fileInfo.contentType | contentTypeToIcon"></i>
+                                    <i
+                                        class="jb-light-accent-color"
+                                        [ngClass]="fileInfo.contentType | contentTypeToIcon"
+                                    ></i>
                                 </div>
                                 <div class="jb-flex__item-fill jb-m-0-05">
                                     <div class="mat-body">

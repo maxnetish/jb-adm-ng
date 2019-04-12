@@ -6,7 +6,6 @@ import {PageLoginComponent} from './page-login/page-login.component';
 import {AuthGuard} from './auth.guard';
 import {PagePostEditComponent} from './page-post-edit/page-post-edit.component';
 import {PagePostResolverService} from './page-post-edit/page-post-resolver.service';
-import {PageExampleComponent} from './page-example/page-example.component';
 
 const routes: Routes = [
     {path: 'login', component: PageLoginComponent},
@@ -17,7 +16,7 @@ const routes: Routes = [
     {path: '**', component: Page404Component},
 
     // {path: '', component: PageExampleComponent, outlet: 'outlet-for-toolbox'},
-    {path: 'p', component: PageExampleComponent, outlet: 'outlet-for-toolbox'},
+    // {path: 'p', component: PageExampleComponent, outlet: 'outlet-for-toolbox'},
 ];
 
 @NgModule({

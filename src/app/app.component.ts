@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, TemplateRef} from '@angular/core';
 import {AuthService} from './auth.service';
 
 @Component({
@@ -7,7 +7,12 @@ import {AuthService} from './auth.service';
     styleUrls: ['./app.component.less']
 })
 export class AppComponent {
-    constructor(private authService: AuthService) {
+
+    toolBoxInjectedTemplate: TemplateRef<any>;
+
+    constructor(
+        private authService: AuthService,
+    ) {
         authService.loggedIn()
             .then(loggedIn => {
                 this.loggedIn = loggedIn;

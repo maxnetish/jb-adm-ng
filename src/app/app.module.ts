@@ -42,7 +42,7 @@ import {ContentTypeToIconPipe} from './utils/content-type-to-icon.pipe';
 import {JbCommonDialogComponent} from './widgets/jb-common-dialog/jb-common-dialog.component';
 import { JbMaterialStaticFormFieldComponent } from './widgets/jb-material-static-form-field/jb-material-static-form-field.component';
 import {MatNativeDateModule} from '@angular/material';
-import { PageExampleComponent } from './page-example/page-example.component';
+import { JbToolboxOutletComponent } from './widgets/jb-toolbox-outlet/jb-toolbox-outlet.component';
 
 @NgModule({
     declarations: [
@@ -71,7 +71,7 @@ import { PageExampleComponent } from './page-example/page-example.component';
         ContentTypeToIconPipe,
         JbCommonDialogComponent,
         JbMaterialStaticFormFieldComponent,
-        PageExampleComponent,
+        JbToolboxOutletComponent,
     ],
     imports: [
         BrowserModule,

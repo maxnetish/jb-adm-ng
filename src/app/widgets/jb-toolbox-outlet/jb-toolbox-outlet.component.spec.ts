@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PageExampleComponent } from './page-example.component';
+import { JbToolboxOutletComponent } from './jb-toolbox-outlet.component';
 
-describe('PageExampleComponent', () => {
-  let component: PageExampleComponent;
-  let fixture: ComponentFixture<PageExampleComponent>;
+describe('JbToolboxOutletComponent', () => {
+  let component: JbToolboxOutletComponent;
+  let fixture: ComponentFixture<JbToolboxOutletComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PageExampleComponent ]
+      declarations: [ JbToolboxOutletComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PageExampleComponent);
+    fixture = TestBed.createComponent(JbToolboxOutletComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {ActivatedRoute, Data} from '@angular/router';
 import {PostDetails} from '../resources/post/post-details';
 import {PostAllowRead} from '../resources/post/post-allow-read.enum';
@@ -10,6 +10,9 @@ import {FileStoreService} from '../resources/file/file-store.service';
 import {CommonDialogModal} from '../widgets/jb-common-dialog/jb-common-dialog.component';
 import {CommonDialogType} from '../widgets/jb-common-dialog/common-dialog-type.enum';
 import {CommonDialogResult} from '../widgets/jb-common-dialog/common-dialog-result.enum';
+import {JbTemplateInjectorService} from '../utils/jb-template-injector.service';
+import {JB_TOOLBOX_TARGET} from '../widgets/jb-toolbox-outlet/jb-toolbox-outlet.component';
+
 // import {ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -17,7 +20,7 @@ import {CommonDialogResult} from '../widgets/jb-common-dialog/common-dialog-resu
     templateUrl: './page-post-edit.component.html',
     styleUrls: ['./page-post-edit.component.less']
 })
-export class PagePostEditComponent implements OnInit {
+export class PagePostEditComponent implements OnInit, AfterViewInit, OnDestroy {
 
     readonly PostAllowReadOptions = [
         PostAllowRead.FOR_ALL,
@@ -60,6 +63,8 @@ export class PagePostEditComponent implements OnInit {
         contentPresentationMode: [ContentPresentationMode.EDIT]
     });
 
+    @ViewChild('toInjectToMenu') private toInjectToMenu: TemplateRef<any>;
+
     onFileAttachmentsAddClick(e) {
         this.uploadFileModal.show({postId: this.post._id})
             .then(uploadedFileInfo => {
@@ -97,7 +102,8 @@ export class PagePostEditComponent implements OnInit {
         private fb: FormBuilder,
         private uploadFileModal: UploadFileModal,
         private fileStoreService: FileStoreService,
-        private commonDialog: CommonDialogModal
+        private commonDialog: CommonDialogModal,
+        private templateInjector: JbTemplateInjectorService,
     ) {
     }
 
@@ -105,7 +111,14 @@ export class PagePostEditComponent implements OnInit {
         this.route.data.subscribe((data: Data) => {
             this.post = Object.assign({}, data.postDetails);
             this.PostEditForm.patchValue(data.postDetails);
-            // Object.assign(this.post, data.postDetails);
         });
+    }
+
+    ngAfterViewInit(): void {
+        setTimeout(() => this.templateInjector.emitTemplate(this.toInjectToMenu, JB_TOOLBOX_TARGET), 0);
+    }
+
+    ngOnDestroy(): void {
+        this.templateInjector.emitTemplate(null, JB_TOOLBOX_TARGET);
     }
 }
