@@ -24,7 +24,8 @@ export class SearchFormComponent implements OnInit {
         const queryParams = {
             q: formValue.q || undefined,
             from: formValue.from ? formValue.from.toISOString() : undefined,
-            to: formValue.to ? formValue.to.toISOString() : undefined
+            to: formValue.to ? formValue.to.toISOString() : undefined,
+            page: 1
         };
         this.router.navigate(['/posts'], {
             queryParams,

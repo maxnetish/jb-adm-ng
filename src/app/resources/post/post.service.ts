@@ -8,6 +8,7 @@ import {Observable} from 'rxjs';
 import {PostDetails} from './post-details';
 import {ResourcesUtilsService} from '../resources-utils.service';
 import {PostUpdate} from './post-update';
+import {MongoUpdateResponse} from '../mongo-update-response';
 
 @Injectable({
     providedIn: 'root'
@@ -48,6 +49,18 @@ export class PostService {
 
     createOrUpdate(request: PostUpdate): Observable<PostDetails> {
         return this.http.post<PostDetails>(this.resourcesUtils.prependHostTo('/api/post/createOrUpdate'), request, {
+                observe: 'response',
+                reportProgress: false,
+                responseType: 'json',
+                withCredentials: true
+            })
+            .pipe(
+                map(res => res.body)
+            );
+    }
+
+    publish(request: { ids: string[] }): Observable<MongoUpdateResponse> {
+        return this.http.post<MongoUpdateResponse>(this.resourcesUtils.prependHostTo('/api/post/publish'), request, {
                 observe: 'response',
                 reportProgress: false,
                 responseType: 'json',
