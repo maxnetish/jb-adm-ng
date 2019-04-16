@@ -9,6 +9,8 @@ import {PostStatus} from '../../resources/post/post-status.enum';
 import {environment as env} from '../../../environments/environment';
 import {MatCheckboxChange, MatSnackBar} from '@angular/material';
 import {autobind} from 'core-decorators';
+import {MongoUpdateResponse} from '../../resources/mongo-update-response';
+import {Observable} from 'rxjs';
 
 class PostBriefView extends PostBrief {
     constructor(postBrief: PostBrief, {checked = false}: { checked?: boolean } = {}) {
@@ -54,7 +56,7 @@ export class SearchResultComponent implements OnInit {
         },
         {
             label: 'Make draft',
-            action: p => null,
+            action: this._makeDraft,
             allowForSinglePost: p => p.status === PostStatus.PUB,
             allowForManyPosts: pp => pp.some(p => p.status === PostStatus.PUB),
             iconClass: 'far fa-eye-slash'
@@ -87,22 +89,59 @@ export class SearchResultComponent implements OnInit {
         return `${env.pubHostUrl}/post/${id}`;
     }
 
+    private _mongoResponseToMessage(response: MongoUpdateResponse) {
+        this.snackBar.open(
+            `Jah bless! ${response.nModified} ${response.nModified > 1 ? 'items' : 'item'} successfully updated.`,
+            null,
+            {duration: 3000}
+        );
+    }
+
+    private _errToMessage(err: any) {
+        console.warn(err);
+        this.snackBar.open('Something went wrong. See console.', null, {duration: 10000});
+    }
+
+    private _updateSpecificPosts(postOrPosts: PostBriefView | PostBriefView[]) {
+        const request: PostFindCriteria = {
+            ids: Array.isArray(postOrPosts) ? postOrPosts.map(p => p._id) : [postOrPosts._id],
+            statuses: [PostStatus.PUB, PostStatus.DRAFT]
+        };
+        this.postServiceInstance.list(request)
+            .subscribe(response => {
+                response.items.forEach(postBrief => {
+                    const existentPostBriefView = this.posts.find(p => p._id === postBrief._id);
+                    if (existentPostBriefView) {
+                        Object.assign(existentPostBriefView, postBrief);
+                    }
+                });
+            }, err => {
+                console.warn(err);
+            });
+    }
+
     @autobind()
     private _makePublish(postOrPosts: PostBriefView | PostBriefView[]) {
         const request = {
             ids: Array.isArray(postOrPosts) ? postOrPosts.map(p => p._id) : [postOrPosts._id]
         };
         return this.postServiceInstance.publish(request)
-            .subscribe(result => {
-                this.snackBar.open(
-                    `Jah bless! ${result.nModified} ${result.nModified > 1 ? 'items' : 'item'} successfully updated.`,
-                    null,
-                    {duration: 3000}
-                );
-            }, err => {
-                console.warn(err);
-                this.snackBar.open('Something went wrong. See console.', null, {duration: 10000});
-            });
+            .subscribe(response => {
+                this._mongoResponseToMessage(response);
+                this._updateSpecificPosts(postOrPosts);
+            }, this._errToMessage);
+    }
+
+    @autobind()
+    private _makeDraft(postOrPosts: PostBriefView | PostBriefView[]) {
+        const request = {
+            ids: Array.isArray(postOrPosts) ? postOrPosts.map(p => p._id) : [postOrPosts._id]
+        };
+        return this.postServiceInstance.unpublish(request)
+            .subscribe(response => {
+                this._mongoResponseToMessage(response);
+                this._updateSpecificPosts(postOrPosts);
+            }, this._errToMessage);
     }
 
     onMasterCheckboxChange(e: MatCheckboxChange) {

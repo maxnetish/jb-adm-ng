@@ -70,4 +70,16 @@ export class PostService {
                 map(res => res.body)
             );
     }
+
+    unpublish(request: { ids: string[] }): Observable<MongoUpdateResponse> {
+        return this.http.post<MongoUpdateResponse>(this.resourcesUtils.prependHostTo('/api/post/unpublish'), request, {
+                observe: 'response',
+                reportProgress: false,
+                responseType: 'json',
+                withCredentials: true
+            })
+            .pipe(
+                map(res => res.body)
+            );
+    }
 }
