@@ -1,12 +1,12 @@
 import {Component, Inject, Injectable, Input, ViewContainerRef} from '@angular/core';
-import {CropData, CroppieOptions} from 'croppie';
+import {CroppieOptions} from 'croppie';
 import * as Croppie from 'croppie';
 import {AbstractControl, FormBuilder, ValidatorFn} from '@angular/forms';
 import {FileStoreService} from '../../resources/file/file-store.service';
 import {JbUploadBlobModel} from '../../resources/file/jb-upload-blob-model';
 import {JbFileUploadResponse} from '../../resources/file/jb-file-upload-response';
 import {JbUploadedFileInfo} from '../../resources/file/jb-uploaded-file-info';
-import {DialogPosition, MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
 
 
 @Component({
@@ -75,9 +75,9 @@ export class AvatarImageAddComponent {
     }
 }
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable(/*{
+    // providedIn: AvatarImageAddModule,
+}*/)
 export class AvatarImageAddModal {
     /**
      * To show AvatarImageAddComponent as modal

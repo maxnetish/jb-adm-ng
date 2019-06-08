@@ -35,9 +35,9 @@ export class JbCommonDialogComponent {
     }
 }
 
-@Injectable({
+@Injectable(/*{
     providedIn: 'root'
-})
+}*/)
 export class CommonDialogModal {
 
     show(

@@ -65,9 +65,9 @@ export class UploadFileComponent {
 }
 
 
-@Injectable({
+@Injectable(/*{
     providedIn: 'root'
-})
+}*/)
 export class UploadFileModal {
 
     show(

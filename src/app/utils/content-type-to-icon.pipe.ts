@@ -1,4 +1,5 @@
-import {Pipe, PipeTransform} from '@angular/core';
+import {NgModule, Pipe, PipeTransform} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
 @Pipe({
     name: 'contentTypeToIcon'
@@ -47,12 +48,27 @@ export class ContentTypeToIconPipe implements PipeTransform {
     defaultIcon = 'fa-file';
     iconCommonClass = 'fas';
 
-    transform(contentType: string): string {
-        const finded = this.icons.find(m => !!contentType.match(m.contentType));
-        if (finded) {
-            return `${this.iconCommonClass} ${finded.icon}`;
+    transform(contentType?: string): string {
+        contentType = contentType || 'UNKNOWN';
+        const found = this.icons.find(m => !!contentType.match(m.contentType));
+        if (found) {
+            return `${this.iconCommonClass} ${found.icon}`;
         }
         return `${this.iconCommonClass} ${this.defaultIcon}`;
     }
 
+}
+
+@NgModule({
+    imports: [
+        CommonModule,
+    ],
+    declarations: [
+        ContentTypeToIconPipe,
+    ],
+    exports: [
+        ContentTypeToIconPipe,
+    ]
+})
+export class ContentTypeToIconModule {
 }

@@ -1,5 +1,6 @@
-import {Directive, ElementRef, HostListener} from '@angular/core';
+import {Directive, ElementRef, HostListener, NgModule} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {CommonModule} from '@angular/common';
 
 @Directive({
     selector: 'input[type=file][jbAdmFileInput]',
@@ -46,5 +47,18 @@ export class JbFileInputDirective implements ControlValueAccessor {
     writeValue(obj: any): void {
         this.elm.nativeElement.files = obj;
     }
+}
 
+@NgModule({
+    imports: [
+        CommonModule,
+    ],
+    declarations: [
+        JbFileInputDirective,
+    ],
+    exports: [
+        JbFileInputDirective,
+    ]
+})
+export class JbFileInputModule {
 }

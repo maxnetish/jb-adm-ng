@@ -10,11 +10,11 @@ import {FileStoreService} from '../resources/file/file-store.service';
 import {CommonDialogModal} from '../widgets/jb-common-dialog/jb-common-dialog.component';
 import {CommonDialogType} from '../widgets/jb-common-dialog/common-dialog-type.enum';
 import {CommonDialogResult} from '../widgets/jb-common-dialog/common-dialog-result.enum';
-import {JbTemplateInjectorService} from '../utils/jb-template-injector.service';
 import {JB_TOOLBOX_TARGET} from '../widgets/jb-toolbox-outlet/jb-toolbox-outlet.component';
 import {MatSnackBar} from '@angular/material';
 import {PostUpdate} from '../resources/post/post-update';
 import {PostService} from '../resources/post/post.service';
+import {JbTemplateInjectorService} from '../widgets/jb-toolbox-outlet/jb-template-injector.service';
 
 // import {ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 

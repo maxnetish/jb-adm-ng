@@ -29,26 +29,23 @@ import {SearchFormComponent} from './page-posts-list/search-form/search-form.com
 import {SearchResultComponent} from './page-posts-list/search-result/search-result.component';
 import {PageLoginComponent} from './page-login/page-login.component';
 import {PagePostEditComponent} from './page-post-edit/page-post-edit.component';
-import {PostStatusBadgeComponent} from './widgets/post-status-badge/post-status-badge.component';
-import {PostStatusDisplayPipe} from './resources/post/post-status-display.pipe';
 import {PostAllowReadDisplayPipe} from './resources/post/post-allow-read-display.pipe';
 import {DefaultDisplayTextPipe} from './utils/default-display-text.pipe';
 import {PostContentTypeDisplayPipe} from './resources/post/post-content-type-display.pipe';
-import {AceEditorComponent} from './widgets/ace-editor/ace-editor.component';
 import {ContentPresentationModeDisplayPipe} from './page-post-edit/content-presentation-mode-display.pipe';
 import {PostContentPreviewPipe} from './page-post-edit/post-content-preview.pipe';
-import {AvatarImageAddComponent} from './widgets/avatar-image-add/avatar-image-add.component';
-import {JbCropperComponent} from './widgets/jb-cropper/jb-cropper.component';
-import {TitleImageFormControlChooserComponent} from './widgets/title-image-form-control-chooser/title-image-form-control-chooser.component';
-import {TagsFormControlComponent} from './widgets/tags-form-control/tags-form-control.component';
-import {PrependBackendHostPipe} from './utils/prepend-backend-host.pipe';
-import {UploadFileComponent} from './widgets/upload-file-dialog/upload-file-dialog.component';
-import {JbFileInputDirective} from './widgets/jb-file-input.directive';
-import {ContentTypeToIconPipe} from './utils/content-type-to-icon.pipe';
-import {JbCommonDialogComponent} from './widgets/jb-common-dialog/jb-common-dialog.component';
-import { JbMaterialStaticFormFieldComponent } from './widgets/jb-material-static-form-field/jb-material-static-form-field.component';
 import {MatNativeDateModule} from '@angular/material';
-import { JbToolboxOutletComponent } from './widgets/jb-toolbox-outlet/jb-toolbox-outlet.component';
+import {AceEditorModule} from './widgets/ace-editor/ace-editor.module';
+import {AvatarImageAddModule} from './widgets/avatar-image-add/avatar-image-add.module';
+import {JbCommonDialogModule} from './widgets/jb-common-dialog/jb-common-dialog.module';
+import {JbMaterialStaticFormFieldModule} from './widgets/jb-material-static-form-field/jb-material-static-form-field.module';
+import {JbToolboxOutletModule} from './widgets/jb-toolbox-outlet/jb-toolbox-outlet.module';
+import {PostStatusBadgeModule} from './widgets/post-status-badge/post-status-badge.module';
+import {TagsFormControlModule} from './widgets/tags-form-control/tags-form-control.module';
+import {PrependBackendHostModule} from './utils/prepend-backend-host.pipe';
+import {TitleImageFormControlChooserModule} from './widgets/title-image-form-control-chooser/title-image-form-control-chooser.module';
+import {UploadFileDialogModule} from './widgets/upload-file-dialog/upload-file-dialog.module';
+import {ContentTypeToIconModule} from './utils/content-type-to-icon.pipe';
 
 @NgModule({
     declarations: [
@@ -59,25 +56,11 @@ import { JbToolboxOutletComponent } from './widgets/jb-toolbox-outlet/jb-toolbox
         SearchResultComponent,
         PageLoginComponent,
         PagePostEditComponent,
-        PostStatusBadgeComponent,
-        PostStatusDisplayPipe,
         PostAllowReadDisplayPipe,
         DefaultDisplayTextPipe,
         PostContentTypeDisplayPipe,
-        AceEditorComponent,
         ContentPresentationModeDisplayPipe,
         PostContentPreviewPipe,
-        AvatarImageAddComponent,
-        JbCropperComponent,
-        TitleImageFormControlChooserComponent,
-        TagsFormControlComponent,
-        PrependBackendHostPipe,
-        UploadFileComponent,
-        JbFileInputDirective,
-        ContentTypeToIconPipe,
-        JbCommonDialogComponent,
-        JbMaterialStaticFormFieldComponent,
-        JbToolboxOutletComponent,
     ],
     imports: [
         BrowserModule,
@@ -105,6 +88,17 @@ import { JbToolboxOutletComponent } from './widgets/jb-toolbox-outlet/jb-toolbox
         MatCheckboxModule,
         CdkTableModule,
         CdkTreeModule,
+        AceEditorModule,
+        AvatarImageAddModule,
+        JbCommonDialogModule,
+        JbMaterialStaticFormFieldModule,
+        JbToolboxOutletModule,
+        PostStatusBadgeModule,
+        TagsFormControlModule,
+        PrependBackendHostModule,
+        TitleImageFormControlChooserModule,
+        UploadFileDialogModule,
+        ContentTypeToIconModule,
     ],
     providers: [
         CdkColumnDef,
@@ -136,8 +130,7 @@ import { JbToolboxOutletComponent } from './widgets/jb-toolbox-outlet/jb-toolbox
      * entryComponents - components that will instantiates from code, not from markup
      * Such as modals
      */
-    entryComponents: [AvatarImageAddComponent, UploadFileComponent, JbCommonDialogComponent],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
 })
 export class AppModule {
 }

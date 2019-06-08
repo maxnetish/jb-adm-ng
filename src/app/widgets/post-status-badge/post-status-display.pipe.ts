@@ -1,5 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {PostStatus} from './post-status.enum';
+import {PostStatus} from '../../resources/post/post-status.enum';
 
 @Pipe({
     name: 'postStatusDisplay'

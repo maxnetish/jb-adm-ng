@@ -1,5 +1,5 @@
 import {Component, TemplateRef} from '@angular/core';
-import {JbTemplateInjectorService} from '../../utils/jb-template-injector.service';
+import {JbTemplateInjectorService} from './jb-template-injector.service';
 import {filter} from 'rxjs/operators';
 
 export const JB_TOOLBOX_TARGET = 'JB_TOOLBOX';

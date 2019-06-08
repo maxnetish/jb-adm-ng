@@ -1,8 +1,7 @@
 import {Component, HostBinding, Input, OnDestroy, OnInit} from '@angular/core';
 import {MatFormFieldControl} from '@angular/material';
 import {NgControl} from '@angular/forms';
-import {Observable, Subject} from 'rxjs';
-import {__values} from 'tslib';
+import {Subject} from 'rxjs';
 
 @Component({
     selector: 'jb-adm-material-static-form-field',
