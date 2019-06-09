@@ -6,6 +6,10 @@ import {PageLoginComponent} from './page-login/page-login.component';
 import {AuthGuard} from './auth.guard';
 import {PagePostEditComponent} from './page-post-edit/page-post-edit.component';
 import {PagePostResolverService} from './page-post-edit/page-post-resolver.service';
+import {Page404module} from './page404/page404.module';
+import {PageLoginModule} from './page-login/page-login.module';
+import {PagePostEditModule} from './page-post-edit/page-post-edit.module';
+import {PagePostListModule} from './page-posts-list/page-post-list.module';
 
 const routes: Routes = [
     {path: 'login', component: PageLoginComponent},
@@ -20,9 +24,22 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes, {enableTracing: true})],
-    exports: [RouterModule],
-    providers: [PagePostResolverService]
+    imports: [
+        RouterModule.forRoot(routes, {enableTracing: true}),
+        /**
+         * Page modules
+         */
+        Page404module,
+        PageLoginModule,
+        PagePostEditModule,
+        PagePostListModule,
+    ],
+    exports: [
+        RouterModule
+    ],
+    providers: [
+        // PagePostResolverService
+    ]
 })
 export class AppRoutingModule {
 }

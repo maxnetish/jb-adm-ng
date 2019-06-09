@@ -1,4 +1,5 @@
-import {Pipe, PipeTransform} from '@angular/core';
+import {NgModule, Pipe, PipeTransform} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
 @Pipe({
     name: 'defaultDisplayText'
@@ -16,5 +17,17 @@ export class DefaultDisplayTextPipe implements PipeTransform {
                 return value || ifEmpty;
         }
     }
-
 }
+
+@NgModule({
+    imports: [
+        CommonModule,
+    ],
+    declarations: [
+        DefaultDisplayTextPipe,
+    ],
+    exports: [
+        DefaultDisplayTextPipe,
+    ]
+})
+export class DefaultDisplayTextModule {}

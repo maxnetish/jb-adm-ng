@@ -1,5 +1,6 @@
-import {Pipe, PipeTransform} from '@angular/core';
-import {PostAllowRead} from './post-allow-read.enum';
+import {NgModule, Pipe, PipeTransform} from '@angular/core';
+import {PostAllowRead} from '../resources/post/post-allow-read.enum';
+import {CommonModule} from '@angular/common';
 
 @Pipe({
     name: 'postAllowReadDisplay'
@@ -16,4 +17,18 @@ export class PostAllowReadDisplayPipe implements PipeTransform {
         return this.postAllowReadMap[value] || value;
     }
 
+}
+
+@NgModule({
+    imports: [
+        CommonModule,
+    ],
+    declarations: [
+        PostAllowReadDisplayPipe,
+    ],
+    exports: [
+        PostAllowReadDisplayPipe,
+    ]
+})
+export class PostAllowReadDisplayModule {
 }
