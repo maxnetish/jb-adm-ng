@@ -1,4 +1,5 @@
 export const environment = {
     production: true,
-    backendHostUrl: 'https://gordeev.me'
+    backendHostUrl: 'http://localhost:3000',
+    pubHostUrl: 'http://localhost:3000'
 };

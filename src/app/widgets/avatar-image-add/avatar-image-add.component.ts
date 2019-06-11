@@ -18,7 +18,7 @@ export class AvatarImageAddComponent {
 
     @Input() croppieOptions: CroppieOptions;
 
-    private readonly AvatarEditForm = this.fb.group({
+    readonly AvatarEditForm = this.fb.group({
         cropper: [{cropData: null, fileName: null}, [this.cropperValidator()]],
         description: [null]
     });
@@ -66,7 +66,7 @@ export class AvatarImageAddComponent {
     }
 
     constructor(
-        private modalRef: MatDialogRef<AvatarImageAddComponent>,
+        public modalRef: MatDialogRef<AvatarImageAddComponent>,
         private fb: FormBuilder,
         private fileStoreService: FileStoreService,
         @Inject(MAT_DIALOG_DATA) private passedData: { croppieOptions?: CroppieOptions }

@@ -55,7 +55,7 @@ export class UploadFileComponent {
     constructor(
         private fb: FormBuilder,
         private fileStoreService: FileStoreService,
-        private modalRef: MatDialogRef<UploadFileComponent>,
+        public modalRef: MatDialogRef<UploadFileComponent>,
         @Inject(MAT_DIALOG_DATA) private passedData: UploadFileComponentParameters
     ) {
         this.postId = this.passedData.postId;

@@ -8,9 +8,11 @@ import {switchMap} from 'rxjs/operators';
 import {PostStatus} from '../../resources/post/post-status.enum';
 import {environment as env} from '../../../environments/environment';
 import {MatCheckboxChange, MatSnackBar} from '@angular/material';
-import {autobind} from 'core-decorators';
+// import {autobind} from 'core-decorators';
 import {MongoUpdateResponse} from '../../resources/mongo-update-response';
-import {Observable} from 'rxjs';
+// import * as coreDecorators from 'core-decorators';
+
+// import {Observable} from 'rxjs';
 
 class PostBriefView extends PostBrief {
     constructor(postBrief: PostBrief, {checked = false}: { checked?: boolean } = {}) {
@@ -56,14 +58,16 @@ export class SearchResultComponent implements OnInit {
         },
         {
             label: 'Make draft',
-            action: this._makeDraft,
+            action: this._makeDraft.bind(this),
+            // action: this._makeDraft,
             allowForSinglePost: p => p.status === PostStatus.PUB,
             allowForManyPosts: pp => pp.some(p => p.status === PostStatus.PUB),
             iconClass: 'far fa-eye-slash'
         },
         {
             label: 'Publish',
-            action: this._makePublish,
+            action: this._makePublish.bind(this),
+            // action: this._makePublish,
             allowForSinglePost: p => p.status === PostStatus.DRAFT,
             allowForManyPosts: pp => pp.some(p => p.status === PostStatus.DRAFT),
             iconClass: 'far fa-eye'
@@ -120,7 +124,7 @@ export class SearchResultComponent implements OnInit {
             });
     }
 
-    @autobind()
+    // @autobind
     private _makePublish(postOrPosts: PostBriefView | PostBriefView[]) {
         const request = {
             ids: Array.isArray(postOrPosts) ? postOrPosts.map(p => p._id) : [postOrPosts._id]
@@ -132,7 +136,7 @@ export class SearchResultComponent implements OnInit {
             }, this._errToMessage);
     }
 
-    @autobind()
+    // @autobind
     private _makeDraft(postOrPosts: PostBriefView | PostBriefView[]) {
         const request = {
             ids: Array.isArray(postOrPosts) ? postOrPosts.map(p => p._id) : [postOrPosts._id]
@@ -234,7 +238,9 @@ export class SearchResultComponent implements OnInit {
                     this.masterCheckboxIndeterminate = false;
                 } else {
                     // not first page: add new data to table
-                    this.posts = this.posts.concat(paginationResponse.items.map(postBrief => new PostBriefView(postBrief, {checked: false})));
+                    this.posts = this.posts.concat(
+                        paginationResponse.items.map(postBrief => new PostBriefView(postBrief, {checked: false}))
+                    );
                 }
 
                 this.hasMore = paginationResponse.hasMore;

@@ -27,10 +27,12 @@ import {AceEditorModule} from '../widgets/ace-editor/ace-editor.module';
 import {AvatarImageAddModule} from '../widgets/avatar-image-add/avatar-image-add.module';
 import {JbCommonDialogModule} from '../widgets/jb-common-dialog/jb-common-dialog.module';
 import {UploadFileDialogModule} from '../widgets/upload-file-dialog/upload-file-dialog.module';
+import {PagePostRoutingModule} from './page-post-routing.module';
 
 @NgModule({
     imports: [
         CommonModule,
+        PagePostRoutingModule,
         MatButtonModule,
         ReactiveFormsModule,
         MatFormFieldModule,
@@ -60,7 +62,7 @@ import {UploadFileDialogModule} from '../widgets/upload-file-dialog/upload-file-
     ],
     providers: [
         PagePostResolverService,
-    ],
+    ]
 })
 export class PagePostEditModule {
 }

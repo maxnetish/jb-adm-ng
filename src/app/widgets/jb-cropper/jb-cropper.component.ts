@@ -24,7 +24,7 @@ export class JbCropperComponent implements AfterViewInit, OnDestroy, ControlValu
     @Output()
     changed = new EventEmitter<{ cropData: CropData, fileName: string }>();
 
-    private choosedFile: File;
+    choosedFile: File;
 
     @ViewChild('croppieContainer')
     private croppieContainerRef: ElementRef;
@@ -45,7 +45,7 @@ export class JbCropperComponent implements AfterViewInit, OnDestroy, ControlValu
         mouseWheelZoom: true,
         showZoomer: true
     };
-    private disabledChooseButton = false;
+    disabledChooseButton = false;
 
     private m_croppieListeners: { event: string, listener: EventListener }[] = [
         {
@@ -90,7 +90,7 @@ export class JbCropperComponent implements AfterViewInit, OnDestroy, ControlValu
     }
 
 
-    private onFileInputChange(e: UIEvent) {
+    onFileInputChange(e: UIEvent) {
         const target = e.target as HTMLInputElement;
 
         if (target.files && target.files.length) {
