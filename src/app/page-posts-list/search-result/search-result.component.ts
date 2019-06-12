@@ -8,11 +8,7 @@ import {switchMap} from 'rxjs/operators';
 import {PostStatus} from '../../resources/post/post-status.enum';
 import {environment as env} from '../../../environments/environment';
 import {MatCheckboxChange, MatSnackBar} from '@angular/material';
-// import {autobind} from 'core-decorators';
 import {MongoUpdateResponse} from '../../resources/mongo-update-response';
-// import * as coreDecorators from 'core-decorators';
-
-// import {Observable} from 'rxjs';
 
 class PostBriefView extends PostBrief {
     constructor(postBrief: PostBrief, {checked = false}: { checked?: boolean } = {}) {
@@ -124,7 +120,6 @@ export class SearchResultComponent implements OnInit {
             });
     }
 
-    // @autobind
     private _makePublish(postOrPosts: PostBriefView | PostBriefView[]) {
         const request = {
             ids: Array.isArray(postOrPosts) ? postOrPosts.map(p => p._id) : [postOrPosts._id]
@@ -136,7 +131,6 @@ export class SearchResultComponent implements OnInit {
             }, this._errToMessage);
     }
 
-    // @autobind
     private _makeDraft(postOrPosts: PostBriefView | PostBriefView[]) {
         const request = {
             ids: Array.isArray(postOrPosts) ? postOrPosts.map(p => p._id) : [postOrPosts._id]
@@ -195,9 +189,9 @@ export class SearchResultComponent implements OnInit {
     }
 
     onLoadMoreButtonClick(e: UIEvent) {
-        this.router.navigate(['/posts'], {
+        return this.router.navigate(['/posts'], {
             queryParams: {
-                page: this.pagesLoaded + 1
+                pages: this.pagesLoaded + 1
             },
             queryParamsHandling: 'merge'
         });
@@ -222,16 +216,17 @@ export class SearchResultComponent implements OnInit {
                         from: paramsAsMap.get('from'),
                         to: paramsAsMap.get('to'),
                         statuses: [PostStatus.PUB, PostStatus.DRAFT],
-                        page: parseInt(paramsAsMap.get('page'), 10) || 1,
+                        pages: this.pagesLoaded ? undefined : parseInt(paramsAsMap.get('pages'), 10) || 1,
+                        page: this.pagesLoaded ? parseInt(paramsAsMap.get('pages'), 10) || 1 : undefined,
                     };
                     return this.postServiceInstance.list(criteria);
                 }),
             )
             .subscribe((paginationResponse: PaginationResponse<PostBrief>) => {
                 const paramsMap = this.route.snapshot.queryParamMap;
-                const actualPage = parseInt(paramsMap.get('page'), 10) || 1;
+                const actualPages = parseInt(paramsMap.get('pages'), 10) || 1;
 
-                if (actualPage === 1) {
+                if (actualPages === 1) {
                     // first page: replace content of whole table and clear selection status
                     this.posts = paginationResponse.items.map(postBrief => new PostBriefView(postBrief, {checked: false}));
                     this.masterCheckboxChecked = false;
@@ -245,7 +240,7 @@ export class SearchResultComponent implements OnInit {
 
                 this.hasMore = paginationResponse.hasMore;
                 this.loading = false;
-                this.pagesLoaded = actualPage;
+                this.pagesLoaded = actualPages;
             }, err => {
                 console.warn(err);
                 this.loading = false;

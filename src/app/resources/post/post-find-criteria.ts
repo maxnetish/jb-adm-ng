@@ -5,6 +5,7 @@ export interface PostFindCriteria {
     to?: string;
     q?: string;
     page?: number;
+    pages?: number;
     statuses?: Array<PostStatus>;
     ids?: Array<string>;
 }

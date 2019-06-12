@@ -4,19 +4,10 @@ import {Page404Component} from './page404/page404.component';
 import {PagePostsListComponent} from './page-posts-list/page-posts-list.component';
 import {PageLoginComponent} from './page-login/page-login.component';
 import {AuthGuard} from './auth.guard';
-// import {PagePostEditComponent} from './page-post-edit/page-post-edit.component';
-// import {PagePostResolverService} from './page-post-edit/page-post-resolver.service';
 import {Page404module} from './page404/page404.module';
 import {PageLoginModule} from './page-login/page-login.module';
-// import {PagePostEditModule} from './page-post-edit/page-post-edit.module';
 import {PagePostListModule} from './page-posts-list/page-post-list.module';
-// import {resolve} from 'q';
 
-// @ts-ignore
-// @ts-ignore
-// @ts-ignore
-// @ts-ignore
-// @ts-ignore
 const routes: Routes = [
     {
         path: 'login',
@@ -30,26 +21,10 @@ const routes: Routes = [
     {
         path: 'post',
         loadChildren: './page-post-edit/page-post-edit.module#PagePostEditModule',
-        // @ts-ignore: with aot
+        // function form won't work with aot transpilation so use deprecated form
         // loadChildren: () => import('./page-post-edit/page-post-edit.module').then(mod => mod.PagePostEditModule),
-        // loadChildren: () => import('./page-post-edit/page-post-edit.module').then(imported => imported.PagePostEditModule),
-        // loadChildren: () => {
-        //     return import('./page-post-edit/page-post-edit.module')
-        //         .then(mode => mode.PagePostEditModule);
-        // },
         // canLoad: [AuthGuard],
-
-        // path: 'post/new',
-        // component: PagePostEditComponent,
-        // canActivate: [AuthGuard],
-        // resolve: {postDetails: PagePostResolverService}
     },
-    // {
-    //     path: 'post/:id',
-    //     component: PagePostEditComponent,
-    //     canActivate: [AuthGuard],
-    //     resolve: {postDetails: PagePostResolverService}
-    // },
     {
         path: '',
         redirectTo: '/posts',

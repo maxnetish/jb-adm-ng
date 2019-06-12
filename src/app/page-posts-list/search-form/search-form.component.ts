@@ -25,7 +25,7 @@ export class SearchFormComponent implements OnInit {
             q: formValue.q || undefined,
             from: formValue.from ? formValue.from.toISOString() : undefined,
             to: formValue.to ? formValue.to.toISOString() : undefined,
-            page: 1
+            pages: 1
         };
         this.router.navigate(['/posts'], {
             queryParams,
@@ -40,7 +40,7 @@ export class SearchFormComponent implements OnInit {
             const newParams = {
                 q: paramsAsMap.has('q') ? paramsAsMap.get('q') : null,
                 from: paramsAsMap.has('from') ? new Date(paramsAsMap.get('from')) : null,
-                ti: paramsAsMap.has('to') ? new Date(paramsAsMap.get('to')) : null
+                to: paramsAsMap.has('to') ? new Date(paramsAsMap.get('to')) : null
             };
             self.searchForm.patchValue(newParams);
         });
