@@ -15,6 +15,10 @@ import {
 } from '@angular/material';
 import {PostStatusBadgeModule} from '../widgets/post-status-badge/post-status-badge.module';
 import {RouterModule} from '@angular/router';
+import {IsInViewModule} from '../utils/is-in-view.directive';
+import {ScrollingModule} from '@angular/cdk/scrolling';
+import {PagePostsListResolverService} from './page-posts-list-resolver.service';
+import {PagePostsListSearchFormResolverService} from './search-form/search-form-resolver.service';
 
 @NgModule({
     imports: [
@@ -31,11 +35,17 @@ import {RouterModule} from '@angular/router';
         PostStatusBadgeModule,
         RouterModule,
         MatSnackBarModule,
+        IsInViewModule,
+        ScrollingModule,
     ],
     declarations: [
         PagePostsListComponent,
         SearchResultComponent,
         SearchFormComponent,
+    ],
+    providers: [
+        PagePostsListResolverService,
+        PagePostsListSearchFormResolverService,
     ]
 })
 export class PagePostListModule {

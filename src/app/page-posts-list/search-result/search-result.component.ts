@@ -1,24 +1,14 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
 import {PostService} from '../../resources/post/post.service';
 import {PostFindCriteria} from '../../resources/post/post-find-criteria';
-import {PaginationResponse} from '../../resources/pagination-response';
 import {PostBrief} from '../../resources/post/post-brief';
-import {switchMap} from 'rxjs/operators';
 import {PostStatus} from '../../resources/post/post-status.enum';
 import {environment as env} from '../../../environments/environment';
 import {MatCheckboxChange, MatSnackBar} from '@angular/material';
 import {MongoUpdateResponse} from '../../resources/mongo-update-response';
-
-class PostBriefView extends PostBrief {
-    constructor(postBrief: PostBrief, {checked = false}: { checked?: boolean } = {}) {
-        super();
-        Object.assign(this, postBrief);
-        this.checked = checked;
-    }
-
-    checked: boolean;
-}
+import {Observable, Subscription} from 'rxjs';
+import {PostBriefView} from '../page-posts-list.component';
 
 interface PostAction {
     label: string;
@@ -34,15 +24,13 @@ interface PostAction {
     templateUrl: './search-result.component.html',
     styleUrls: ['./search-result.component.less']
 })
-export class SearchResultComponent implements OnInit {
+export class SearchResultComponent implements OnInit, OnDestroy {
 
     masterCheckboxChecked = false;
     masterCheckboxIndeterminate = false;
-    hasMore = false;
-    loading = false;
-    pagesLoaded = 0;
 
-    posts: PostBriefView[] = [];
+    @Input()
+    posts: Array<PostBriefView>;
 
     actions: PostAction[] = [
         {
@@ -188,63 +176,18 @@ export class SearchResultComponent implements OnInit {
         return this.posts.filter(p => p.checked);
     }
 
-    onLoadMoreButtonClick(e: UIEvent) {
-        return this.router.navigate(['/posts'], {
-            queryParams: {
-                pages: this.pagesLoaded + 1
-            },
-            queryParamsHandling: 'merge'
-        });
-    }
-
     constructor(
-        private route: ActivatedRoute,
         private postServiceInstance: PostService,
         private router: Router,
-        private snackBar: MatSnackBar
+        private snackBar: MatSnackBar,
     ) {
     }
 
     ngOnInit() {
-        const {queryParamMap} = this.route;
-        queryParamMap
-            .pipe(
-                switchMap(paramsAsMap => {
-                    this.loading = true;
-                    const criteria: PostFindCriteria = {
-                        q: paramsAsMap.get('q'),
-                        from: paramsAsMap.get('from'),
-                        to: paramsAsMap.get('to'),
-                        statuses: [PostStatus.PUB, PostStatus.DRAFT],
-                        pages: this.pagesLoaded ? undefined : parseInt(paramsAsMap.get('pages'), 10) || 1,
-                        page: this.pagesLoaded ? parseInt(paramsAsMap.get('pages'), 10) || 1 : undefined,
-                    };
-                    return this.postServiceInstance.list(criteria);
-                }),
-            )
-            .subscribe((paginationResponse: PaginationResponse<PostBrief>) => {
-                const paramsMap = this.route.snapshot.queryParamMap;
-                const actualPages = parseInt(paramsMap.get('pages'), 10) || 1;
 
-                if (actualPages === 1) {
-                    // first page: replace content of whole table and clear selection status
-                    this.posts = paginationResponse.items.map(postBrief => new PostBriefView(postBrief, {checked: false}));
-                    this.masterCheckboxChecked = false;
-                    this.masterCheckboxIndeterminate = false;
-                } else {
-                    // not first page: add new data to table
-                    this.posts = this.posts.concat(
-                        paginationResponse.items.map(postBrief => new PostBriefView(postBrief, {checked: false}))
-                    );
-                }
-
-                this.hasMore = paginationResponse.hasMore;
-                this.loading = false;
-                this.pagesLoaded = actualPages;
-            }, err => {
-                console.warn(err);
-                this.loading = false;
-            });
     }
 
+    ngOnDestroy(): void {
+        // this._postsObservableSubscription.unsubscribe();
+    }
 }

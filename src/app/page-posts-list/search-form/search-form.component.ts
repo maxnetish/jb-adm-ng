@@ -1,13 +1,17 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
+import {PostsListFormSearchParams} from './search-form-resolver.service';
+import {Subscription} from 'rxjs';
 
 @Component({
     selector: 'jb-adm-posts-search-form',
     templateUrl: './search-form.component.html',
     styleUrls: ['./search-form.component.less']
 })
-export class SearchFormComponent implements OnInit {
+export class SearchFormComponent implements OnInit, OnDestroy {
+
+    private _routeDataSubscription: Subscription;
 
     constructor(private route: ActivatedRoute, private router: Router) {
     }
@@ -21,29 +25,38 @@ export class SearchFormComponent implements OnInit {
     );
 
     onSearchSubmit(formValue) {
+        const matrixParams = {
+            q: formValue.q || null,
+            from: formValue.from ? formValue.from.toISOString() : null,
+            to: formValue.to ? formValue.to.toISOString() : null,
+        };
         const queryParams = {
-            q: formValue.q || undefined,
-            from: formValue.from ? formValue.from.toISOString() : undefined,
-            to: formValue.to ? formValue.to.toISOString() : undefined,
             pages: 1
         };
-        this.router.navigate(['/posts'], {
+        for (const key in matrixParams) {
+            // we should clear empty params, because undefined or null writes in matrix param
+            if (matrixParams[key] === null) {
+                delete matrixParams[key];
+            }
+        }
+        this.router.navigate(['/posts', matrixParams], {
             queryParams,
             queryParamsHandling: 'merge'
         });
     }
 
     ngOnInit() {
-        const self = this;
-        const {queryParamMap} = this.route;
-        queryParamMap.subscribe(paramsAsMap => {
-            const newParams = {
-                q: paramsAsMap.has('q') ? paramsAsMap.get('q') : null,
-                from: paramsAsMap.has('from') ? new Date(paramsAsMap.get('from')) : null,
-                to: paramsAsMap.has('to') ? new Date(paramsAsMap.get('to')) : null
-            };
-            self.searchForm.patchValue(newParams);
-        });
+        this._routeDataSubscription = this.route.data
+            .subscribe(data => {
+                const {resolvedSearchFormParams} = data as { resolvedSearchFormParams: Partial<PostsListFormSearchParams> };
+                this.searchForm.patchValue(resolvedSearchFormParams);
+            });
+    }
+
+    ngOnDestroy(): void {
+        if (this._routeDataSubscription) {
+            this._routeDataSubscription.unsubscribe();
+        }
     }
 
 }

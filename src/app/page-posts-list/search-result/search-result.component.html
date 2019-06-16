@@ -82,17 +82,3 @@
 
     </table>
 </div>
-
-<div class="search-result-pagination">
-    <button
-        type="button"
-        mat-stroked-button
-        color="primary"
-        [disabled]="!hasMore || loading"
-        (click)="onLoadMoreButtonClick($event)"
-    >
-        <ng-container *ngIf="hasMore">More</ng-container>
-        <ng-container *ngIf="!hasMore">No more</ng-container>
-        <i class="fas jb-m-0-0-0-05" [ngClass]="{'fa-spin fa-sync': loading, 'fa-angle-right': !loading}"></i>
-    </button>
-</div>
