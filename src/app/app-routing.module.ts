@@ -20,7 +20,7 @@ const routes: Routes = [
         component: PagePostsListComponent,
         canActivate: [AuthGuard],
         resolve: {
-            resolvedPosts: PagePostsListResolverService,
+            // resolvedPosts: PagePostsListResolverService,
             resolvedSearchFormParams: PagePostsListSearchFormResolverService,
         },
         // we want resolve only initial state, subsequent query params changes will handle by component
@@ -51,7 +51,8 @@ const routes: Routes = [
     imports: [
         RouterModule.forRoot(routes, {
             enableTracing: true,
-            scrollPositionRestoration: 'enabled'
+            // We use manual scroll restoration
+            scrollPositionRestoration: 'disabled'
         }),
         /**
          * Page modules

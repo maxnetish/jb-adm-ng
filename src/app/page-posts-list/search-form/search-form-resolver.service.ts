@@ -1,4 +1,4 @@
-import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
+import {ActivatedRouteSnapshot, ParamMap, Resolve, RouterStateSnapshot} from '@angular/router';
 import {Injectable} from '@angular/core';
 
 export interface PostsListFormSearchParams {
@@ -9,12 +9,14 @@ export interface PostsListFormSearchParams {
 
 @Injectable()
 export class PagePostsListSearchFormResolverService implements Resolve<Partial<PostsListFormSearchParams>> {
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Partial<PostsListFormSearchParams> {
-        const matrixParams = route.paramMap;
+    resolve(routeSnapshotOrRouteParams: ActivatedRouteSnapshot | ParamMap): Partial<PostsListFormSearchParams> {
+        const routeParams = routeSnapshotOrRouteParams instanceof ActivatedRouteSnapshot ?
+            routeSnapshotOrRouteParams.paramMap :
+            routeSnapshotOrRouteParams;
         return {
-            q: matrixParams.has('q') ? matrixParams.get('q') : null,
-            from: matrixParams.has('from') ? new Date(matrixParams.get('from')) : null,
-            to: matrixParams.has('to') ? new Date(matrixParams.get('to')) : null
+            q: routeParams.has('q') ? routeParams.get('q') : null,
+            from: routeParams.has('from') ? new Date(routeParams.get('from')) : null,
+            to: routeParams.has('to') ? new Date(routeParams.get('to')) : null
         };
     }
 }

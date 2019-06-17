@@ -29,8 +29,6 @@ export class SearchFormComponent implements OnInit, OnDestroy {
             q: formValue.q || null,
             from: formValue.from ? formValue.from.toISOString() : null,
             to: formValue.to ? formValue.to.toISOString() : null,
-        };
-        const queryParams = {
             pages: 1
         };
         for (const key in matrixParams) {
@@ -40,7 +38,6 @@ export class SearchFormComponent implements OnInit, OnDestroy {
             }
         }
         this.router.navigate(['/posts', matrixParams], {
-            queryParams,
             queryParamsHandling: 'merge'
         });
     }
